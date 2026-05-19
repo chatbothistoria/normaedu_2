@@ -42,3 +42,8 @@ Esta versión incorpora una capa local `faq_normativa.json` que responde pregunt
 - Las preguntas no cubiertas por FAQ pasan al RAG normal con prompt jurídico estricto.
 
 La auditoría de matching está documentada en `AUDITORIA_EXHAUSTIVA_FAQ_MATCHING.md` y los resultados de la última batería están en `resultados_auditoria_faq_matching_v4.csv/json`.
+
+
+## Estado FAQ v0.4
+
+La base local contiene 110 FAQ verificadas. Las FAQ se consultan antes del RAG para ahorrar tokens y reducir alucinaciones en preguntas frecuentes.

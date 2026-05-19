@@ -1,14 +1,14 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "0.3",
+    "version": "0.4.9",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
-    "total_faq": 61,
+    "total_faq": 110,
     "activacion_recomendada": "coincidencia conservadora previa al RAG; no usar para casos individualizados.",
-    "total_faqs": 61,
+    "total_faqs": 110,
     "ultima_actualizacion": "2026-05-19",
-    "nota_auditoria": "Matcher endurecido tras segunda auditoría: protección adicional ante nombres propios y extensión del permiso de hospitalización a padre/madre como familiar de primer grado."
+    "nota_auditoria": "Versión auditada v0.4.9: añade reglas/variantes para acceso a grado medio/superior, título de Bachiller desde FP, titulación con una asignatura suspensa y duración del Grado E; mantiene las protecciones de privacidad y permisos."
   },
   "faqs": [
     {
@@ -392,8 +392,7 @@
       "pregunta_canonica": "¿Quién decide la promoción en Educación Primaria?",
       "variantes": [
         "promoción primaria quién decide",
-        "pasar de curso primaria",
-        "repetir en primaria"
+        "pasar de curso primaria"
       ],
       "required_terms": [
         "primaria",
@@ -427,7 +426,13 @@
       "variantes": [
         "repetir primaria",
         "permanecer un año más primaria",
-        "repetición en primaria"
+        "repetición en primaria",
+        "cuándo se repite primaria",
+        "cuando se repite primaria",
+        "en qué casos se repite en primaria",
+        "cuándo puede repetir un alumno en primaria",
+        "repetir en primaria",
+        "puede repetir en primaria"
       ],
       "required_terms": [
         "primaria",
@@ -451,7 +456,11 @@
         "puede un alumno permanecer un ano mas en primaria",
         "repetir primaria",
         "permanecer un ano mas primaria",
-        "repeticion en primaria"
+        "repeticion en primaria",
+        "cuando se repite primaria",
+        "cuando se repite primaria",
+        "en que casos se repite en primaria",
+        "cuando puede repetir un alumno en primaria"
       ]
     },
     {
@@ -1110,7 +1119,11 @@
       "variantes": [
         "título bachiller técnico fp",
         "obtener bachiller con título de técnico",
-        "técnico formación profesional título bachiller"
+        "técnico formación profesional título bachiller",
+        "puede obtener el bachiller un titulado técnico de fp",
+        "puede obtener bachillerato un técnico de formación profesional",
+        "titulado técnico de FP puede obtener el bachiller",
+        "técnico de FP título de Bachiller modalidad general"
       ],
       "required_terms": [
         "bachillerato",
@@ -1234,7 +1247,8 @@
           "archivo": "web",
           "pagina": null,
           "url": "https://www.educacionfpydeportes.gob.es/contenidos/estudiantes/formacion-profesional.html",
-          "fragmento_verificado": "La Formación Profesional oferta más de 150 ciclos formativos, dentro de 26 familias profesionales."
+          "fragmento_verificado": "La Formación Profesional oferta más de 150 ciclos formativos, dentro de 26 familias profesionales.",
+          "ubicacion": "Página web oficial del Ministerio, apartado Formación Profesional"
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
@@ -1398,12 +1412,12 @@
       "variantes": [
         "grado d fp",
         "ciclos formativos grado d",
-        "qué incluye grado d"
+        "qué incluye grado d",
+        "grado D formación profesional"
       ],
       "required_terms": [
         "fp",
-        "grado",
-        "d"
+        "grado d"
       ],
       "respuesta": "El Grado D corresponde a los ciclos formativos: grado básico, grado medio o grado superior.",
       "fuentes": [
@@ -1433,12 +1447,12 @@
       "variantes": [
         "grado e fp",
         "curso de especialización fp",
-        "qué incluye grado e"
+        "qué incluye grado e",
+        "grado E formación profesional"
       ],
       "required_terms": [
         "fp",
-        "grado",
-        "e"
+        "grado e"
       ],
       "respuesta": "El Grado E corresponde a cursos de especialización de grado medio o de grado superior.",
       "fuentes": [
@@ -2137,7 +2151,8 @@
           "archivo": "fuente_web_aepd_educacion_menores",
           "pagina": null,
           "url": "https://www.aepd.es/guias/guia-centros-educativos.pdf",
-          "fragmento_verificado": "Los datos personales en centros educativos deben tratarse con la debida diligencia, no usarse para fines diferentes al educativo y el personal que accede a datos del alumnado o familias está sometido al deber de secreto."
+          "fragmento_verificado": "Los datos personales en centros educativos deben tratarse con la debida diligencia, no usarse para fines diferentes al educativo y el personal que accede a datos del alumnado o familias está sometido al deber de secreto.",
+          "ubicacion": "Guía PDF oficial AEPD para centros educativos, tratamiento de datos personales"
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial_web_aepd",
@@ -2157,6 +2172,1794 @@
         "mi alumno juan perez tiene un expediente disciplinario",
         "puedo poner un nombre y apellidos de un menor",
         "puedo escribir el nombre de una profesora en la app"
+      ]
+    },
+    {
+      "id": "permiso_primer_grado_misma_localidad",
+      "bloque": "general",
+      "pregunta_canonica": "¿Cuántos días corresponden por enfermedad grave de padre o madre en la misma localidad?",
+      "variantes": [
+        "padre hospitalizado en la misma localidad cuántos días",
+        "madre ingresada en la misma localidad permiso docente",
+        "familiar primer grado misma localidad enfermedad grave",
+        "enfermedad grave padre misma localidad docente",
+        "padre hospitalizado en la misma ciudad cuántos días",
+        "madre hospitalizada en el mismo municipio permiso docente",
+        "familiar de primer grado ingresado en la misma localidad"
+      ],
+      "required_terms": [
+        "primer grado",
+        "misma localidad"
+      ],
+      "respuesta": "Para personal funcionario docente de Castilla y León, por fallecimiento, accidente o enfermedad grave de familiar de primer grado corresponden tres días hábiles si el suceso se produce en la misma localidad.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2014, de 21 de mayo, vacaciones, permisos y licencias docentes de Castilla y León",
+          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
+          "pagina": 5,
+          "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
+          "fragmento_verificado": "o seran acumulables entre si, pudiendo optarse por el de mayor duracion. Articulo 10. Permiso por fallecimiento, accidente o enfermedad grave. 1. Por fallecimiento, accidente o enfermedad grave de un familiar dentro del primer grado de consanguinidad o afinidad, se concederan tres dias habiles cuando el suceso se produzca en la misma localidad, y cinco dias habiles cuando sea en distinta localidad. 2. Cuando se trate del fallecimiento, accidente o enfermedad grave de un familiar dentro del segundo grado de consanguinidad o afinidad, el permiso sera de dos dias habiles cuando el suceso se produzca en la misma localidad y de cuatro dias habiles cuando sea en distinta localidad. 3. Para la apreciacion de la concurrencia del elemento de gravedad en la enfermedad se estara a lo dispuesto en el articulo 39.a) del Decreto 59/2013, de 5 de sep..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuantos dias corresponden por enfermedad grave de padre o madre en la misma localidad",
+        "padre hospitalizado en la misma localidad cuantos dias",
+        "madre ingresada en la misma localidad permiso docente",
+        "familiar primer grado misma localidad enfermedad grave",
+        "enfermedad grave padre misma localidad docente"
+      ]
+    },
+    {
+      "id": "permiso_deber_inexcusable_tiempo_indispensable",
+      "bloque": "general",
+      "pregunta_canonica": "¿Cuánto dura el permiso por deber inexcusable de un docente?",
+      "variantes": [
+        "permiso deber inexcusable cuánto tiempo",
+        "tengo un juicio como docente permiso",
+        "ir al juzgado es deber inexcusable docente",
+        "permiso por obligación pública personal docente"
+      ],
+      "required_terms": [
+        "deber inexcusable",
+        "permiso"
+      ],
+      "respuesta": "El permiso por deber inexcusable se concede por el tiempo indispensable para cumplir un deber público o personal que no pueda eludirse, no pueda realizarse por representante y no pueda hacerse fuera del horario de trabajo.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2014, de 21 de mayo, vacaciones, permisos y licencias docentes de Castilla y León",
+          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
+          "pagina": 6,
+          "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
+          "fragmento_verificado": "uficiente antes de su disfrute y posteriormente aportar la justificacion oportuna. Articulo 12. Por deberes inexcusables o relacionados con la conciliacion de la vida familiar y laboral. 1. Se concederan permisos por el tiempo indispensable para el cumplimiento de un deber inexcusable de caracter publico o personal, entendiendo como tal aquel cuyo cumplimiento no puede eludirse, o bien aquel cuyo incumplimiento hace incurrir en responsabilidad, siendo por ello personalisimo, esto es, sin posibilidad de ejecucion por medio de representante o sustituto y siempre que el mismo no pueda realizarse fuera del horario de trabajo. En cualquier caso, y con caracter general, se entendera por deber inexcusable de caracter publico o personal: a) La asistencia a Juzgados o Tribunales de Justicia, comisarias o cualquier otro organismo oficial. b) La ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuanto dura el permiso por deber inexcusable de un docente",
+        "permiso deber inexcusable cuanto tiempo",
+        "tengo un juicio como docente permiso",
+        "ir al juzgado es deber inexcusable docente",
+        "permiso por obligacion publica personal docente"
+      ]
+    },
+    {
+      "id": "permiso_funciones_sindicales_docentes",
+      "bloque": "general",
+      "pregunta_canonica": "¿Tiene permiso un docente para realizar funciones sindicales o de representación?",
+      "variantes": [
+        "permiso funciones sindicales docente",
+        "representación sindical docente permiso",
+        "permiso representantes del personal docente",
+        "funciones sindicales profesorado Castilla y León"
+      ],
+      "required_terms": [
+        "sindicales",
+        "permiso"
+      ],
+      "respuesta": "Los funcionarios docentes de carrera o interinos de vacante tienen derecho a permisos para realizar funciones sindicales o de representación del personal en los términos establecidos por la normativa vigente.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2014, de 21 de mayo, vacaciones, permisos y licencias docentes de Castilla y León",
+          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
+          "pagina": 7,
+          "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
+          "fragmento_verificado": " integral y continua. En el caso de que dos o mas funcionarios docentes de esta Administracion generasen este derecho por el mismo sujeto causante, solo uno de ellos podra hacer uso del mismo. Articulo 13. Para realizar funciones sindicales o de representacion del personal. Los funcionarios docentes de carrera o interinos de vacante tendran derecho al disfrute de permisos para realizar funciones sindicales o de representacion del personal en los terminos establecidos en la normativa vigente. Articulo 14. Para concurrir a examenes finales y demas pruebas definitivas de aptitud. Se concedera el dia completo en que se concurra a examenes finales y a otras pruebas definitivas de aptitud y evaluacion en centros oficiales, incluyendo en dichas pruebas los parciales liberatorios, cuando se trate de estudios encaminados a la obtencion de un ti..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "tiene permiso un docente para realizar funciones sindicales o de representacion",
+        "permiso funciones sindicales docente",
+        "representacion sindical docente permiso",
+        "permiso representantes del personal docente",
+        "funciones sindicales profesorado castilla y leon"
+      ]
+    },
+    {
+      "id": "vacaciones_docentes_agosto",
+      "bloque": "general",
+      "pregunta_canonica": "¿Cuándo disfruta normalmente sus vacaciones anuales el personal docente?",
+      "variantes": [
+        "vacaciones docentes agosto",
+        "en qué mes son las vacaciones del profesorado",
+        "vacaciones anuales docentes Castilla y León",
+        "profesorado vacaciones mes de agosto"
+      ],
+      "required_terms": [
+        "vacaciones",
+        "docente"
+      ],
+      "respuesta": "Con carácter general, el personal docente de Castilla y León disfruta sus vacaciones anuales en el mes de agosto.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2014, de 21 de mayo, vacaciones, permisos y licencias docentes de Castilla y León",
+          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
+          "pagina": 2,
+          "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
+          "fragmento_verificado": "y, en su caso, por la superación de la misma, y por la fecha de finalización de su nombramiento, respectivamente. CAPÍTULO II Vacaciones, licencias y permisos Sección 1.ª Vacaciones Artículo 2. Régimen de disfrute. El personal docente tendrá derecho a disfrutar, con carácter general, de sus vacaciones anuales en el mes de agosto. No obstante, quienes formen parte de los órganos de gobierno de los centros públicos docentes no universitarios y de los servicios de apoyo a los mismos, podrán disfrutar sus vacaciones, con carácter ordinario, a lo largo de los meses de julio y agosto, con posibilidad de fraccionamiento, de forma que quede garantizada la correcta gestión y planificación del siguiente curso escolar. Artículo 3. Reglas adicionales. A efectos de determinar el período computable para el cálculo de las vacaciones anuales, las au"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuando disfruta normalmente sus vacaciones anuales el personal docente",
+        "vacaciones docentes agosto",
+        "en que mes son las vacaciones del profesorado",
+        "vacaciones anuales docentes castilla y leon",
+        "profesorado vacaciones mes de agosto"
+      ]
+    },
+    {
+      "id": "vacaciones_organos_gobierno_julio_agosto",
+      "bloque": "general",
+      "pregunta_canonica": "¿Los equipos directivos pueden disfrutar vacaciones en julio y agosto?",
+      "variantes": [
+        "equipo directivo vacaciones julio agosto",
+        "órganos de gobierno vacaciones julio agosto centro docente",
+        "dirección centro vacaciones julio y agosto",
+        "jefatura estudios vacaciones julio agosto"
+      ],
+      "required_terms": [
+        "vacaciones",
+        "julio"
+      ],
+      "respuesta": "Quienes formen parte de órganos de gobierno de centros públicos docentes no universitarios y servicios de apoyo pueden disfrutar vacaciones ordinariamente a lo largo de julio y agosto, incluso con fraccionamiento, garantizando la gestión y planificación del curso siguiente.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2014, de 21 de mayo, vacaciones, permisos y licencias docentes de Castilla y León",
+          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
+          "pagina": 2,
+          "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
+          "fragmento_verificado": "sos Sección 1.ª Vacaciones Artículo 2. Régimen de disfrute. El personal docente tendrá derecho a disfrutar, con carácter general, de sus vacaciones anuales en el mes de agosto. No obstante, quienes formen parte de los órganos de gobierno de los centros públicos docentes no universitarios y de los servicios de apoyo a los mismos, podrán disfrutar sus vacaciones, con carácter ordinario, a lo largo de los meses de julio y agosto, con posibilidad de fraccionamiento, de forma que quede garantizada la correcta gestión y planificación del siguiente curso escolar. Artículo 3. Reglas adicionales. A efectos de determinar el período computable para el cálculo de las vacaciones anuales, las ausencias del trabajo motivadas por incapacidad temporal, así como aquellas otras derivadas del disfrute de las licencias o los permisos legalmente establecido..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "los equipos directivos pueden disfrutar vacaciones en julio y agosto",
+        "equipo directivo vacaciones julio agosto",
+        "organos de gobierno vacaciones julio agosto centro docente",
+        "direccion centro vacaciones julio y agosto",
+        "jefatura estudios vacaciones julio agosto"
+      ]
+    },
+    {
+      "id": "licencia_estudios_docente_carrera",
+      "bloque": "general",
+      "pregunta_canonica": "¿Puede un funcionario docente de carrera obtener licencia por estudios?",
+      "variantes": [
+        "licencia por estudios docente carrera",
+        "docente de carrera licencia estudios",
+        "licencias de estudios profesorado Castilla y León",
+        "licencia para estudiar funcionario docente"
+      ],
+      "required_terms": [
+        "licencia",
+        "estudios"
+      ],
+      "respuesta": "Los funcionarios docentes de carrera pueden obtener licencias de estudios en los términos y condiciones que determine la correspondiente orden de convocatoria de la consejería competente en educación, atendiendo a las disponibilidades presupuestarias.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2014, de 21 de mayo, vacaciones, permisos y licencias docentes de Castilla y León",
+          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
+          "pagina": 4,
+          "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
+          "fragmento_verificado": "mbre, el disfrute de esta licencia no devengará derecho retributivo alguno, sin perjuicio de ser computables dichos períodos a efectos de antigüedad. Artículo 7. Licencia por estudios y para realizar prácticas. 1. Los funcionarios docentes de carrera podrán obtener licencias de estudios en los términos y condiciones que determine la correspondiente orden de convocatoria de la consejería con competencias en materia de educación, las cuales se ofertarán atendiendo a las disponibilidades presupuestarias. 2. Al personal funcionario docente de carrera que participando en un proceso selectivo sea nombrado funcionario docente en prácticas se le concederá licencia durante el tiempo en que se prolongue el correspondiente curso selectivo o fase de prácticas, percibiendo las retribuciones que para los funcionarios en prácticas establezca la norma..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "puede un funcionario docente de carrera obtener licencia por estudios",
+        "licencia por estudios docente carrera",
+        "docente de carrera licencia estudios",
+        "licencias de estudios profesorado castilla y leon",
+        "licencia para estudiar funcionario docente"
+      ]
+    },
+    {
+      "id": "primaria_evaluacion_caracter_cyl",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué carácter tiene la evaluación en Primaria en Castilla y León?",
+      "variantes": [
+        "evaluación primaria global continua formativa criterial orientadora",
+        "carácter de la evaluación en primaria Castilla y León",
+        "cómo debe ser la evaluación en primaria cyl"
+      ],
+      "required_terms": [
+        "primaria",
+        "evaluacion"
+      ],
+      "respuesta": "En Castilla y León, la evaluación en Educación Primaria debe respetar el carácter global, continuo, formativo, criterial y orientador, como garantía del derecho a una valoración objetiva del esfuerzo y rendimiento del alumnado.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2024, de 9 de mayo, evaluación en Educación Primaria en Castilla y León",
+          "archivo": "ORDEN_EDU_423_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 2,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-2.pdf",
+          "fragmento_verificado": "s para proporcionar el apoyo necesario y compensar las diferentes condiciones de desarrollo y aprendizaje. 3. El equipo docente del grupo, coordinado por quien ejerza la tutoría del grupo, velará por que se respete el carácter global, continuo, formativo, criterial y orientador de la evaluación, como garantía del derecho a que la dedicación, esfuerzo y rendimiento del alumnado sean valorados y reconocidos con objetividad. Artículo 3. Elementos de la evaluación de los aprendizajes del alumnado. 1. De conformidad con el artículo 19.1 del Decreto 38/2022, de 29 de septiembre, en esta etapa la evaluación de los aprendizajes del alumnado tendrá en cuenta el grado de desarrollo de las competencias clave y su progreso en el conjunto de los procesos de aprendizaje. CV: BOCYL-D-17052024-2"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que caracter tiene la evaluacion en primaria en castilla y leon",
+        "evaluacion primaria global continua formativa criterial orientadora",
+        "caracter de la evaluacion en primaria castilla y leon",
+        "como debe ser la evaluacion en primaria cyl"
+      ]
+    },
+    {
+      "id": "primaria_calificaciones_cualitativas_cyl",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Cómo se expresan las calificaciones finales en Primaria en Castilla y León?",
+      "variantes": [
+        "IN SU BI NT SB primaria de dónde sale",
+        "calificaciones primaria insuficiente suficiente bien notable sobresaliente",
+        "notas primaria Castilla y León IN SU BI NT SB",
+        "calificaciones finales primaria 0 10 equivalencia"
+      ],
+      "required_terms": [
+        "primaria"
+      ],
+      "respuesta": "En los documentos oficiales de Primaria de Castilla y León se aplica la correspondencia: 0-4 Insuficiente (IN), 5 Suficiente (SU), 6 Bien (BI), 7-8 Notable (NT) y 9-10 Sobresaliente (SB).",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2024, de 9 de mayo, evaluación en Educación Primaria en Castilla y León",
+          "archivo": "ORDEN_EDU_423_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 5,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-2.pdf",
+          "fragmento_verificado": "o enriquecimiento curricular en el curso siguiente. 5. Tras la sesion de evaluacion final, los resultados que correspondan se extenderan en los documentos oficiales de evaluacion, aplicando la siguiente correspondencia: 0, 1, 2, 3 y 4: Insuficiente (IN); 5: Suficiente (SU); 6: Bien (BI); 7 y 8: Notable (NT); 9 y 10: Sobresaliente (SB). Articulo 8. Promocion y permanencia del alumnado. En lo referente a la promocion en educacion primaria se atendera a lo regulado en el articulo 20 del Decreto 38/2022, de 29 de septiembre. CV: BOCYL-D-17052024-2"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "como se expresan las calificaciones finales en primaria en castilla y leon",
+        "in su bi nt sb primaria de donde sale",
+        "calificaciones primaria insuficiente suficiente bien notable sobresaliente",
+        "notas primaria castilla y leon in su bi nt sb",
+        "calificaciones finales primaria 0 10 equivalencia"
+      ]
+    },
+    {
+      "id": "primaria_actas_resultados_competencias",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué deben recoger las actas de evaluación de Primaria en Castilla y León?",
+      "variantes": [
+        "actas de evaluación primaria competencias clave",
+        "qué contienen las actas de primaria",
+        "actas evaluación primaria Castilla y León resultados competencias"
+      ],
+      "required_terms": [
+        "actas",
+        "primaria"
+      ],
+      "respuesta": "Las actas de evaluación de Primaria en Castilla y León comprenden, además de lo previsto en el Real Decreto 157/2022, los resultados de la evaluación de las competencias clave.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2024, de 9 de mayo, evaluación en Educación Primaria en Castilla y León",
+          "archivo": "ORDEN_EDU_423_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 12,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-2.pdf",
+          "fragmento_verificado": "lo 23.4 del Decreto 38/2022, de 29 de septiembre, incluyen la referencia a la normativa que establece el curriculo y la evaluacion de educacion primaria para la Comunidad de Castilla y Leon. 5. La cumplimentacion de las actas de evaluacion y de los historiales y expedientes academicos le corresponde al centro educativo y sera supervisada por la inspeccion educativa. Articulo 17. Actas de evaluacion. 1. Las actas de evaluacion, ademas de lo establecido en el articulo 26.1 del Real Decreto 157/2022, de 1 de marzo, comprenderan los resultados de la evaluacion de las competencias clave. 2. Cuando se hayan adoptado medidas de refuerzo educativo, o en su caso, algun plan de recuperacion, plan especifico de refuerzo, plan de enriquecimiento curricular o adaptacion curricular significativa, se hara constar esta circunstancia con los terminos M..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que deben recoger las actas de evaluacion de primaria en castilla y leon",
+        "actas de evaluacion primaria competencias clave",
+        "que contienen las actas de primaria",
+        "actas evaluacion primaria castilla y leon resultados competencias"
+      ]
+    },
+    {
+      "id": "primaria_reclamacion_direccion_provincial",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Se puede reclamar ante la dirección provincial una evaluación de Primaria?",
+      "variantes": [
+        "reclamación evaluación primaria dirección provincial",
+        "si no estoy de acuerdo evaluación primaria reclamar",
+        "reclamar promoción primaria Castilla y León",
+        "procedimiento reclamación primaria"
+      ],
+      "required_terms": [
+        "primaria"
+      ],
+      "respuesta": "Sí. Si tras la resolución de la dirección del centro persiste el desacuerdo sobre resultados de evaluación al final de curso o decisión de promoción, las familias pueden solicitar que la reclamación se eleve a la dirección provincial de educación.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2024, de 9 de mayo, evaluación en Educación Primaria en Castilla y León",
+          "archivo": "ORDEN_EDU_423_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 10,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-2.pdf",
+          "fragmento_verificado": "visada por quien ejerza la dirección del centro. Artículo 14. Procedimiento de reclamación ante la dirección provincial de educación. 1. En el supuesto de que tras la resolución de quien ejerza la dirección del centro persista el desacuerdo sobre los resultados de la evaluación de los aprendizajes al final de curso o sobre la decisión de promoción adoptada, los padres, madres o personas que ejerzan la tutela legal del alumnado, podrán solicitar que su reclamación sea elevada al titular de la dirección provincial de educación. 2. La solicitud deberá formularse mediante escrito dirigido a quien ejerza la dirección del centro, pudiéndose incorporar nuevas alegaciones. 3. El plazo será de dos días hábiles desde la notificación de la resolución de quien ejerza la dirección del centro. El centro deberá informar a los padres, madres o persona..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "se puede reclamar ante la direccion provincial una evaluacion de primaria",
+        "reclamacion evaluacion primaria direccion provincial",
+        "si no estoy de acuerdo evaluacion primaria reclamar",
+        "reclamar promocion primaria castilla y leon",
+        "procedimiento reclamacion primaria"
+      ]
+    },
+    {
+      "id": "primaria_promocion_final_ciclo_cyl",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Cuándo se toman las decisiones de promoción en Primaria en Castilla y León?",
+      "variantes": [
+        "decisiones promoción primaria final de ciclo",
+        "primaria promoción final primero tercero quinto automática",
+        "cuándo se decide si promociona un alumno en primaria",
+        "promoción primaria Castilla y León final ciclo"
+      ],
+      "required_terms": [
+        "promocion",
+        "primaria"
+      ],
+      "respuesta": "En Castilla y León, las decisiones de promoción en Educación Primaria se toman únicamente al final de cada ciclo; por tanto, la promoción es automática al finalizar primero, tercero y quinto.",
+      "fuentes": [
+        {
+          "documento": "Decreto 38/2022, de 29 de septiembre, currículo de Educación Primaria en Castilla y León",
+          "archivo": "DECRETO_38_2022_Curriculo_Primaria.pdf",
+          "pagina": 18,
+          "url": "https://bocyl.jcyl.es/boletines/2022/09/30/pdf/BOCYL-D-30092022-2.pdf",
+          "fragmento_verificado": "tar las decisiones relativas a la promoción del alumnado de manera colegiada, tomando especialmente en consideración la información y el criterio del tutor. La adopción de estas decisiones será por consenso. 3. Las decisiones sobre promoción únicamente se tomarán al final de cada ciclo, siendo por tanto automática al finalizar los cursos primero, tercero y quinto. 4. Para la toma de esta decisión, el equipo docente deberá atender, al menos, al grado de consecución de los objetivos y de adquisición por parte del alumnado de las competencias establecidas. A tal fin, se tendrá en cuenta lo establecido en los artículos 7.3 y 11.2. 5. En todo caso, la decisión de permanencia de un alumno un año más en segundo, cuarto o sexto curso tendrá carácter excepcional, y solo se podrá adoptar cuando concurran de forma conjunta las siguientes circunst..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuando se toman las decisiones de promocion en primaria en castilla y leon",
+        "decisiones promocion primaria final de ciclo",
+        "primaria promocion final primero tercero quinto automatica",
+        "cuando se decide si promociona un alumno en primaria",
+        "promocion primaria castilla y leon final ciclo"
+      ]
+    },
+    {
+      "id": "eso_evaluacion_caracter_objetiva_rd",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué carácter debe tener la evaluación en la ESO?",
+      "variantes": [
+        "evaluación eso continua formativa integradora",
+        "carácter evaluación ESO",
+        "cómo debe ser la evaluación en secundaria obligatoria",
+        "evaluación objetiva ESO continua formativa"
+      ],
+      "required_terms": [
+        "eso",
+        "evaluacion"
+      ],
+      "respuesta": "En la ESO, los procedimientos deben garantizar que el esfuerzo y rendimiento del alumnado sean valorados con objetividad y atender al carácter continuo, formativo e integrador de la evaluación.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, de 29 de marzo, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "Real_Decreto_217_2022_29_marzo_establece_ordenacion.pdf",
+          "pagina": 18,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-4975-consolidado.pdf",
+          "fragmento_verificado": "ativas garantizaran el derecho del alumnado a que su dedicacion, esfuerzo y rendimiento sean valorados y reconocidos con objetividad, para lo que estableceran los oportunos procedimientos que, en todo caso, atenderan al caracter continuo, formativo e integrador de la evaluacion en esta etapa. BOLETIN OFICIAL DEL ESTADO LEGISLACION CONSOLIDADA Pagina 18"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que caracter debe tener la evaluacion en la eso",
+        "evaluacion eso continua formativa integradora",
+        "caracter evaluacion eso",
+        "como debe ser la evaluacion en secundaria obligatoria",
+        "evaluacion objetiva eso continua formativa"
+      ]
+    },
+    {
+      "id": "eso_calificaciones_cualitativas_cyl",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cómo se expresan las calificaciones finales en ESO en Castilla y León?",
+      "variantes": [
+        "IN SU BI NT SB ESO",
+        "calificaciones ESO Castilla y León insuficiente suficiente bien notable sobresaliente",
+        "notas ESO IN SU BI NT SB",
+        "equivalencia calificaciones ESO"
+      ],
+      "required_terms": [
+        "eso",
+        "calificaciones"
+      ],
+      "respuesta": "En ESO en Castilla y León, los resultados finales se extienden en documentos oficiales con la correspondencia: 0-4 Insuficiente, 5 Suficiente, 6 Bien, 7-8 Notable y 9-10 Sobresaliente.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/424/2024, de 9 de mayo, evaluación en ESO en Castilla y León",
+          "archivo": "ORDEN_EDU_424_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 6,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-3.pdf",
+          "fragmento_verificado": "ablezca a estos efectos en la propuesta curricular. 6. Tras la sesion de evaluacion final, los resultados que correspondan se extenderan en los documentos oficiales de evaluacion, aplicando la siguiente correspondencia: 0, 1, 2, 3 y 4: Insuficiente (IN); 5: Suficiente (SU); 6: Bien (BI); 7 y 8: Notable (NT); 9 y 10: Sobresaliente (SB). Articulo 8. Promocion y permanencia del alumnado. 1. En lo referente a la promocion en la educacion secundaria obligatoria se atendera a lo regulado en el articulo 22 del Decreto 39/2022, de 29 de septiembre, salvo en el caso de los programas de diversificacion curricular en los que se atendera a lo dispuesto en su normativa reguladora. 2. En todo caso, promocionaran quienes hayan superado todas las materias o ambitos o tenga evaluacion negativa en una o dos materias. Cuando la evaluacion de un ambito se..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "como se expresan las calificaciones finales en eso en castilla y leon",
+        "in su bi nt sb eso",
+        "calificaciones eso castilla y leon insuficiente suficiente bien notable sobresaliente",
+        "notas eso in su bi nt sb",
+        "equivalencia calificaciones eso"
+      ]
+    },
+    {
+      "id": "eso_consejo_orientador_segundo_curso",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cuándo se entrega el consejo orientador en segundo curso de ESO?",
+      "variantes": [
+        "consejo orientador segundo ESO",
+        "al finalizar segundo curso consejo orientador",
+        "cuándo reciben los padres consejo orientador en ESO",
+        "consejo orientador 2 ESO familias"
+      ],
+      "required_terms": [
+        "consejo orientador",
+        "segundo"
+      ],
+      "respuesta": "Al finalizar segundo curso de ESO se entrega a las familias un consejo orientador con informe sobre logro de objetivos y competencias y propuesta de la opción más adecuada para continuar la formación.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, de 29 de marzo, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "Real_Decreto_217_2022_29_marzo_establece_ordenacion.pdf",
+          "pagina": 14,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-4975-consolidado.pdf",
+          "fragmento_verificado": "elección de las opciones y materias a las que se refiere el artículo 9.2 sea la más adecuada para sus intereses y su orientación formativa posterior, evitando condicionamientos derivados de estereotipos de género. 3. Al finalizar el segundo curso se entregará a los padres, madres, tutores o tutoras legales de cada alumno o alumna un consejo orientador. Dicho consejo incluirá un informe sobre el grado de logro de los objetivos y de adquisición de las competencias correspondientes, así como una propuesta a padres, madres, tutoras o tutores legales o, en su caso, al alumno o alumna de la opción más adecuada para continuar su formación, que podrá incluir la incorporación a un Programa de diversificación curricular o, excepcionalmente, a un ciclo formativo de grado básico. 4. Asimismo, al finalizar la etapa o, en su caso, al concluir la esc..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuando se entrega el consejo orientador en segundo curso de eso",
+        "consejo orientador segundo eso",
+        "al finalizar segundo curso consejo orientador",
+        "cuando reciben los padres consejo orientador en eso",
+        "consejo orientador 2 eso familias"
+      ]
+    },
+    {
+      "id": "eso_reclamacion_evaluacion_cyl",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿La evaluación de ESO en Castilla y León tiene procedimiento de reclamación?",
+      "variantes": [
+        "reclamación evaluación ESO Castilla y León",
+        "procedimiento de reclamación en ESO",
+        "reclamar calificación final ESO",
+        "aclaración y reclamación evaluación secundaria"
+      ],
+      "required_terms": [
+        "reclamacion",
+        "eso"
+      ],
+      "respuesta": "Sí. La Orden EDU/424/2024 regula procedimientos de aclaración y reclamación, además de criterios de promoción, titulación y documentos oficiales de evaluación en ESO.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/424/2024, de 9 de mayo, evaluación en ESO en Castilla y León",
+          "archivo": "ORDEN_EDU_424_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 1,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-3.pdf",
+          "fragmento_verificado": "los aprendizajes del alumnado, establece sus elementos, determina el proceso de calificacion de dichos aprendizajes, ordena el proceso de toma de decisiones del profesorado, fija los criterios de promocion y titulacion, regula los procedimientos de aclaracion y reclamacion, concreta el contenido de los documentos oficiales de evaluacion, ademas de aprobar sus modelos y, por ultimo, desarrolla la evaluacion de la practica docente. De conformidad con el articulo 76.2, en relacion con el articulo 75, de la Ley 3/2001, de 3 de julio, del Gobierno y de la Administracion de la Comunidad de Castilla y Leon, y con el articulo 133 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Comun de las Administraciones Publicas, en la tramitacion de esta orden se han sustanciado los tramites de consulta publica previa y de audiencia e ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "la evaluacion de eso en castilla y leon tiene procedimiento de reclamacion",
+        "reclamacion evaluacion eso castilla y leon",
+        "procedimiento de reclamacion en eso",
+        "reclamar calificacion final eso",
+        "aclaracion y reclamacion evaluacion secundaria"
+      ]
+    },
+    {
+      "id": "eso_programas_diversificacion_evaluacion",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cómo se evalúa al alumnado de programas de diversificación curricular en ESO?",
+      "variantes": [
+        "evaluación programas diversificación curricular ESO",
+        "cómo se evalúan los alumnos de diversificación",
+        "diversificación curricular criterios evaluación ESO"
+      ],
+      "required_terms": [
+        "diversificacion",
+        "evaluacion"
+      ],
+      "respuesta": "El alumnado que cursa programas de diversificación curricular se evalúa conforme a los objetivos de la etapa y los criterios de evaluación fijados en cada programa.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, de 29 de marzo, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "Real_Decreto_217_2022_29_marzo_establece_ordenacion.pdf",
+          "pagina": 12,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-4975-consolidado.pdf",
+          "fragmento_verificado": "on de cada materia o ambito teniendo en cuenta sus criterios de evaluacion. 5. La evaluacion de un ambito, en el caso de que se configure, se realizara tambien de forma integrada. 6. Los alumnos y alumnas que cursen los programas de diversificacion curricular a los que se refiere el articulo 24 seran evaluados de conformidad con los objetivos de la etapa y los criterios de evaluacion fijados en cada uno de los respectivos programas. 7. En el caso del alumnado con adaptaciones curriculares, la evaluacion se realizara tomando como referencia los criterios de evaluacion establecidos en las mismas. 8. El profesorado evaluara tanto los aprendizajes del alumnado como los procesos de ensenanza y su propia practica docente a fin de conseguir la mejora de los mismos. 9. Con independencia del seguimiento realizado a lo largo del curso, el equipo..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "como se evalua al alumnado de programas de diversificacion curricular en eso",
+        "evaluacion programas diversificacion curricular eso",
+        "como se evaluan los alumnos de diversificacion",
+        "diversificacion curricular criterios evaluacion eso"
+      ]
+    },
+    {
+      "id": "eso_permanencia_maxima_obligatoria",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cuántas veces puede permanecer un alumno en el mismo curso durante la enseñanza obligatoria?",
+      "variantes": [
+        "cuántas veces puede repetir en la enseñanza obligatoria",
+        "permanecer mismo curso una vez dos veces enseñanza obligatoria",
+        "repetición máxima ESO enseñanza obligatoria",
+        "permanencia curso excepcional ESO"
+      ],
+      "required_terms": [
+        "curso"
+      ],
+      "respuesta": "La permanencia en el mismo curso es excepcional; el alumnado puede permanecer una sola vez en el mismo curso y dos veces como máximo a lo largo de la enseñanza obligatoria.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, de 29 de marzo, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "Real_Decreto_217_2022_29_marzo_establece_ordenacion.pdf",
+          "pagina": 13,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-4975-consolidado.pdf",
+          "fragmento_verificado": "uperado y que no estuviesen integradas en alguno de los ambitos del programa. Las materias de cursos anteriores integradas en alguno de los ambitos se consideraran superadas si se supera el ambito correspondiente. 5. La permanencia en el mismo curso se considerara una medida de caracter excepcional y se tomara tras haber agotado las medidas ordinarias de refuerzo y apoyo para solventar las dificultades de aprendizaje del alumno o la alumna. En todo caso, el alumno o la alumna podra permanecer en el mismo curso una sola vez y dos veces como maximo a lo largo de la ensenanza obligatoria. 6. En los programas de diversificacion curricular, las decisiones sobre la permanencia un ano mas en los mismos se adoptaran exclusivamente a la finalizacion del segundo ano del programa. 7. De forma excepcional se podra permanecer un ano mas en el cuart..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuantas veces puede permanecer un alumno en el mismo curso durante la ensenanza obligatoria",
+        "cuantas veces puede repetir en la ensenanza obligatoria",
+        "permanecer mismo curso una vez dos veces ensenanza obligatoria",
+        "repeticion maxima eso ensenanza obligatoria",
+        "permanencia curso excepcional eso"
+      ]
+    },
+    {
+      "id": "eso_evaluacion_diagnostico_segundo",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿En qué curso se realiza la evaluación de diagnóstico en ESO?",
+      "variantes": [
+        "evaluación diagnóstico ESO segundo curso",
+        "diagnóstico 2 ESO",
+        "en qué curso es la evaluación de diagnóstico secundaria",
+        "evaluación censal segundo ESO"
+      ],
+      "required_terms": [
+        "diagnostico",
+        "eso"
+      ],
+      "respuesta": "En ESO, la evaluación de diagnóstico está prevista en segundo curso de la etapa.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, de 29 de marzo, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "Real_Decreto_217_2022_29_marzo_establece_ordenacion.pdf",
+          "pagina": 2,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-4975-consolidado.pdf",
+          "fragmento_verificado": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16 Artículo 26. Autonomía de los centros. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18 Artículo 27. Evaluación de diagnóstico. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18 Artículo 28. Derecho del alumnado a una evaluación objetiva. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18 Artículo 29. Participación y derecho a la información de madres, padres, tutoras o tutores legales. . . . . . . . . . 19 Artículo 30. Documentos e informes de evaluación. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19 Artículo 31. Actas de evaluación. . . . ."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "en que curso se realiza la evaluacion de diagnostico en eso",
+        "evaluacion diagnostico eso segundo curso",
+        "diagnostico 2 eso",
+        "en que curso es la evaluacion de diagnostico secundaria",
+        "evaluacion censal segundo eso"
+      ]
+    },
+    {
+      "id": "bachillerato_permanencia_cuatro_anos",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cuánto tiempo puede permanecer un alumno cursando Bachillerato en régimen ordinario?",
+      "variantes": [
+        "bachillerato régimen ordinario cuatro años",
+        "cuántos años puede estar en bachillerato",
+        "permanencia bachillerato cuatro años consecutivos o no",
+        "máximo años bachillerato ordinario",
+        "cuántos años puedo estar en bachillerato ordinario",
+        "cuantos años puedo estar en bachillerato ordinario",
+        "máximo tiempo en bachillerato ordinario",
+        "cuánto tiempo se puede permanecer en bachillerato ordinario",
+        "cuánto dura bachillerato ordinario",
+        "duración bachillerato régimen ordinario"
+      ],
+      "required_terms": [
+        "bachillerato"
+      ],
+      "respuesta": "El alumnado puede permanecer cursando Bachillerato en régimen ordinario durante cuatro años, consecutivos o no.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, de 5 de abril, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
+          "pagina": 7,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
+          "fragmento_verificado": "n Secundaria Obligatoria o de cualquiera de los títulos de Técnico o Técnico Superior de Formación Profesional, o de Artes Plásticas y Diseño, o Técnico Deportivo o Técnico Deportivo Superior. 2. Los alumnos y alumnas podrán permanecer cursando Bachillerato en régimen ordinario durante cuatro años, consecutivos o no. 3. Las administraciones públicas promoverán un incremento progresivo de la oferta de plazas públicas en Bachillerato en sus distintas modalidades y vías. Artículo 6. Principios pedagógicos. 1. Las actividades educativas en el Bachillerato favorecerán la capacidad del alumnado para aprender por sí mismo, para trabajar en equipo y para aplicar los métodos de investigación apropiados. Asimismo, se prestará especial atención a la orientación educativa y profesional del alumnado incorporando la perspectiva de gén"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuanto tiempo puede permanecer un alumno cursando bachillerato en regimen ordinario",
+        "bachillerato regimen ordinario cuatro anos",
+        "cuantos anos puede estar en bachillerato",
+        "permanencia bachillerato cuatro anos consecutivos o no",
+        "maximo anos bachillerato ordinario",
+        "cuantos anos puedo estar en bachillerato ordinario",
+        "cuantos anos puedo estar en bachillerato ordinario",
+        "maximo tiempo en bachillerato ordinario",
+        "cuanto tiempo se puede permanecer en bachillerato ordinario"
+      ]
+    },
+    {
+      "id": "bachillerato_promocion_dos_materias",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Con cuántas materias suspensas se promociona de primero a segundo de Bachillerato?",
+      "variantes": [
+        "promocionar primero segundo bachillerato dos materias",
+        "bachillerato pasar a segundo con dos suspensas",
+        "promoción 1 bachillerato 2 materias negativas",
+        "cuántas suspensas para pasar a segundo bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "promocion"
+      ],
+      "respuesta": "Se promociona de primero a segundo de Bachillerato con todas las materias superadas o con evaluación negativa en dos materias como máximo, debiendo matricularse en segundo de las pendientes de primero.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, de 5 de abril, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
+          "pagina": 12,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
+          "fragmento_verificado": "mismo, que las condiciones de realizacion de los procesos asociados a la evaluacion se adaptan a las necesidades del alumnado con necesidad especifica de apoyo educativo. Articulo 21. Promocion. 1. Los alumnos y alumnas promocionaran de primero a segundo de Bachillerato cuando hayan superado las materias cursadas o tengan evaluacion negativa en dos materias como maximo. En todo caso, deberan matricularse en segundo curso de las materias no superadas de primero, que tendran la consideracion de materias pendientes. Los centros educativos deberan organizar las consiguientes actividades de recuperacion y la evaluacion de las materias pendientes en el marco organizativo que establezcan las administraciones educativas. 2. La superacion de las materias de segundo curso que figuran en el anexo V estara condicionada a la superacion de las corre..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "con cuantas materias suspensas se promociona de primero a segundo de bachillerato",
+        "promocionar primero segundo bachillerato dos materias",
+        "bachillerato pasar a segundo con dos suspensas",
+        "promocion 1 bachillerato 2 materias negativas",
+        "cuantas suspensas para pasar a segundo bachillerato"
+      ]
+    },
+    {
+      "id": "bachillerato_titulo_una_materia_condiciones",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Puede obtenerse el título de Bachiller con una materia suspensa?",
+      "variantes": [
+        "título de bachiller con una materia suspensa",
+        "puede titular en bachillerato con una suspensa",
+        "bachillerato una materia negativa condiciones",
+        "obtener título bachiller una asignatura pendiente",
+        "puedo titular en bachillerato con una asignatura suspensa",
+        "puedo obtener bachillerato con una asignatura pendiente",
+        "título de bachiller con una asignatura suspensa",
+        "bachillerato con una asignatura negativa"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "titulo"
+      ],
+      "respuesta": "Con carácter excepcional, el equipo docente puede decidir la obtención del título de Bachiller con una materia no superada si se cumplen las condiciones normativas: logro de objetivos y competencias, ausencia de inasistencia continuada e injustificada, realización de pruebas y actividades necesarias y media igual o superior a cinco.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, de 5 de abril, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
+          "pagina": 13,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
+          "fragmento_verificado": "a) Que el equipo docente considere que el alumno o alumna ha alcanzado los objetivos y competencias vinculados a ese título. b) Que no se haya producido una inasistencia continuada y no justificada por parte del alumno o alumna en la materia. c) Que el alumno o alumna se haya presentado a las pruebas y realizado las actividades necesarias para su evaluación, incluidas las de la convocatoria extraordinaria. d) que la media aritmética de las calificaciones obtenidas en todas las materias de la etapa sea igual o superior a cinco. En este caso, a efectos del cálculo de la calificación final de la etapa, se considerará la nota numérica obtenida en la materia no superada. 4. El título de Bachiller será único y se expedirá con expresión de la modalidad cursada y de la nota media obtenida. Esta se hallará calculando la media aritmética de las ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "puede obtenerse el titulo de bachiller con una materia suspensa",
+        "titulo de bachiller con una materia suspensa",
+        "puede titular en bachillerato con una suspensa",
+        "bachillerato una materia negativa condiciones",
+        "obtener titulo bachiller una asignatura pendiente"
+      ]
+    },
+    {
+      "id": "bachillerato_calificaciones_numericas_cyl",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cómo se califican las materias de Bachillerato en Castilla y León?",
+      "variantes": [
+        "calificaciones bachillerato escala cero diez",
+        "notas bachillerato Castilla y León numéricas",
+        "calificación bachillerato inferiores a cinco negativas",
+        "bachillerato notas 0 a 10"
+      ],
+      "required_terms": [
+        "bachillerato"
+      ],
+      "respuesta": "En Bachillerato en Castilla y León, el profesorado califica los criterios de evaluación mediante una escala numérica de cero a diez; son negativas las calificaciones inferiores a cinco.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/425/2024, de 9 de mayo, evaluación en Bachillerato en Castilla y León",
+          "archivo": "ORDEN_EDU_425_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 4,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-4.pdf",
+          "fragmento_verificado": "Boletín Oficial de Castilla y León Núm. 95 Pág. 162 Viernes, 17 de mayo de 2024 2. El profesorado calificará los criterios de evaluación de las materias cuya impartición tengan encomendada mediante una escala numérica del cero a diez, en la que se considerarán negativas las calificaciones inferiores a cinco. 3. En el proceso de calificación, el profesorado utilizará herramientas de calificación adecuadas a los instrumentos de evaluación aplicados. 4. A partir de la calificación de los criterios de evaluación se obtendrán, para cada alumno, las calificaciones parciales y la calificación al final del curso de cada materia. 5. Asimismo, gracias a la vinculación existente entre los criterios de evaluación y los descriptores operativos de las competencias clave establecidos en los mapas de relaciones criteriales, de"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "como se califican las materias de bachillerato en castilla y leon",
+        "calificaciones bachillerato escala cero diez",
+        "notas bachillerato castilla y leon numericas",
+        "calificacion bachillerato inferiores a cinco negativas",
+        "bachillerato notas 0 a 10"
+      ]
+    },
+    {
+      "id": "bachillerato_reclamacion_evaluacion_cyl",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿La evaluación de Bachillerato en Castilla y León tiene procedimiento de reclamación?",
+      "variantes": [
+        "reclamación evaluación bachillerato Castilla y León",
+        "reclamar nota bachillerato procedimiento",
+        "aclaración reclamación bachillerato",
+        "reclamaciones calificaciones bachillerato"
+      ],
+      "required_terms": [
+        "reclamacion",
+        "bachillerato"
+      ],
+      "respuesta": "Sí. La Orden EDU/425/2024 regula los procedimientos de aclaración y reclamación, además de los criterios de promoción y titulación y los documentos oficiales de evaluación en Bachillerato.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/425/2024, de 9 de mayo, evaluación en Bachillerato en Castilla y León",
+          "archivo": "ORDEN_EDU_425_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 1,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-4.pdf",
+          "fragmento_verificado": "los aprendizajes del alumnado, establece sus elementos, determina el proceso de calificacion de dichos aprendizajes, ordena el proceso de toma de decisiones del profesorado, fija los criterios de promocion y titulacion, regula los procedimientos de aclaracion y reclamacion, concreta el contenido de los documentos oficiales de evaluacion, ademas de aprobar sus modelos y, por ultimo, desarrolla la evaluacion de la practica docente. De conformidad con el articulo 76.2, en relacion con el articulo 75, de la Ley 3/2001, de 3 de julio, del Gobierno y de la Administracion de la Comunidad de Castilla y Leon, y con el articulo 133 de la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Comun de las Administraciones Publicas, en la tramitacion de esta orden se han sustanciado los tramites de consulta publica previa y de audiencia e ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "la evaluacion de bachillerato en castilla y leon tiene procedimiento de reclamacion",
+        "reclamacion evaluacion bachillerato castilla y leon",
+        "reclamar nota bachillerato procedimiento",
+        "aclaracion reclamacion bachillerato",
+        "reclamaciones calificaciones bachillerato"
+      ]
+    },
+    {
+      "id": "bachillerato_tutoria_orientacion",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Debe haber tutoría y orientación en Bachillerato?",
+      "variantes": [
+        "tutoría orientación bachillerato",
+        "orientación educativa profesional bachillerato",
+        "bachillerato tutoría alumnado",
+        "orientación en bachillerato normativa"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "orientacion"
+      ],
+      "respuesta": "El Bachillerato incluye tutoría y orientación educativa y profesional, conforme a la ordenación de la etapa.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, de 5 de abril, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
+          "pagina": 2,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
+          "fragmento_verificado": "ler. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12 Artículo 23. Obtención del título de Bachiller desde otras enseñanzas. . . . . . . . . . . . . . . . . . . . . . . 13 Artículo 24. Tutoría y orientación.. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13 Artículo 25. Atención a las diferencias individuales. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13 Artículo 26. Autonomía de los centros. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14 Artículo 27. Derecho del alumnado a una evaluación objetiva. . . . . . . . . . . . . . . . . . . . . . . . . . . . 14 Artículo 28. Participación y derecho a la información d"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "debe haber tutoria y orientacion en bachillerato",
+        "tutoria orientacion bachillerato",
+        "orientacion educativa profesional bachillerato",
+        "bachillerato tutoria alumnado",
+        "orientacion en bachillerato normativa"
+      ]
+    },
+    {
+      "id": "bachillerato_modalidad_general_materias_comunes",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Existen materias comunes en todas las modalidades de Bachillerato?",
+      "variantes": [
+        "materias comunes bachillerato todas modalidades",
+        "qué son materias comunes bachillerato",
+        "bachillerato materias comunes modalidades",
+        "modalidades bachillerato materias comunes"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "materias comunes"
+      ],
+      "respuesta": "La ordenación del Bachillerato define materias comunes para todas las modalidades, además de materias específicas de modalidad y optativas.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, de 5 de abril, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
+          "pagina": 4,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
+          "fragmento_verificado": "l como se recoge en la propia ley. Con relación a la ordenación del Bachillerato, la nueva redacción de la ley establece cuatro modalidades: Artes, Ciencias y Tecnología, General, y Humanidades y Ciencias Sociales, y define asimismo las materias comunes para todas ellas. Además de esto, se encomienda al Gobierno determinar, previa consulta a las comunidades autónomas, la estructura de las modalidades, las materias específicas de cada modalidad, y el número de estas materias que deben cursar los alumnos y alumnas. Finalmente, se prevé también la oferta de materias optativas, cuya ordenación corresponderá a las administraciones educativas. La ley indica que la evaluación en esta etapa será continua y diferenciada según las distintas materias, por lo que se encomienda al profesorado de cada una de ellas decidir, al término del curso, si e..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "existen materias comunes en todas las modalidades de bachillerato",
+        "materias comunes bachillerato todas modalidades",
+        "que son materias comunes bachillerato",
+        "bachillerato materias comunes modalidades",
+        "modalidades bachillerato materias comunes"
+      ]
+    },
+    {
+      "id": "bachillerato_titulo_regla_general_todas_materias",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cuál es la regla general para obtener el título de Bachiller?",
+      "variantes": [
+        "regla general obtener título de bachiller",
+        "bachillerato título todas las materias aprobadas",
+        "para titular en bachillerato hay que aprobar todo",
+        "título bachiller evaluación positiva todas materias"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "titulo"
+      ],
+      "respuesta": "La regla general es que para obtener el título de Bachiller es necesaria la evaluación positiva en todas las materias de los dos cursos de Bachillerato, sin perjuicio de la excepción normativa de una materia no superada cuando se cumplan sus condiciones.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, de 5 de abril, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
+          "pagina": 4,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
+          "fragmento_verificado": "o grado de adquisicion de las competencias correspondientes. Para promocionar de primero a segundo curso se precisara haber superado todas las materias del curso o tener evaluacion negativa en dos materias, como maximo. Para obtener el titulo sera necesaria la evaluacion positiva en todas las materias de los dos cursos de Bachillerato. No obstante, en el nuevo texto se contempla la posibilidad de que, excepcionalmente, el equipo docente pueda decidir la titulacion de un alumno o alumna que haya superado todas las materias salvo una, siempre que se den las condiciones descritas en este real decreto. Finalmente, con respecto al acceso a los estudios universitarios, se indica que los alumnos y alumnas deberan superar una prueba cuyas caracteristicas basicas seran establecidas por el Gobierno, previa consulta a las comunidades autonomas en..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cual es la regla general para obtener el titulo de bachiller",
+        "regla general obtener titulo de bachiller",
+        "bachillerato titulo todas las materias aprobadas",
+        "para titular en bachillerato hay que aprobar todo",
+        "titulo bachiller evaluacion positiva todas materias"
+      ]
+    },
+    {
+      "id": "fp_grado_a_microacreditacion",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué es un Grado A en Formación Profesional?",
+      "variantes": [
+        "grado A FP microacreditación",
+        "qué es una microacreditación en FP",
+        "acreditación parcial de competencia grado A",
+        "grado A formación profesional qué significa"
+      ],
+      "required_terms": [
+        "grado a",
+        "fp"
+      ],
+      "respuesta": "El Grado A o microacreditación es la oferta elemental del Sistema de Formación Profesional, preferentemente destinada a personas trabajadoras que necesitan actualizar sus competencias; tiene carácter parcial y acumulable.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 36,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "TÍTULO II Grados del Sistema de Formación Profesional CAPÍTULO I Grado A. Acreditación parcial de competencia o microacreditaciones Artículo 53. Ordenación. 1. El Grado A, o microacreditaciones, constituye la oferta elemental del Sistema de Formación Profesional, destinada, de preferencia, a las personas trabajadoras con necesidad de actualización de sus competencias. 2. Las Acreditaciones parciales de competencia Grado A, podrán ser de nivel 1, nivel 2 o nivel 3, en función de los elementos de competencia a los que respondan sus resultados de aprendizaje. 3. Las microacreditaciones tendrán, con carácter general, carácter parcial y acumulable en el Sistema de Formación Profesional, respecto de los grados B, C o D en los que sus bloques formativos se encuentren contenidos en su totalidad o en parte. 4. Las formaciones de Grado A no podr..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que es un grado a en formacion profesional",
+        "grado a fp microacreditacion",
+        "que es una microacreditacion en fp",
+        "acreditacion parcial de competencia grado a",
+        "grado a formacion profesional que significa"
+      ]
+    },
+    {
+      "id": "fp_grado_b_certificado_competencia",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué se obtiene al superar un Grado B de Formación Profesional?",
+      "variantes": [
+        "grado B certificado de competencia",
+        "qué título da un grado B de FP",
+        "certificado de competencia FP grado B",
+        "superar grado B formación profesional"
+      ],
+      "required_terms": [
+        "grado b",
+        "fp"
+      ],
+      "respuesta": "La superación de un Grado B conduce a la obtención de un certificado de competencia, con carácter oficial y validez en todo el territorio nacional.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 39,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "ran documentalmente los resultados obtenidos por la persona en formacion en los distintos instrumentos de evaluacion aplicados, de acuerdo con el articulo 19 de esta disposicion. Articulo 64. Titulacion y efectos. 1. La superacion de un Grado B conduce a la obtencion de un certificado de competencia. 2. Los certificados de competencia tendran caracter oficial y validez en todo el territorio nacional, y seran expedidos por el Ministerio de Educacion y Formacion Profesional y los organos competentes de las comunidades autonomas. 3. Tendran validez profesional y academica en el marco del Sistema de Formacion Profesional, en tanto que permiten la continuidad del itinerario formativo y la progresion hacia un Grado C o D. Articulo 65. Vias de obtencion del Grado B de formacion profesional. El Grado B de formacion profesional podra obtenerse ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que se obtiene al superar un grado b de formacion profesional",
+        "grado b certificado de competencia",
+        "que titulo da un grado b de fp",
+        "certificado de competencia fp grado b",
+        "superar grado b formacion profesional"
+      ]
+    },
+    {
+      "id": "fp_grado_c_certificado_profesional",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué es un Grado C en Formación Profesional?",
+      "variantes": [
+        "grado C certificado profesional",
+        "qué es certificado profesional grado C",
+        "FP grado C para quién es",
+        "certificado profesional carácter parcial acumulable"
+      ],
+      "required_terms": [
+        "grado c",
+        "fp"
+      ],
+      "respuesta": "El Grado C se corresponde con certificados profesionales, que pueden ser de nivel 1, 2 o 3, y tienen carácter parcial y acumulable dentro del Sistema de Formación Profesional.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 40,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "preferencia, a las personas trabajadoras o a jóvenes mayores de dieciocho años. Excepcionalmente podrán cursarlos jóvenes mayores de 16 años que hayan abandonado el sistema educativo. 2. Los certificados profesionales, Grado C, podrán ser de nivel 1, 2 y 3, en función de los estándares de competencia a que estén asociados sus módulos profesionales. 3. Las ofertas de Grado C deberán tener por objeto exclusivamente módulos profesionales incluidos previamente en el Catálogo Modular de Formación Profesional y asociados al Catálogo de Estándares de Competencias Profesionales. Excepcionalmente, una oferta de Grado C podrá incorporar un módulo profesional no incluido en el dicho Catálogo Modular, siempre que se considere imprescindible como soporte para la adquisición de los resultados de aprendizaje del resto de módulos profesionales asociad..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que es un grado c en formacion profesional",
+        "grado c certificado profesional",
+        "que es certificado profesional grado c",
+        "fp grado c para quien es",
+        "certificado profesional caracter parcial acumulable"
+      ]
+    },
+    {
+      "id": "fp_grado_c_acceso_niveles",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué requisitos hay para acceder a certificados profesionales de Grado C?",
+      "variantes": [
+        "acceso grado C nivel 1 2 3",
+        "requisitos certificado profesional nivel 2",
+        "requisitos certificado profesional nivel 3",
+        "grado C FP acceso niveles"
+      ],
+      "required_terms": [
+        "grado c"
+      ],
+      "respuesta": "Para un certificado profesional de nivel 1 no se exigen requisitos académicos ni profesionales; para nivel 2 se exige, entre otras vías, el graduado en ESO o equivalente; para nivel 3, título de Técnico, Técnico Superior, Bachiller o equivalente, entre otras vías previstas.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 42,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "Acceso. Para acceder a un certificado profesional se requerirá el cumplimiento, según sean de nivel 1, 2 o 3, de los siguientes requisitos, sin perjuicio de los previstos en la disposición adicional quinta: a) Para un certificado profesional de nivel 1 no se exigen requisitos académicos ni profesionales, aunque se han de poseer las habilidades de comunicación suficientes que permitan el aprendizaje. En el caso de requerir competencias básicas previas, la oferta correspondiente podrá incorporar complementos de formación a estos efectos, siempre vinculados a los centros de personas adultas para garantizar su reconocimiento directo o a través del proceso de acreditación de competencias básicas que se regule. b) Para un certificado profesional de nivel 2 se requiere el graduado en Educación Secundaria Obligatoria o equivalente a efectos de..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que requisitos hay para acceder a certificados profesionales de grado c",
+        "acceso grado c nivel 1 2 3",
+        "requisitos certificado profesional nivel 2",
+        "requisitos certificado profesional nivel 3",
+        "grado c fp acceso niveles"
+      ]
+    },
+    {
+      "id": "fp_grado_d_ciclos_basico_medio_superior",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué tipos de ciclos formativos integran el Grado D?",
+      "variantes": [
+        "grado D ciclos básico medio superior",
+        "qué es grado D en FP básico medio superior",
+        "ciclos formativos de grado básico medio superior",
+        "tipos de grado D formación profesional"
+      ],
+      "required_terms": [
+        "grado d",
+        "ciclos"
+      ],
+      "respuesta": "El Grado D comprende ciclos formativos, incluyendo ciclos de Grado Básico y ciclos formativos de grado medio y superior.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 2,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37 CAPÍTULO III. Grado C. Certificado profesional. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39 CAPÍTULO IV. Grado D. Ciclos formativos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44 Sección 1.ª Aspectos comunes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 44 Sección 2.ª Ciclos formativos de Grado Básico . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46 Sección 3.ª Ciclos formativos de grado medio y superior . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49 CAPÍTULO V. Grado E. Cursos de especialización. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que tipos de ciclos formativos integran el grado d",
+        "grado d ciclos basico medio superior",
+        "que es grado d en fp basico medio superior",
+        "ciclos formativos de grado basico medio superior",
+        "tipos de grado d formacion profesional"
+      ]
+    },
+    {
+      "id": "fp_ciclos_grado_basico_objeto",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué finalidad tienen los ciclos formativos de Grado Básico?",
+      "variantes": [
+        "finalidad ciclos grado básico FP",
+        "para qué sirven ciclos formativos de grado básico",
+        "grado básico competencias profesionales aprendizaje permanente",
+        "objetivo grado básico formación profesional"
+      ],
+      "required_terms": [
+        "grado basico",
+        "fp"
+      ],
+      "respuesta": "Los ciclos formativos de Grado Básico tienen por objeto adquirir competencias profesionales y para la empleabilidad, así como competencias del aprendizaje permanente a lo largo de la vida.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 46,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "fesional, una vez que este reconocida a nivel estatal por los gobiernos concernidos. En este caso, el curriculo a impartir respondera al de caracter basico definido por ambos paises para este tipo de oferta. Seccion 2.a Ciclos formativos de Grado Basico Articulo 85. Organizacion. 1. Con caracter general, son ciclos formativos de grado basico, los vinculados a estandares de competencia de nivel 1 del Catalogo Nacional de Estandares de Competencias Profesionales, que tienen por objeto la adquisicion de las competencias profesionales y para la empleabilidad, asi como de las competencias del aprendizaje permanente a lo largo de la vida. 2. Los ciclos formativos de grado basico constaran de tres ambitos y proyecto siguientes: a) Ambito de Comunicacion y Ciencias Sociales, que incluira, de manera integrada: 1.o Lengua castellana. 2.o Lengua ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que finalidad tienen los ciclos formativos de grado basico",
+        "finalidad ciclos grado basico fp",
+        "para que sirven ciclos formativos de grado basico",
+        "grado basico competencias profesionales aprendizaje permanente",
+        "objetivo grado basico formacion profesional"
+      ]
+    },
+    {
+      "id": "fp_grado_medio_superior_duracion",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Cuánto duran los ciclos formativos de grado medio y superior?",
+      "variantes": [
+        "duración ciclos grado medio superior FP",
+        "grado medio superior dos o tres cursos",
+        "cuántos cursos duran ciclos formativos",
+        "duración FP grado medio grado superior",
+        "cuántos años dura un grado medio",
+        "cuantos años dura un grado medio",
+        "cuánto dura un grado superior",
+        "cuanto dura un ciclo formativo de grado medio",
+        "cuántos años dura un ciclo formativo de grado superior"
+      ],
+      "required_terms": [
+        "duracion"
+      ],
+      "respuesta": "Los ciclos formativos de grado medio y superior pueden durar entre dos y tres cursos académicos, según la normativa básica de cada título y sus necesidades formativas.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 52,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "el procedimiento a seguir en los centros para el reconocimiento total o parcial de la parte optativa, de acuerdo con la duración de los correspondientes cursos o actividades formativas. Artículo 103. Duración. 1. Los ciclos formativos de grado medio y superior tendrán una duración que podrá oscilar entre dos y tres cursos académicos, en función de las necesidades y los requerimientos de la formación y será fijada en la normativa básica de establecimiento de cada título y los elementos básicos del currículo conducente al título de que se trate. 2. Las administraciones educativas podrán adaptar la duración de los ciclos formativos en función de su oferta en régimen general o intensivo, así como de la incorporación de complementos formativos ajenos al currículo básico y justificados por la realidad socioeconómica de su territorio, así como"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuanto duran los ciclos formativos de grado medio y superior",
+        "duracion ciclos grado medio superior fp",
+        "grado medio superior dos o tres cursos",
+        "cuantos cursos duran ciclos formativos",
+        "duracion fp grado medio grado superior",
+        "cuantos anos dura un grado medio",
+        "cuantos anos dura un grado medio",
+        "cuanto dura un grado superior",
+        "cuanto dura un ciclo formativo de grado medio",
+        "cuantos anos dura un ciclo formativo de grado superior"
+      ]
+    },
+    {
+      "id": "fp_acceso_grado_medio_requisitos",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué requisitos permiten acceder a ciclos formativos de grado medio?",
+      "variantes": [
+        "acceso grado medio requisitos FP",
+        "entrar a grado medio con ESO técnico básico",
+        "qué necesito para grado medio",
+        "requisitos ciclo formativo grado medio",
+        "qué requisitos tengo para acceder a grado medio",
+        "qué requisitos hay para acceder a grado medio",
+        "qué necesito para acceder a grado medio",
+        "puedo entrar a grado medio con la ESO",
+        "requisitos para acceder a un ciclo formativo de grado medio"
+      ],
+      "required_terms": [
+        "grado medio"
+      ],
+      "respuesta": "Para acceder a ciclos formativos de grado medio se requiere cumplir alguna vía prevista: título de ESO, título de Técnico Básico o Técnico, haber superado una oferta de Grado C incluida en el ciclo, curso específico preparatorio o prueba de acceso, entre otras vías normativas.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 54,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "cesidades específicas de apoyo formativo escolarizadas en centros, tanto ordinarios como de educación especial, del sistema educativo, podrán permanecer cursando formación profesional hasta los 21 años. Artículo 108. Acceso a ciclos formativos de grado medio. 1. Para el acceso a los ciclos formativos de grado medio se precisará el cumplimiento de uno de los siguientes requisitos: a) Estar en posesión del título de graduado en Educación Secundaria Obligatoria. b) Estar en posesión del título de Técnico Básico o de Técnico. c) Haber superado una oferta formativa de Grado C incluida en el ciclo formativo. d) Haber superado un curso de formación específico preparatorio para el acceso a ciclos formativos de grado medio en centros expresamente autorizados por la Administración educativa, en los términos previstos en el artículo 109. e) Haber..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que requisitos permiten acceder a ciclos formativos de grado medio",
+        "acceso grado medio requisitos fp",
+        "entrar a grado medio con eso tecnico basico",
+        "que necesito para grado medio",
+        "requisitos ciclo formativo grado medio"
+      ]
+    },
+    {
+      "id": "fp_acceso_grado_superior_requisitos",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué requisitos permiten acceder a ciclos formativos de grado superior?",
+      "variantes": [
+        "acceso grado superior requisitos FP",
+        "entrar a grado superior con bachiller técnico",
+        "qué necesito para grado superior",
+        "requisitos ciclo formativo grado superior",
+        "qué requisitos tengo para acceder a grado superior",
+        "qué requisitos hay para acceder a grado superior",
+        "qué necesito para acceder a grado superior",
+        "puedo entrar a grado superior con bachillerato",
+        "requisitos para acceder a un ciclo formativo de grado superior"
+      ],
+      "required_terms": [
+        "grado superior"
+      ],
+      "respuesta": "Para acceder a ciclos formativos de grado superior se requiere cumplir alguna vía prevista: título de Técnico de Grado Medio o Técnico de Artes Plásticas y Diseño, Bachiller, una oferta de Grado C incluida en el ciclo, curso específico preparatorio o prueba de acceso, entre otras vías normativas.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 56,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "mayo, de Educación, las administraciones educativas establecerán un porcentaje de plazas reservadas para personas con discapacidad, que no podrá ser inferior al cinco por ciento de la oferta de plazas. Artículo 112. Acceso a ciclos formativos de grado superior. 1. Para el acceso a los ciclos formativos de grado superior se precisará el cumplimiento de uno de los siguientes requisitos: a) Poseer el título de Técnico de Grado Medio de Formación Profesional o el título de Técnico o Técnica de Artes Plásticas y Diseño. b) Poseer el título de Bachiller. c) Haber superado una oferta formativa de Grado C incluida en el ciclo formativo. d) Haber superado un curso de formación específico preparatorio para el acceso a ciclos de grado superior en centros expresamente autorizados por la Administración educativa, en los términos previstos en el art..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "que requisitos permiten acceder a ciclos formativos de grado superior",
+        "acceso grado superior requisitos fp",
+        "entrar a grado superior con bachiller tecnico",
+        "que necesito para grado superior",
+        "requisitos ciclo formativo grado superior"
+      ]
+    },
+    {
+      "id": "fp_grado_e_duracion_cursos_especializacion",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Cuánto duran los cursos de especialización de Grado E?",
+      "variantes": [
+        "duración grado E cursos especialización",
+        "curso de especialización FP 300 900 horas",
+        "cuánto dura un curso de especialización FP",
+        "grado E formación profesional horas",
+        "cuánto dura el grado E en FP",
+        "cuántas horas dura un grado E",
+        "duración del grado E de formación profesional"
+      ],
+      "required_terms": [
+        "grado e",
+        "duracion"
+      ],
+      "respuesta": "Los cursos de especialización de Grado E deben tener una duración entre 300 y 900 horas, según el carácter de la formación.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 59,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "nizar, en su caso, el currículo del curso de especialización. La programación resultante deberá ser aprobada por la Administración competente y pasará a formar parte de su proyecto educativo. Artículo 118. Oferta de cursos de especialización. Las administraciones educativas garantizarán la suficiencia de una oferta diversificada y gratuita de cursos de especialización, respondiendo a las necesidades formativas y las demandas de su entorno productivo, oído el órgano territorial consultivo creado al efecto, de acuerdo con el apartado 3 del artículo 23 de esta disposición. Artículo 119. Organización y duración. Los cursos de especialización, cuya duración deberá estar, en función del carácter de la formación que tengan por objeto, entre las 300 y las 900 horas y, en su caso, podrán desarrollarse con carácter dual: a) Constarán de módulos ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuanto duran los cursos de especializacion de grado e",
+        "duracion grado e cursos especializacion",
+        "curso de especializacion fp 300 900 horas",
+        "cuanto dura un curso de especializacion fp",
+        "grado e formacion profesional horas"
+      ]
+    },
+    {
+      "id": "fp_modalidades_presencial_semipresencial_virtual",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Puede impartirse la FP en modalidad presencial, semipresencial y virtual?",
+      "variantes": [
+        "FP presencial semipresencial virtual",
+        "modalidades de formación profesional",
+        "se puede cursar FP virtual",
+        "FP online semipresencial normativa"
+      ],
+      "required_terms": [
+        "fp",
+        "modalidad"
+      ],
+      "respuesta": "Las administraciones competentes deben garantizar oferta pública de Formación Profesional en modalidad presencial, semipresencial y virtual, priorizando sectores en crecimiento o generadores de empleo.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 24,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "es y requisitos básicos para el desarrollo de las modalidades presencial, semipresencial y virtual de la formación profesional. 1. Las administraciones competentes para cada uno de los Grados deberán: a) Garantizar una oferta pública en modalidad presencial, semipresencial y virtual, dando prioridad a la vinculada a sectores en crecimiento o que estén generando empleo. b) Poner a disposición de los centros públicos y privados que cuenten con concierto para las ofertas de formación profesional o que ejecuten la oferta con financiación pública, una plataforma virtual de formación profesional accesible, y asegurando los materiales y recursos necesarios para las modalidades virtual y semipresencial, así como su actualización permanente. El Ministerio de Educación y Formación Profesional promoverá la colaboración de las administraciones en ..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "puede impartirse la fp en modalidad presencial semipresencial y virtual",
+        "fp presencial semipresencial virtual",
+        "modalidades de formacion profesional",
+        "se puede cursar fp virtual",
+        "fp online semipresencial normativa"
+      ]
+    },
+    {
+      "id": "fp_modalidad_virtual_evaluacion_presencial",
+      "bloque": "fp",
+      "pregunta_canonica": "¿La FP virtual puede exigir pruebas presenciales?",
+      "variantes": [
+        "FP virtual pruebas presenciales",
+        "evaluación modalidad virtual formación profesional",
+        "exámenes presenciales FP online",
+        "pruebas presenciales formación profesional virtual"
+      ],
+      "required_terms": [
+        "virtual",
+        "fp"
+      ],
+      "respuesta": "La modalidad virtual puede exigir la superación de pruebas presenciales en centros autorizados del Sistema de Formación Profesional para asegurar el logro de los resultados de aprendizaje.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 54,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "b) Exigira la superacion de pruebas presenciales en centros autorizados y pertenecientes al Sistema de Formacion Profesional, que aseguren el logro de los resultados de aprendizaje. 6. Las personas en formacion podran permanecer cursando un ciclo de grado medio o superior durante un maximo de dos cursos academicos, consecutivos o no, mas que la duracion prevista para el ciclo formativo, en matricula completa y modalidad presencial. En modalidad virtual, podran permanecer un maximo de seis cursos consecutivos. 7. Las administraciones regularan los terminos para autorizar convocatorias excepcionales, recogiendo, al menos, las situaciones personales que asi lo requieran, a juicio del equipo doc"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "la fp virtual puede exigir pruebas presenciales",
+        "fp virtual pruebas presenciales",
+        "evaluacion modalidad virtual formacion profesional",
+        "examenes presenciales fp online",
+        "pruebas presenciales formacion profesional virtual"
+      ]
+    },
+    {
+      "id": "fp_formacion_empresa_sin_curriculo_propio",
+      "bloque": "fp",
+      "pregunta_canonica": "¿La fase de formación en empresa tiene currículo propio?",
+      "variantes": [
+        "fase de formación en empresa currículo propio",
+        "empresa FP tiene currículo diferenciado",
+        "formación en empresa sin currículo propio",
+        "fase empresa organismo equiparado currículo"
+      ],
+      "required_terms": [
+        "empresa",
+        "curriculo"
+      ],
+      "respuesta": "La fase de formación en empresa u organismo equiparado carece de currículo propio y diferenciado; contribuye al desarrollo de resultados de aprendizaje de los módulos y competencias de la oferta.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 13,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "tes estaran obligadas a actualizar, a su vez, sus curriculos y hacer conocedores a los centros del Sistema de Formacion Profesional las modificaciones curriculares afectadas por la actualizacion. Articulo 9. Curriculo y fase de formacion en empresa u organismo equiparado. 1. La fase de formacion en empresa u organismo equiparado, que carece de curriculo propio y diferenciado, contribuye al desarrollo de parte de los resultados de aprendizaje contemplados en los modulos profesionales del correspondiente curriculo, asi como de las competencias previstas en la oferta formativa. La fase de formacion en empresa u organismo equiparado no contara, en los curriculos de los Grados C y los curriculos basicos de los Grados D y, en su caso, E con un horario diferenciado, ajustandose su duracion horaria en funcion de los resultados de aprendizaje d..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "la fase de formacion en empresa tiene curriculo propio",
+        "fase de formacion en empresa curriculo propio",
+        "empresa fp tiene curriculo diferenciado",
+        "formacion en empresa sin curriculo propio",
+        "fase empresa organismo equiparado curriculo"
+      ]
+    },
+    {
+      "id": "fp_formacion_empresa_finalidades",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Para qué sirve la fase de formación en empresa en FP?",
+      "variantes": [
+        "finalidad formación en empresa FP",
+        "para qué sirve fase empresa organismo equiparado",
+        "formación en empresa completar competencias",
+        "objetivos fase empresa formación profesional"
+      ],
+      "required_terms": [
+        "empresa",
+        "finalidad"
+      ],
+      "respuesta": "La fase de formación en empresa sirve, entre otras finalidades, para completar la adquisición de competencias profesionales y resultados de aprendizaje y conocer la realidad del entorno laboral del sector productivo o de servicios.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 73,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "umpla la función de tutor o tutora de empresa, que responda a un perfil ajustado a los resultados de aprendizaje previstos y que no forme parte del equipo docente en la oferta formativa de que se trata. Artículo 153. Finalidades de la fase de formación en la empresa u organismo equiparado y compromisos y derechos de los implicados. 1. La fase de formación en empresa u organismo equiparado tendrá las finalidades siguientes: a) Completar la adquisición de competencias profesionales y resultados de aprendizaje propios de cada oferta formativa. b) Conocer la realidad del entorno laboral del sector productivo o de servicios de referencia, que permita la adopción de decisiones sobre futuros itinerarios formativos y profesionales, prestando especial atención a las oportunidades de empleo y emprendimiento existentes o emergentes en los entorno..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "para que sirve la fase de formacion en empresa en fp",
+        "finalidad formacion en empresa fp",
+        "para que sirve fase empresa organismo equiparado",
+        "formacion en empresa completar competencias",
+        "objetivos fase empresa formacion profesional"
+      ]
+    },
+    {
+      "id": "fp_formacion_empresa_regimen_general_porcentaje",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Cuánto dura la formación en empresa en el régimen general de FP?",
+      "variantes": [
+        "régimen general formación en empresa 25 35",
+        "duración empresa FP régimen general",
+        "porcentaje empresa régimen general formación profesional",
+        "formación en empresa FP 25 35"
+      ],
+      "required_terms": [
+        "empresa",
+        "regimen general"
+      ],
+      "respuesta": "En régimen general, la formación en empresa u organismo equiparado dura entre el 25 % y el 35 % de la duración total de la oferta formativa e incluye entre el 10 % y el 20 % de los resultados de aprendizaje de los módulos profesionales.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 78,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "general o intensivo en que se realice. En el marco de cada régimen, tendrá la duración puntual prevista para cada caso y en cada centro. 2. La formación en empresa u organismo equiparado, en las ofertas realizadas en régimen general, tendrá una duración de entre el 25 y 35 % de la duración total prevista de la oferta formativa, e incluirá entre el 10 y el 20 % de los resultados de aprendizaje de los módulos profesionales. 3. Por defecto, las ofertas de Grado C de certificados profesionales de nivel 1 y las de Grado D de ciclos formativos de grado básico, se ofertarán en régimen general, y la formación en empresa u organismo equiparado se podrá diseñar a partir del 20 % de la duración total prevista de la oferta formativa. En el caso de Grado D de ciclos formativos de grado básico, los porcentajes de resultados de aprendizaje a trabajar..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuanto dura la formacion en empresa en el regimen general de fp",
+        "regimen general formacion en empresa 25 35",
+        "duracion empresa fp regimen general",
+        "porcentaje empresa regimen general formacion profesional",
+        "formacion en empresa fp 25 35"
+      ]
+    },
+    {
+      "id": "fp_formacion_empresa_regimen_intensivo_porcentaje",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Cuánto dura la estancia en empresa en régimen intensivo de FP?",
+      "variantes": [
+        "régimen intensivo empresa 35 50 FP",
+        "duración empresa régimen intensivo formación profesional",
+        "FP dual intensiva porcentaje empresa",
+        "formación en empresa intensivo 35 50"
+      ],
+      "required_terms": [
+        "empresa",
+        "intensivo"
+      ],
+      "respuesta": "En régimen intensivo, la estancia en empresa tiene una duración entre el 35 % y el 50 % de la duración total de la formación conducente al certificado profesional o ciclo, según la regulación aplicable.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 41,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "arado en regimen general se regira por lo establecido en el articulo 66 de la Ley organica 3/2022, esta disposicion y sus desarrollos posteriores, asi como la normativa laboral que le resulte de aplicacion. Articulo 72. Estancia en empresa u organismo equiparado en regimen intensivo. 1. La estancia en empresa en regimen intensivo tendra una duracion de entre el 35 y 50 % de la total prevista de la formacion conducente al certificado profesional, y contemplara, al menos, el 30 % de los resultados de aprendizaje de los modulos profesionales que desarrollan formacion vinculada a estandares de competencia del Catalogo Nacional de Estandares de competencias profesionales. Excepcionalmente, los Grados C que se desarrollen en el marco de programas publicos de empleo no contaran con limite maximo de duracion del periodo de formacion en empresa..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "cuanto dura la estancia en empresa en regimen intensivo de fp",
+        "regimen intensivo empresa 35 50 fp",
+        "duracion empresa regimen intensivo formacion profesional",
+        "fp dual intensiva porcentaje empresa",
+        "formacion en empresa intensivo 35 50"
+      ]
+    },
+    {
+      "id": "fp_tutor_dual_empresa",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Quién supervisa al alumnado durante la formación en empresa?",
+      "variantes": [
+        "tutor dual empresa FP",
+        "quién supervisa formación en empresa",
+        "tutor empresa organismo equiparado formación profesional",
+        "seguimiento alumnado empresa FP"
+      ],
+      "required_terms": [
+        "empresa"
+      ],
+      "respuesta": "La supervisión durante los periodos de formación en empresa corresponde al personal propio designado como tutor o tutora dual de empresa, en coordinación con el tutor o tutora del centro de Formación Profesional.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 15,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "adora. h) La supervisión de la persona en formación durante las sesiones o los periodos de formación en la empresa u organismo equiparado, corresponde al personal propio de una u otro designado al efecto en calidad de tutor o tutora dual de empresa, siempre en coordinación con el tutor o tutora del centro de Formación Profesional. i) Se promoverá el conocimiento de las personas en formación de las empresas u organismos equiparados que colaboran con el centro en la oferta formativa y sus características, a partir de los primeros meses de formación, una vez desarrollada la relativa a la prevención de riesgos laborales. j) Se asegurará el contacto continuo entre el centro de Formación Profesional y la empresa u organismo equiparado, tanto previo como durante los periodos de formación en empresa. 7. Las administraciones competentes, de fo"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "quien supervisa al alumnado durante la formacion en empresa",
+        "tutor dual empresa fp",
+        "quien supervisa formacion en empresa",
+        "tutor empresa organismo equiparado formacion profesional",
+        "seguimiento alumnado empresa fp"
+      ]
+    },
+    {
+      "id": "fp_modulo_ipe_finalidad",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Para qué sirven los módulos de Itinerario Personal para la Empleabilidad I y II?",
+      "variantes": [
+        "Itinerario personal para la empleabilidad I II finalidad",
+        "módulos IPE FP para qué sirven",
+        "empleabilidad I y II derechos laborales orientación emprendimiento",
+        "FP IPE derechos laborales"
+      ],
+      "required_terms": [
+        "itinerario",
+        "empleabilidad"
+      ],
+      "respuesta": "Los módulos de Itinerario Personal para la Empleabilidad I y II son comunes a ciclos de grado medio y superior y desarrollan habilidades transversales, orientación laboral, emprendimiento y conocimiento de derechos laborales.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 51,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "Artículo 98. Módulos de Itinerario personal para la empleabilidad I y II. Los módulos de Itinerario personal para la empleabilidad I y II, comunes a los ciclos formativos de grado medio y de grado superior, se impartirán, ambos, en cada ciclo formativo, sea este de grado medio o de grado superior, y tendrán como finalidad el desarrollo de habilidades y capacidades transversales, de orientación laboral y emprendimiento, incluyendo el emprendimiento colectivo en economía social, así como el conocimiento de los derechos laborales, para el conocimiento de los sectores productivos y para la madurez profesional, siendo sus currículos básicos los fijados en el anexo V de esta disposición. Artículo 99. Módulo de Digitalización aplicada al sistema productivo. El módulo de Digitalización aplicada al sistema productivo tendrá como finalidad el de..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "para que sirven los modulos de itinerario personal para la empleabilidad i y ii",
+        "itinerario personal para la empleabilidad i ii finalidad",
+        "modulos ipe fp para que sirven",
+        "empleabilidad i y ii derechos laborales orientacion emprendimiento",
+        "fp ipe derechos laborales"
+      ]
+    },
+    {
+      "id": "fp_modulo_sostenibilidad_finalidad",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Para qué sirve el módulo de Sostenibilidad aplicada al sistema productivo?",
+      "variantes": [
+        "módulo sostenibilidad aplicada sistema productivo FP",
+        "sostenibilidad aplicada finalidad FP",
+        "economía verde impacto ambiental módulo FP",
+        "FP módulo sostenibilidad"
+      ],
+      "required_terms": [
+        "sostenibilidad",
+        "fp"
+      ],
+      "respuesta": "El módulo de Sostenibilidad aplicada al sistema productivo desarrolla conocimientos y competencias básicas en economía verde, sostenibilidad e impacto ambiental de la actividad.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, de 18 de julio, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 51,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "ocesos productivos del sector correspondiente, siendo su curriculo basico el fijado en el anexo VI para ciclos de grado medio y el fijado en el anexo VII para ciclos formativos de grado superior. Articulo 100. Modulo de Sostenibilidad aplicada al sistema productivo. El modulo de Sostenibilidad aplicada al sistema productivo tendra como finalidad el desarrollo de conocimiento y competencias basicas en economia verde, sostenibilidad e impacto ambiental de la actividad, asi como las condiciones en que las exigencias de la transicion ecologica modifican los procesos productivos del sector correspondiente, siendo su curriculo basico, comun a los ciclos formativos de grado medio y superior, el fijado en el anexo VIII de esta disposicion. Articulo 101. Modulo de Ingles profesional. 1. El modulo de Ingles profesional tendra como finalidad el d..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "para que sirve el modulo de sostenibilidad aplicada al sistema productivo",
+        "modulo sostenibilidad aplicada sistema productivo fp",
+        "sostenibilidad aplicada finalidad fp",
+        "economia verde impacto ambiental modulo fp",
+        "fp modulo sostenibilidad"
+      ]
+    },
+    {
+      "id": "alumnado_derecho_confidencialidad_datos",
+      "bloque": "general",
+      "pregunta_canonica": "¿Tiene el alumnado derecho a la confidencialidad de sus datos personales?",
+      "variantes": [
+        "derecho confidencialidad datos personales alumnado",
+        "datos personales alumnado confidencialidad",
+        "decreto derechos deberes confidencialidad datos",
+        "pueden difundirse datos personales alumnos"
+      ],
+      "required_terms": [
+        "datos",
+        "alumnado"
+      ],
+      "respuesta": "El alumnado tiene derecho a la confidencialidad de sus datos personales, sin perjuicio de comunicaciones necesarias para la Administración educativa u obligaciones legales.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, de 17 de mayo, derechos y deberes del alumnado en Castilla y León",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 5,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "e higiene, a través de la adopción de medidas adecuadas de prevención y de actuación. d) Un ambiente de convivencia que permita el normal desarrollo de las actividades académicas y fomente el respeto mutuo. e) La confidencialidad en sus datos personales sin perjuicio de las comunicaciones necesarias para la Administración educativa y la obligación que hubiere, en su caso, de informar a la autoridad competente. Artículo 7. Derecho a ser evaluado objetivamente. 1. Todos los alumnos tienen derecho a que su dedicación, esfuerzo y rendimiento sean valorados y reconocidos con objetividad. 2. Este derecho implica: a) Recibir información acerca de los procedimientos, criterios y resultados de la evaluación, de acuerdo con los objetivos y contenidos de la enseñanza. b) Obtener aclaraciones del profesorado y, en su caso, efectuar reclam"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "tiene el alumnado derecho a la confidencialidad de sus datos personales",
+        "derecho confidencialidad datos personales alumnado",
+        "datos personales alumnado confidencialidad",
+        "decreto derechos deberes confidencialidad datos",
+        "pueden difundirse datos personales alumnos"
+      ]
+    },
+    {
+      "id": "alumnado_derecho_seguridad_higiene",
+      "bloque": "general",
+      "pregunta_canonica": "¿Tiene el alumnado derecho a condiciones adecuadas de seguridad e higiene?",
+      "variantes": [
+        "derecho alumnado seguridad higiene",
+        "condiciones seguridad higiene centro educativo",
+        "alumnado seguridad higiene prevención actuación",
+        "derechos alumnos ambiente seguro"
+      ],
+      "required_terms": [
+        "seguridad",
+        "alumnado"
+      ],
+      "respuesta": "El alumnado tiene derecho a disponer en el centro de condiciones adecuadas de seguridad e higiene mediante medidas adecuadas de prevención y actuación.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, de 17 de mayo, derechos y deberes del alumnado en Castilla y León",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 5,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "Página 5 de 28 b) El respeto a la libertad de conciencia y a sus convicciones ideológicas, religiosas o morales. c) La disposición en el centro de unas condiciones adecuadas de seguridad e higiene, a través de la adopción de medidas adecuadas de prevención y de actuación. d) Un ambiente de convivencia que permita el normal desarrollo de las actividades académicas y fomente el respeto mutuo. e) La confidencialidad en sus datos personales sin perjuicio de las comunicaciones necesarias para la Administración educativa y la obligación que hubiere, en su caso, de informar a la autoridad competente. Artículo 7. Derecho a ser evaluado objetivamente. 1. Todos los alumnos tienen derecho a que su dedicación, esfuerzo y rendimiento sean valorados y reconocidos con"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "tiene el alumnado derecho a condiciones adecuadas de seguridad e higiene",
+        "derecho alumnado seguridad higiene",
+        "condiciones seguridad higiene centro educativo",
+        "alumnado seguridad higiene prevencion actuacion",
+        "derechos alumnos ambiente seguro"
+      ]
+    },
+    {
+      "id": "alumnado_derecho_ambiente_convivencia",
+      "bloque": "general",
+      "pregunta_canonica": "¿Tiene el alumnado derecho a un ambiente de convivencia adecuado?",
+      "variantes": [
+        "derecho ambiente de convivencia alumnado",
+        "convivencia normal desarrollo actividades académicas",
+        "derecho alumnado respeto mutuo centro",
+        "ambiente convivencia actividades académicas"
+      ],
+      "required_terms": [
+        "convivencia",
+        "alumnado"
+      ],
+      "respuesta": "El alumnado tiene derecho a un ambiente de convivencia que permita el normal desarrollo de las actividades académicas y fomente el respeto mutuo.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, de 17 de mayo, derechos y deberes del alumnado en Castilla y León",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 5,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "onvicciones ideológicas, religiosas o morales. c) La disposición en el centro de unas condiciones adecuadas de seguridad e higiene, a través de la adopción de medidas adecuadas de prevención y de actuación. d) Un ambiente de convivencia que permita el normal desarrollo de las actividades académicas y fomente el respeto mutuo. e) La confidencialidad en sus datos personales sin perjuicio de las comunicaciones necesarias para la Administración educativa y la obligación que hubiere, en su caso, de informar a la autoridad competente. Artículo 7. Derecho a ser evaluado objetivamente. 1. Todos los alumnos tienen derecho a que su dedicación, esfuerzo y rendimiento sean valorados y reconocidos con objetividad. 2. Este derecho implica: a) Recibir información acerca de los procedimientos, criterios y resultados de la evaluación,"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "tiene el alumnado derecho a un ambiente de convivencia adecuado",
+        "derecho ambiente de convivencia alumnado",
+        "convivencia normal desarrollo actividades academicas",
+        "derecho alumnado respeto mutuo centro",
+        "ambiente convivencia actividades academicas"
+      ]
+    },
+    {
+      "id": "alumnado_deber_asistir_puntualidad",
+      "bloque": "general",
+      "pregunta_canonica": "¿Tiene el alumnado el deber de asistir a clase con puntualidad?",
+      "variantes": [
+        "deber asistir a clase puntualidad alumnado",
+        "faltas asistencia puntualidad deber alumnado",
+        "deber básico asistir a clase",
+        "alumnado debe asistir y ser puntual"
+      ],
+      "required_terms": [
+        "asistir",
+        "clase"
+      ],
+      "respuesta": "Entre los deberes del alumnado se incluye asistir a clase respetando los horarios establecidos y participar en las actividades académicas programadas.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, de 17 de mayo, derechos y deberes del alumnado en Castilla y León",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 6,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "studiar. 1. Todos los alumnos tienen el deber de estudiar y esforzarse para conseguir el máximo rendimiento académico, según sus capacidades, y el pleno desarrollo de su personalidad. 2. Este deber implica: a) Asistir a clase respetando los horarios establecidos y participar en las actividades académicas programadas. b) Realizar las actividades encomendadas por los profesores en el ejercicio de sus funciones docentes, así como seguir sus orientaciones y directrices. Artículo 11. Deber de respetar a los demás. 1. Todos los alumnos tienen el deber de respetar a los demás. 2. Este deber implica: a) Permitir que sus compañeros puedan ejercer todos y cada uno de los derechos establecidos en este Decreto. b) Respetar la libertad de conciencia, las convicciones religiosas y morales y la dignidad, integridad e intimid"
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "normalizado_variantes": [
+        "tiene el alumnado el deber de asistir a clase con puntualidad",
+        "deber asistir a clase puntualidad alumnado",
+        "faltas asistencia puntualidad deber alumnado",
+        "deber basico asistir a clase",
+        "alumnado debe asistir y ser puntual"
       ]
     }
   ]

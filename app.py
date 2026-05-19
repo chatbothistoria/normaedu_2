@@ -220,13 +220,34 @@ _FAQ_SINONIMOS = {
     "permiso": ["permiso", "dias", "dia", "baja"],
     "areas": ["areas", "materias", "asignaturas", "ambitos"],
     "cursos": ["cursos", "anos", "duracion"],
+    "reclamacion": ["reclamacion", "reclamar", "reclamaciones", "reclamo"],
+    "calificaciones": ["calificaciones", "calificacion", "califica", "califican", "notas", "nota", "in", "su", "bi", "nt", "sb"],
+    "permanencia": ["permanencia", "permanecer", "repetir", "repeticion"],
+    "duracion": ["duracion", "dura", "duran", "cuanto", "cuantos"],
+    "acceso": ["acceso", "acceder", "entrar", "requisitos"],
+    "tutor": ["tutor", "tutora", "supervisa", "supervision", "seguimiento"],
+    "repetir": ["repetir", "repite", "repiten", "repeticion", "permanecer", "permanencia"],
 }
 
 
 def _term_faq_presente(termino: str, pregunta_n: str) -> bool:
     termino_n = _normalizar_faq(termino)
     opciones = _FAQ_SINONIMOS.get(termino_n, [termino_n])
-    return any(op and op in pregunta_n for op in opciones)
+    tokens_pregunta = set(pregunta_n.split())
+
+    for op in opciones:
+        op = _normalizar_faq(op)
+        if not op:
+            continue
+        # Evita falsos positivos con términos de una sola letra, por ejemplo
+        # required_terms=["d"] activando cualquier pregunta que contenga "de".
+        if re.fullmatch(r"[a-z]", op):
+            if op in tokens_pregunta:
+                return True
+            continue
+        if op in pregunta_n:
+            return True
+    return False
 
 
 def _bloque_faq_compatible(faq_bloque: str, bloque_elegido: str) -> bool:
@@ -260,6 +281,9 @@ def _faq_contiene_contexto_familiar_no_profesional(pregunta_n: str) -> bool:
         "familias de alumnos", "familias del alumnado", "padres", "madres",
         "padre", "madre", "tutor", "tutores", "reunion", "reuniones",
         "divorciado", "divorciados", "custodia", "familia del alumno",
+        "familias pueden", "familias participan", "participan", "participar",
+        "participacion de familias", "familias en un centro", "en un centro",
+        "centro educativo", "centro de fp",
     ]
     return any(t in pregunta_n for t in terminos_contexto)
 
@@ -267,35 +291,82 @@ def _faq_contiene_contexto_familiar_no_profesional(pregunta_n: str) -> bool:
 def _faq_contiene_patron_identificativo(pregunta: str, pregunta_n: str) -> bool:
     """Detecta consultas con datos potencialmente identificativos.
 
-    Es una protección previa al RAG/LLM: si el usuario escribe un caso con
-    nombres, DNI, expedientes, diagnósticos o expresiones tipo "alumno llamado",
-    respondemos con la FAQ de privacidad y no enviamos la consulta al modelo.
+    Criterio v0.4.6:
+    - Bloquea nombres propios, DNI/NIE y preguntas explícitas sobre introducir datos
+      personales en la app.
+    - No bloquea preguntas normativas abstractas ni casos formulados expresamente
+      como anonimizados/sin nombres, salvo que incluyan un identificador real o el
+      usuario pregunte por introducir datos sensibles concretos.
     """
+    pregunta_original = pregunta or ""
+
     patron_nombre = re.compile(
         r"\b(alumno|alumna|menor|docente|profesor|profesora)\s+"
         r"[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+"
     )
-    hay_nombre_propio = bool(patron_nombre.search(pregunta or ""))
+    hay_nombre_propio = bool(patron_nombre.search(pregunta_original))
 
-    terminos_duros = [
-        "dni", "nie", "nif", "expediente", "diagnostico", "diagnostico medico",
-        "tdah", "tea", "salud", "medico", "medica", "informe medico",
-        "sancion", "sanciones", "datos personales", "datos de alumnos",
-        "apellidos",
-    ]
-    if _faq_tiene_alguno(pregunta_n, terminos_duros):
+    # DNI/NIE con formato real aproximado. No bloquea preguntas abstractas sobre DNI.
+    patron_documento = re.compile(r"\b(?:\d{8}[A-Z]|[XYZ]\d{7}[A-Z])\b", re.IGNORECASE)
+    hay_documento_real = bool(patron_documento.search(pregunta_original))
+
+    if hay_nombre_propio or hay_documento_real:
         return True
 
-    # Si el usuario dice explícitamente que NO va a poner nombres o que anonimiza,
-    # no bloqueamos una consulta general. Se seguirá usando RAG normal.
     contexto_anonimo = _faq_tiene_alguno(pregunta_n, [
         "sin nombre", "sin nombres", "sin datos", "anonimo", "anonima",
         "anonimizado", "anonimizada", "anonimizar", "sin identificar",
     ])
-    if contexto_anonimo and not hay_nombre_propio:
+
+    habla_app_o_entrada = _faq_tiene_alguno(pregunta_n, [
+        "app", "aplicacion", "chat", "meter", "poner", "introducir",
+        "subir", "pegar", "enviar", "escribir", "aqui", "caso concreto",
+        "que hago con", "que hacer con",
+    ])
+    habla_datos = _faq_tiene_alguno(pregunta_n, [
+        "nombre", "nombres", "apellidos", "dni", "nie", "nif", "datos personales",
+        "datos de alumnos", "expediente", "informe medico", "diagnostico",
+        "diagnostico medico", "tdah", "tea", "salud", "medico", "medica",
+    ])
+    habla_persona = _faq_tiene_alguno(pregunta_n, [
+        "alumno", "alumnos", "alumna", "alumnas", "menor", "menores",
+        "familia", "familias", "docente", "profesor", "profesora",
+    ])
+
+    accion_introducir_en_app = _faq_tiene_alguno(pregunta_n, [
+        "app", "aplicacion", "chat", "meter", "poner", "introducir",
+        "subir", "pegar", "enviar", "escribir", "aqui",
+    ])
+    pregunta_explicitamente_introducir_datos = habla_app_o_entrada and habla_datos and habla_persona
+
+    # Regla de seguridad adicional v0.4.8:
+    # si el usuario pregunta por introducir/subir/pegar en la app documentación o
+    # datos sensibles de alumnado, bloqueamos con la FAQ de privacidad incluso si
+    # dice que están anonimizados. La anonimización real no puede verificarse aquí.
+    dato_o_documento_sensible = _faq_tiene_alguno(pregunta_n, [
+        "datos personales", "datos de alumnos", "dato personal", "dni", "nie", "nif",
+        "nombre", "nombres", "apellidos", "expediente", "expediente disciplinario",
+        "expediente medico", "informe medico", "informe psicopedagogico",
+        "diagnostico", "diagnostico medico", "historial medico", "salud",
+    ])
+    accion_de_entrada = _faq_tiene_alguno(pregunta_n, [
+        "app", "aplicacion", "chat", "meter", "poner", "introducir",
+        "subir", "pegar", "enviar", "escribir", "aqui",
+    ])
+    if accion_de_entrada and dato_o_documento_sensible:
+        return True
+
+    # Si el usuario ha anonimizado explícitamente y no pregunta por introducir datos
+    # o documentación sensible en la app, dejamos que la consulta normativa vaya al RAG.
+    # Expresiones como “qué hago con...” no bastan para bloquear cuando la consulta dice “sin nombres”.
+    if contexto_anonimo and not (accion_introducir_en_app and habla_datos and habla_persona):
         return False
 
-    if _faq_tiene_alguno(pregunta_n, ["nombres de alumnos", "nombre de un alumno"]):
+    if pregunta_explicitamente_introducir_datos:
+        return True
+
+    # Expresiones explícitas de identificación aunque no haya nombre propio escrito.
+    if _faq_tiene_alguno(pregunta_n, ["nombres de alumnos", "nombre de un alumno", "apellidos del alumno"]):
         return True
 
     if _faq_tiene_todos(pregunta_n, [
@@ -304,9 +375,25 @@ def _faq_contiene_patron_identificativo(pregunta: str, pregunta_n: str) -> bool:
     ]):
         return True
 
-    # Detecta patrones sencillos como "alumno Juan Pérez" o "profesora Ana López".
-    return hay_nombre_propio
+    return False
 
+
+def _faq_match_exacta(pregunta_n: str, bloque_elegido: str):
+    """Coincidencia exacta contra pregunta canónica o variantes normalizadas.
+
+    Esto garantiza que las FAQ verificadas respondan a sus propias variantes
+    previstas, sin rebajar el umbral global ni aumentar falsos positivos.
+    """
+    if not pregunta_n:
+        return None
+    for faq in faq_normativa:
+        if not _bloque_faq_compatible(faq.get("bloque", ""), bloque_elegido):
+            continue
+        textos = [faq.get("pregunta_canonica", "")] + faq.get("variantes", [])
+        for texto in textos:
+            if _normalizar_faq(texto) == pregunta_n:
+                return faq
+    return None
 
 def _buscar_faq_por_id(faq_id: str):
     for faq in faq_normativa:
@@ -330,18 +417,113 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
 
     # 1) Número de familias profesionales de FP.
     # Debe ser muy claro que "familias" significa familias profesionales, no familias del alumnado.
-    if _faq_tiene_alguno(p, ["fp", "formacion profesional"]):
+    if _faq_tiene_alguno(p, ["fp", "formacion profesional"]) or bloque_elegido == "fp":
+        # Reglas de acceso: deben ir antes de las reglas genéricas de “grado”,
+        # porque “acceder a grado medio/superior” pregunta por requisitos,
+        # no por la definición del grado.
+        habla_acceso = _faq_tiene_alguno(p, ["acceder", "acceso", "entrar", "requisitos", "necesito", "puedo entrar"])
+        if habla_acceso and _faq_tiene_alguno(p, ["grado medio", "ciclo formativo de grado medio"]):
+            faq = _buscar_faq_por_id("fp_acceso_grado_medio_requisitos")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if habla_acceso and _faq_tiene_alguno(p, ["grado superior", "ciclo formativo de grado superior"]):
+            faq = _buscar_faq_por_id("fp_acceso_grado_superior_requisitos")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+        # Duración del Grado E: debe ganar frente a la FAQ general de “qué es Grado E”.
+        if _faq_tiene_alguno(p, ["grado e"]) and _faq_tiene_alguno(p, ["dura", "duracion", "cuanto dura", "cuantas horas", "horas"]):
+            faq = _buscar_faq_por_id("fp_grado_e_duracion_cursos_especializacion")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+        # Reglas directas para Grados A, B, C, D y E. Se evalúan antes de otras
+        # reglas de FP para evitar que una letra suelta active el Grado D/E.
+        grados_directos = [
+            ("grado a", "fp_grado_a_microacreditacion"),
+            ("grado b", "fp_grado_b_certificado_competencia"),
+            ("grado c", "fp_grado_c_certificado_profesional"),
+            ("grado d", "fp_grado_d"),
+            ("grado e", "fp_grado_e"),
+        ]
+        p_pad_fp = f" {p} "
+        for frase_grado, faq_id in grados_directos:
+            # Debe aparecer la expresión exacta "grado a/b/c/d/e" como palabras.
+            # Evitamos falsos positivos como "grado de satisfacción" y
+            # "grado a distancia" (a = preposición, no Grado A).
+            if f" {frase_grado} " in p_pad_fp:
+                if frase_grado == "grado a" and _faq_tiene_alguno(p, ["grado a distancia", "grado a partir"]):
+                    continue
+                faq = _buscar_faq_por_id(faq_id)
+                if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                    return faq, 1.0
+
         pide_numero = _faq_tiene_alguno(p, ["cuantas", "cuantos", "numero", "13", "26", "hay", "existen", "me dices cuantas"])
         menciona_familias_profesionales = _faq_tiene_alguno(p, ["familias profesionales", "familia profesional"])
         menciona_familias_en_fp = _faq_tiene_alguno(p, ["familias"]) and not _faq_contiene_contexto_familiar_no_profesional(p)
-        if pide_numero and (menciona_familias_profesionales or menciona_familias_en_fp):
+        pregunta_sobre_ciclos_por_familia = _faq_tiene_todos(p, [
+            ["ciclos", "ciclo"],
+            ["cada familia", "por familia", "de cada familia"],
+        ])
+        if pide_numero and not pregunta_sobre_ciclos_por_familia and (menciona_familias_profesionales or menciona_familias_en_fp):
             faq = _buscar_faq_por_id("fp_numero_familias")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+        # Duración de ciclos de grado medio/superior. Regla separada para evitar
+        # que preguntas naturales tipo "cuántos años dura un grado medio" se pierdan,
+        # sin activar respuestas sobre requisitos o familias profesionales.
+        habla_grado_ms = _faq_tiene_alguno(p, ["grado medio", "grado superior", "ciclo formativo", "ciclos formativos"])
+        pide_duracion = _faq_tiene_alguno(p, ["dura", "duran", "duracion", "cuanto tiempo", "cuantos anos", "cuantas horas", "anos dura"])
+        if habla_grado_ms and pide_duracion:
+            faq = _buscar_faq_por_id("fp_grado_medio_superior_duracion")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    # 2) Calificaciones cualitativas de Primaria en Castilla y León.
+    if _faq_tiene_alguno(p, ["primaria", "educacion primaria"]):
+        if _faq_tiene_alguno(p, ["documentos oficiales", "actas", "expediente academico", "historial academico", "informe final"]):
+            faq = _buscar_faq_por_id("primaria_documentos_evaluacion")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+        p_pad = f" {p} "
+        menciona_codigos = (
+            "in su bi nt sb" in p
+            or "insuficiente suficiente bien notable sobresaliente" in p
+            or all(f" {cod} " in p_pad for cod in ["in", "su", "bi", "nt", "sb"])
+        )
+        habla_notas = _faq_tiene_alguno(p, ["calificaciones", "calificacion", "notas", "evaluar", "evaluacion", "de donde sale"])
+        if menciona_codigos and habla_notas:
+            faq = _buscar_faq_por_id("primaria_calificaciones_cualitativas_cyl")
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
 
     # 2) Evaluación de Bachillerato en Castilla y León.
     # Permitimos que "Orden EDU/425/2024" active la FAQ aunque el usuario no escriba CYL.
     if _faq_tiene_alguno(p, ["bachillerato", "bachiller"]):
+        if _faq_tiene_alguno(p, ["documentos oficiales", "actas", "expediente academico", "historial academico", "informe personal"]):
+            faq = _buscar_faq_por_id("bachillerato_documentos_evaluacion")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+        # Título de Bachiller desde Técnico de FP.
+        if _faq_tiene_alguno(p, ["tecnico", "titulado tecnico", "titulo de tecnico"]) and _faq_tiene_alguno(p, ["fp", "formacion profesional"]):
+            faq = _buscar_faq_por_id("bachillerato_titulo_desde_fp")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+        # Reglas específicas para evitar que una FAQ general de promoción secuestre
+        # preguntas sobre dos materias pendientes o titulación con una materia.
+        if _faq_tiene_alguno(p, ["titular", "titulo", "obtener titulo", "obtener bachillerato"]) and _faq_tiene_alguno(p, ["una materia", "1 materia", "materia suspensa", "una suspensa", "una asignatura", "asignatura suspensa", "asignatura pendiente"]):
+            faq = _buscar_faq_por_id("bachillerato_titulo_una_materia_condiciones")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["promocionar", "promocion", "pasar de curso", "pasar a segundo", "pasar  segundo"]) and _faq_tiene_alguno(p, ["dos materias", "2 materias", "dos suspensas", "pendientes"]):
+            faq = _buscar_faq_por_id("bachillerato_promocion_dos_materias")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
         habla_evaluacion = _faq_tiene_alguno(p, ["evaluacion", "evaluar", "calificacion", "calificaciones"])
         habla_cyl = _faq_tiene_alguno(p, ["castilla y leon", "castilla leon", "cyl", "castilla"])
         habla_orden_425 = _faq_tiene_alguno(p, ["orden 425 2024", "edu 425 2024", "orden edu 425", "425 2024"])
@@ -351,23 +533,73 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
 
-    # 3) Permiso por hospitalización de familiar de primer grado.
-    # Evitamos falsos positivos tipo "mi padre trabaja en un hospital".
+    # 2.b) Permanencia máxima en Bachillerato ordinario.
+    if _faq_tiene_alguno(p, ["bachillerato", "bachiller"]):
+        habla_permanencia = _faq_tiene_alguno(p, ["permanecer", "permanencia", "maximo", "maxima", "cuanto tiempo", "cuantos anos", "estar", "dura", "duracion"])
+        habla_regimen_ordinario = _faq_tiene_alguno(p, ["ordinario", "regimen ordinario", "anos", "cuatro", "4"])
+        if habla_permanencia and habla_regimen_ordinario:
+            faq = _buscar_faq_por_id("bachillerato_permanencia_cuatro_anos")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    # 3) Permiso por hospitalización/enfermedad grave de familiar de primer grado.
+    # Evitamos falsos positivos tipo "mi padre trabaja en un hospital" y
+    # distinguimos misma localidad frente a distinta localidad.
     if _faq_tiene_alguno(p, ["padre", "madre", "familiar de primer grado", "primer grado"]):
-        hospitalizacion_real = _faq_tiene_alguno(p, ["hospitalizado", "hospitalizada", "hospitalizacion", "ingresado", "ingresada", "ingreso hospitalario"])
-        desplazamiento = _faq_tiene_alguno(p, ["provincia", "localidad", "ciudad", "fuera", "distinta", "otra", "mismo municipio", "misma localidad"])
+        hospitalizacion_real = _faq_tiene_alguno(p, ["hospitalizado", "hospitalizada", "hospitalizacion", "ingresado", "ingresada", "ingreso hospitalario", "enfermedad grave"])
         tipo_permiso = _faq_tiene_alguno(p, ["permiso", "baja", "licencia", "vacaciones", "dias", "dia"])
-        if hospitalizacion_real and desplazamiento and tipo_permiso:
+        misma_localidad = _faq_tiene_alguno(p, [
+            "misma localidad", "mismo municipio", "misma ciudad",
+            "en mi ciudad", "en mi localidad", "en el mismo municipio",
+        ])
+        # Debe ser una referencia territorial clara. No se aceptan palabras sueltas
+        # como "otra", "distinta" o "fuera", porque generan falsos positivos:
+        # "otra cosa", "otra planta del hospital", "fuera del quirófano", etc.
+        distinta_localidad = _faq_tiene_alguno(p, [
+            "distinta localidad", "distinto municipio", "otra localidad",
+            "otra ciudad", "otra provincia", "otro municipio",
+            "fuera de mi provincia", "fuera de la provincia",
+            "fuera de mi localidad", "fuera de mi municipio",
+            "fuera de mi ciudad", "en distinta localidad",
+            "en otro municipio", "en otra localidad", "en otra ciudad",
+            "en otra provincia",
+        ])
+        if hospitalizacion_real and tipo_permiso and misma_localidad:
+            faq = _buscar_faq_por_id("permiso_primer_grado_misma_localidad")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if hospitalizacion_real and tipo_permiso and distinta_localidad:
             faq = _buscar_faq_por_id("permiso_hospitalizacion_padre")
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
 
-    # 4) Privacidad y datos personales.
-    if _faq_contiene_patron_identificativo(pregunta, p) or _faq_tiene_todos(p, [
+    # 4) Derecho a confidencialidad de datos del alumnado.
+    # Debe ganar frente a la FAQ de advertencia de privacidad cuando la pregunta
+    # es abstracta/normativa y no introduce un caso identificable.
+    if _faq_tiene_todos(p, [
+        ["derecho", "tiene derecho", "confidencialidad"],
+        ["confidencialidad", "datos personales"],
+        ["alumnado", "alumno", "alumnos"],
+    ]):
+        faq = _buscar_faq_por_id("alumnado_derecho_confidencialidad_datos")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    # 5) Privacidad y datos personales.
+    contexto_anonimo = _faq_tiene_alguno(p, [
+        "sin nombre", "sin nombres", "sin datos", "anonimo", "anonima",
+        "anonimizado", "anonimizada", "anonimizar", "sin identificar",
+    ])
+    combo_privacidad = _faq_tiene_todos(p, [
         ["nombre", "nombres", "dni", "datos", "expediente", "medico", "medica", "salud", "diagnostico", "tdah"],
         ["alumno", "alumnos", "alumna", "alumnas", "menor", "menores", "familia", "familias", "docente", "profesor", "profesora"],
         ["app", "aplicacion", "meter", "poner", "introducir", "subir", "caso concreto", "que hacer", "que hago", "aqui"],
-    ]):
+    ])
+    accion_introducir_en_app = _faq_tiene_alguno(p, [
+        "app", "aplicacion", "chat", "meter", "poner", "introducir",
+        "subir", "pegar", "enviar", "escribir", "aqui",
+    ])
+    if _faq_contiene_patron_identificativo(pregunta, p) or (combo_privacidad and (not contexto_anonimo or accion_introducir_en_app)):
         faq = _buscar_faq_por_id("privacidad_no_datos_personales_app")
         if _faq_bloque_intencion_ok(faq, bloque_elegido):
             return faq, 1.0
@@ -384,6 +616,10 @@ def buscar_faq_verificada(pregunta: str, bloque_elegido: str):
     pregunta_tokens = _tokens_faq(pregunta)
     if not pregunta_n or not pregunta_tokens:
         return None, 0.0
+
+    faq_exacta = _faq_match_exacta(pregunta_n, bloque_elegido)
+    if faq_exacta:
+        return faq_exacta, 1.0
 
     faq_regla, score_regla = _faq_match_reglas_intencion(pregunta, bloque_elegido)
     if faq_regla:
@@ -405,6 +641,12 @@ def buscar_faq_verificada(pregunta: str, bloque_elegido: str):
         if faq.get("id") == "fp_numero_familias":
             menciona_profesional = _faq_tiene_alguno(pregunta_n, ["familias profesionales", "familia profesional"])
             if _faq_contiene_contexto_familiar_no_profesional(pregunta_n) and not menciona_profesional:
+                continue
+
+        # Evita que “cursos de formación” o “cursos docentes” activen las FAQ
+        # que explican cuántos cursos componen ESO/Bachillerato.
+        if faq.get("id") in {"eso_cursos", "bachillerato_cursos"}:
+            if _faq_tiene_alguno(pregunta_n, ["cursos de formacion", "curso de formacion", "formacion docente", "cursos docentes"]):
                 continue
 
         variantes = [faq.get("pregunta_canonica", "")] + faq.get("variantes", [])
