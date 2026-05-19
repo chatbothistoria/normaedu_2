@@ -20,7 +20,7 @@ MATCH_THRESHOLD_ALTO  = 0.40
 MATCH_THRESHOLD_BAJO  = 0.25
 MATCH_COUNT           = 8      # fragmentos finales enviados al LLM
 MATCH_COUNT_RETRIEVAL = 40     # candidatos recuperados antes de reordenar
-HISTORIAL_TURNOS      = 2
+HISTORIAL_TURNOS      = 0      # seguridad jurídica: no arrastrar respuestas previas al LLM
 MAX_HISTORIAL_LOCAL   = 10
 COLLECTION_NAME       = "normativa"
 
@@ -230,8 +230,9 @@ _STOPWORDS = {
     "de","en","a","y","o","e","u","que","si","no","más","pero",
     "yo","tú","él","ella","usted","nosotros","ellos","su","sus",
     "mi","mis","tu","tus","un","una","lo","le","les",
-    "docente","docentes","alumno","alumna","alumnos","alumnas",
-    "derecho","derechos","tiene","tendrá","podrá","podrán",
+    # No incluimos términos jurídicos/educativos como "docente", "alumno"
+    # o "derechos": pueden ser esenciales para recuperar normativa correcta.
+    "tiene","tendrá","podrá","podrán",
     "favor","hacer","realizar","solicitar","pedir",
 }
 
@@ -403,101 +404,107 @@ def recortar_contexto_xml(contexto_xml: str, max_chars: int = MAX_CHARS_CONTEXTO
     return contexto_xml[:max_chars] + "\n\n[CONTEXTO RECORTADO POR LÍMITE GRATUITO DE LA APP]"
 
 def construir_contexto_xml(fragmentos, enlaces_dict):
+    """Construye contexto con identificadores [F1], [F2]...
+
+    Esos identificadores son la única forma válida de cita que puede usar el LLM.
+    Así podemos validar después que no cite fragmentos inexistentes.
+    """
     contexto_xml = ""
     links_screen = []
     fuentes_pdf  = []
     for i, res in enumerate(fragmentos, 1):
+        fid      = f"F{i}"
         nombre   = res.get("nombre_archivo", "")
         pagina   = res.get("pagina_num", "")
         score    = res.get("similarity", "")
+        bloque   = res.get("bloque", "")
         nombre_l = nombre.replace(".pdf", "").replace("_", " ")
         score_s  = f"{score:.2f}" if isinstance(score, float) else ""
         contexto_xml += (
-            f'<fragmento id="{i}" documento="{nombre_l}" '
-            f'pagina="{pagina}" relevancia="{score_s}">\n'
+            f'<fragmento id="{fid}" cita_obligatoria="[{fid}]" documento="{nombre_l}" '
+            f'pagina="{pagina}" bloque="{bloque}" relevancia="{score_s}">\n'
             f'{res.get("contenido", "")}\n</fragmento>\n\n'
         )
         url = enlaces_dict.get(nombre)
         if url:
             # #page=N abre el PDF directamente en la página indicada en la mayoría de navegadores
             link = f"{url}#page={pagina}"
-            links_screen.append(f"[{nombre_l} — pág. {pagina}]({link})")
-            fuentes_pdf.append(f"{nombre_l} (Pág. {pagina}) — {url}")
+            links_screen.append(f"[{fid}] [{nombre_l} — pág. {pagina}]({link})")
+            fuentes_pdf.append(f"[{fid}] {nombre_l} (Pág. {pagina}) — {url}")
         else:
-            links_screen.append(f"**{nombre_l}** — pág. {pagina} *(enlace no disponible)*")
-            fuentes_pdf.append(f"{nombre_l} (Pág. {pagina})")
+            links_screen.append(f"[{fid}] **{nombre_l}** — pág. {pagina} *(enlace no disponible)*")
+            fuentes_pdf.append(f"[{fid}] {nombre_l} (Pág. {pagina})")
     return contexto_xml, links_screen, fuentes_pdf
 
+
+def validar_citas_fragmentos(respuesta: str, num_fragmentos: int):
+    """Valida que las citas [F1], [F2]... existan en el contexto enviado.
+
+    Devuelve: (es_valida, citas_detectadas, citas_invalidas).
+    No comprueba si la afirmación está bien sustentada; solo evita citas inexistentes.
+    """
+    import re
+    citas = [int(x) for x in re.findall(r"\[F(\d+)\]", respuesta or "")]
+    invalidas = sorted({c for c in citas if c < 1 or c > num_fragmentos})
+    return len(invalidas) == 0, sorted(set(citas)), invalidas
+
+
+def respuesta_segura_por_citas_invalidas(citas_invalidas):
+    inv = ", ".join(f"[F{x}]" for x in citas_invalidas)
+    return (
+        "## Respuesta\n"
+        "No puedo mostrar una respuesta suficientemente fiable porque la respuesta generada "
+        f"citó fragmentos que no existen en el contexto recuperado: {inv}.\n\n"
+        "## Qué puedes hacer\n"
+        "- Reformula la pregunta con más detalle.\n"
+        "- Selecciona el nivel educativo más adecuado.\n"
+        "- Consulta las fuentes oficiales mostradas o vuelve a intentarlo.\n\n"
+        "Esta protección evita mostrar una respuesta jurídica con citas no verificables."
+    )
+
 def construir_mensajes(pregunta, contexto_xml):
-    PROMPT_SISTEMA = """\
-Eres un asesor jurídico experto en normativa educativa española \
-(legislación estatal y de Castilla y León).
+    PROMPT_SISTEMA = """
+Eres NormaEdu 2, un asistente de consulta normativa educativa española.
+Tu función es ayudar a localizar y explicar normativa estatal y de Castilla y León a partir de fragmentos oficiales recuperados por la aplicación.
 
-FUENTES DE INFORMACIÓN:
-Dispones de dos fuentes:
-1. FRAGMENTOS NORMATIVOS: los <fragmento> proporcionados con el contexto.
-2. CONOCIMIENTO JURÍDICO PROPIO: tu formación en derecho educativo español.
+REGLA PRINCIPAL E INNEGOCIABLE:
+Responde SOLO con la información contenida en los <fragmento> proporcionados. No uses conocimiento jurídico propio, memoria del modelo, internet ni inferencias no apoyadas por los fragmentos.
 
-REGLAS:
-- Usa SIEMPRE los fragmentos como fuente principal.
-- Si los fragmentos contienen la respuesta, cítala con documento y página exactos.
-- Si los fragmentos son parciales o insuficientes, COMPLETA con tu conocimiento jurídico general pero indícalo claramente con: *(información general — verifica en la normativa oficial)*
-- NUNCA inventes artículos concretos ni números específicos que no estén en los fragmentos.
-- Cita el documento y la página de cada afirmación que extraigas de los fragmentos.
+REGLAS DE FIABILIDAD JURÍDICA:
+- Cada afirmación normativa concreta debe llevar una cita de fragmento con formato [F1], [F2], etc.
+- Solo puedes citar identificadores que aparezcan en el contexto: [F1], [F2], [F3]...
+- No cites artículos, disposiciones, leyes, decretos, órdenes, plazos, porcentajes, requisitos ni efectos jurídicos si no aparecen literalmente o de forma inequívoca en los fragmentos.
+- Si los fragmentos no contienen la respuesta exacta, di: "Con los fragmentos recuperados no hay información suficiente para responder con seguridad".
+- Si la pregunta pide un número exacto, una lista cerrada, un plazo o un artículo exacto, responde solo si ese dato aparece en los fragmentos.
+- No completes con "información general" ni con conocimiento externo.
+- No mezcles normas: distingue con cuidado Ley Orgánica, Real Decreto, Decreto autonómico y Orden autonómica.
+- No afirmes que una norma está vigente, derogada o consolidada salvo que los fragmentos lo indiquen.
+- No des asesoramiento jurídico individualizado ni tomes decisiones sobre alumnado, familias, docentes o centros.
 
-REGLAS DE FORMATO OBLIGATORIAS:
-- Usa ## y ### para estructurar secciones.
-- Cuando haya varios casos (distintos días según parentesco, distintos plazos...) usa SIEMPRE una tabla Markdown.
-- Para listas de requisitos o pasos usa viñetas con guion (-).
-- Lenguaje claro y accesible para docentes, sin jerga innecesaria.
-- Respuestas completas y detalladas — nunca cortes por brevedad.
-
-ESTRUCTURA OBLIGATORIA:
+FORMATO OBLIGATORIO:
 
 ## Respuesta
-[respuesta directa, clara y completa — mínimo 4-5 frases con todo el detalle relevante]
+Respuesta directa y prudente. Incluye citas [F#] en las frases normativas.
 
-## Normativa aplicable
-[tabla o lista con artículos, documentos y páginas — todos los casos relevantes]
+## Base normativa encontrada
+Tabla Markdown con columnas: Fragmento | Documento | Página | Qué acredita.
+Usa solo fragmentos realmente utilizados en la respuesta.
 
-## Qué debes hacer
-[pasos concretos y prácticos para el docente, familia o equipo directivo]
+## Límites de la respuesta
+Indica qué no puede afirmarse con seguridad si los fragmentos son incompletos.
 
----
-EJEMPLO:
+## Orientación práctica
+Solo incluye pasos prácticos si se desprenden directamente de los fragmentos. Si no, indica que debe consultarse la fuente oficial o al órgano competente.
 
-Pregunta: ¿Cuántos días de permiso tiene un docente por fallecimiento de familiar?
+ESTILO:
+- Español claro.
+- No inventes.
+- Mejor una respuesta incompleta pero fiable que una respuesta completa sin base documental.
+"""
 
-## Respuesta
-Los docentes funcionarios tienen derecho a permiso retribuido por fallecimiento,
-accidente o enfermedad grave de un familiar. La duración varía según el grado
-de parentesco y si se requiere desplazamiento fuera de la localidad.
-Este derecho está reconocido tanto en la normativa estatal (EBEP) como en los
-acuerdos de función pública de Castilla y León.
-
-## Normativa aplicable
-
-| Parentesco | Sin desplazamiento | Con desplazamiento |
-|---|---|---|
-| 1er grado: cónyuge, hijos, padres | 3 días hábiles | 5 días hábiles |
-| 2º grado: hermanos, abuelos, nietos, suegros | 2 días hábiles | 4 días hábiles |
-
-Fuente: EBEP, RD Legislativo 5/2015, artículo 48.a) — pág. 14
-
-## Qué debes hacer
-- Comunica el permiso a la dirección del centro lo antes posible.
-- Aporta el certificado de defunción o el parte médico al reincorporarte.
-- Los días cuentan como **hábiles**: no se incluyen fines de semana ni festivos.
-- Si hay desplazamiento, guarda los justificantes de viaje por si se requieren."""
-
+    # Seguridad jurídica: no arrastramos respuestas previas al LLM. Cada consulta
+    # debe fundamentarse solo en la pregunta actual y en los fragmentos recuperados.
     mensajes = [{"role": "system", "content": PROMPT_SISTEMA}]
-    ultimos = st.session_state.historial_completo[-HISTORIAL_TURNOS:]
-    for turno in ultimos:
-        resp_prev = turno["respuesta"]
-        if len(resp_prev) > 1200:
-            resp_prev = resp_prev[:1200] + "..."
-        mensajes.append({"role": "user",      "content": turno["pregunta"]})
-        mensajes.append({"role": "assistant", "content": resp_prev})
     mensajes.append({
         "role": "user",
         "content": f"CONTEXTO NORMATIVO:\n{contexto_xml}\n\nPREGUNTA: {pregunta}",
@@ -629,6 +636,19 @@ if submit and pregunta_input:
                     )
                     _resp.raise_for_status()
                     texto_final = _resp.json()["choices"][0]["message"]["content"]
+
+                    citas_ok, citas_detectadas, citas_invalidas = validar_citas_fragmentos(
+                        texto_final, len(resultados)
+                    )
+                    if not citas_ok:
+                        texto_final = respuesta_segura_por_citas_invalidas(citas_invalidas)
+                        st.warning("La respuesta generada citaba fragmentos inexistentes y ha sido bloqueada.")
+                    elif not citas_detectadas:
+                        st.warning(
+                            "La respuesta no contiene citas [F#]. Revísala con especial cautela; "
+                            "en la siguiente fase podremos hacer este control aún más estricto."
+                        )
+
                     st.markdown(texto_final)
 
                     fuentes_u  = list(dict.fromkeys(links_screen))

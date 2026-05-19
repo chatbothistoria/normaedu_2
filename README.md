@@ -24,3 +24,9 @@ QDRANT_API_KEY = "pega_aqui_tu_clave_de_qdrant"
 No subas nunca claves reales a GitHub. El archivo `.streamlit/secrets.toml.example` es solo una plantilla segura.
 
 Si falta alguna clave, la app ya no se caerá con un `KeyError`: mostrará una pantalla de configuración indicando qué secreto falta.
+
+## Control de fiabilidad jurídica
+
+Esta versión usa un prompt jurídico estricto: la respuesta debe basarse solo en los fragmentos recuperados de Qdrant y citar dichos fragmentos como `[F1]`, `[F2]`, etc.
+
+Si la respuesta generada cita fragmentos inexistentes, la app la bloquea. Si no incluye citas por fragmento, la app muestra una advertencia de cautela.
