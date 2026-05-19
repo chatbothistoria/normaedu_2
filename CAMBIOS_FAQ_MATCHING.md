@@ -1,14 +1,20 @@
-# Cambios de matching FAQ
+# Cambios FAQ matching — NormaEdu 2
 
-Se ha reforzado la capa de FAQ verificada sin añadir coste ni servicios externos.
+## Cambios aplicados
 
-## Cambios
+- Reglas de intención para activar FAQ críticas sin bajar el umbral general.
+- Protección frente a falsos positivos entre “familias profesionales” y “familias del alumnado”.
+- Protección frente a falsos positivos entre “hospitalizado/ingresado” y “trabaja en un hospital”.
+- Activación mejorada de la FAQ de evaluación de Bachillerato en Castilla y León.
+- FAQ de privacidad reforzada: evita enviar al modelo preguntas con nombres, DNI, expedientes, diagnósticos o datos médicos.
+- Extensión de la FAQ de permiso por hospitalización a padre/madre como familiar de primer grado.
 
-- Añadidas reglas conservadoras de intención para preguntas formuladas de forma liosa.
-- Reforzadas variantes de FAQ críticas: familias profesionales de FP, evaluación de Bachillerato en Castilla y León y permiso por hospitalización del padre.
-- Añadida FAQ de privacidad para evitar que el usuario introduzca datos personales de alumnado, familias o docentes.
-- Se mantiene el umbral alto de similitud general para evitar falsos positivos.
+## Auditoría
 
-## Criterio
+La última auditoría ejecutó 30 pruebas y obtuvo 30/30 PASS.
 
-La mejora prioriza seguridad jurídica: activar FAQ solo cuando la intención está clara. Si la pregunta es compleja o ambigua, la app sigue usando RAG estricto.
+Ver:
+
+- `AUDITORIA_EXHAUSTIVA_FAQ_MATCHING.md`
+- `resultados_auditoria_faq_matching_v4.csv`
+- `resultados_auditoria_faq_matching_v4.json`

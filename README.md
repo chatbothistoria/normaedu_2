@@ -30,3 +30,15 @@ Si falta alguna clave, la app ya no se caerá con un `KeyError`: mostrará una p
 Esta versión usa un prompt jurídico estricto: la respuesta debe basarse solo en los fragmentos recuperados de Qdrant y citar dichos fragmentos como `[F1]`, `[F2]`, etc.
 
 Si la respuesta generada cita fragmentos inexistentes, la app la bloquea. Si no incluye citas por fragmento, la app muestra una advertencia de cautela.
+
+
+## FAQ normativa verificada
+
+Esta versión incorpora una capa local `faq_normativa.json` que responde preguntas frecuentes verificadas antes de llamar a Qdrant/Cerebras.
+
+- No consume tokens de Cerebras.
+- No incrementa el contador de 10 consultas de IA.
+- Solo debe activarse ante coincidencias claras o reglas de intención conservadoras.
+- Las preguntas no cubiertas por FAQ pasan al RAG normal con prompt jurídico estricto.
+
+La auditoría de matching está documentada en `AUDITORIA_EXHAUSTIVA_FAQ_MATCHING.md` y los resultados de la última batería están en `resultados_auditoria_faq_matching_v4.csv/json`.

@@ -1,0 +1,31 @@
+n,bloque,pregunta,esperado,obtenido,score,resultado
+1,fp,"Oye, en FP, ¿eran 13 o 26 las familias profesionales? Me suena que antes eran menos.",fp_numero_familias,fp_numero_familias,1.0,PASS
+2,fp,"Si pregunto por “familias” en Formación Profesional, ¿me dices cuántas hay o me sacas ciclos concretos?",fp_numero_familias,fp_numero_familias,1.0,PASS
+3,fp,¿Informática y comunicaciones es una familia profesional o un ciclo?,,,0.0,PASS
+4,secundaria_bachillerato,"Para Bachillerato en Castilla y León, ¿la evaluación la regula la orden esa de mayo de 2024 o el real decreto estatal?",cyl_evaluacion_bach_norma,cyl_evaluacion_bach_norma,1.0,PASS
+5,infantil_primaria,"En Primaria, lo de evaluar con IN, SU, BI, NT y SB, ¿de dónde sale exactamente?",,,0.2418,PASS
+6,general,"Los derechos del alumnado, ¿van por la LOE, por la LODE o por el decreto de convivencia de Castilla y León? Me lío.",,,0.0,PASS
+7,general,¿El BOCYL manda más que el BOE si hablamos de colegios de Castilla y León?,,,0.0,PASS
+8,general,"Si una norma está en BOE y otra en BOCYL y dicen cosas distintas, ¿hago caso a la autonómica porque estoy en Castilla y León?",,,0.0,PASS
+9,general,¿Puedo meter nombres de alumnos en la app para que me diga qué hacer con un caso concreto?,privacidad_no_datos_personales_app,privacidad_no_datos_personales_app,1.0,PASS
+10,general,"Mi padre está hospitalizado fuera de mi provincia: ¿eso es baja, permiso, licencia o vacaciones?",permiso_hospitalizacion_padre,permiso_hospitalizacion_padre,1.0,PASS
+11,fp,"En FP hay muchas familias de alumnos en prácticas, ¿cuántas reuniones con padres hay?",,,0.371,PASS
+12,fp,"familias de alumnos en formación profesional, cuántas reuniones hay",,,0.5294,PASS
+13,fp,¿Cuántas familias profesionales tiene la FP?,fp_numero_familias,fp_numero_familias,1.0,PASS
+14,general,Mi padre trabaja en un hospital de otra provincia: ¿eso es baja o permiso?,,,0.6772,PASS
+15,general,"Mi padre fue ingresado en un hospital de otra provincia, ¿tengo permiso?",permiso_hospitalizacion_padre,permiso_hospitalizacion_padre,1.0,PASS
+16,general,Mi madre está hospitalizada fuera de mi provincia: ¿eso es baja o permiso?,permiso_hospitalizacion_padre,permiso_hospitalizacion_padre,1.0,PASS
+17,general,"Mi madre trabaja en un hospital de otra provincia, ¿tengo permiso?",,,0.0,PASS
+18,general,Puedo poner DNI de un alumno y su diagnóstico TDAH aquí?,privacidad_no_datos_personales_app,privacidad_no_datos_personales_app,1.0,PASS
+19,general,Necesito subir un expediente médico de una alumna a la app,privacidad_no_datos_personales_app,privacidad_no_datos_personales_app,1.0,PASS
+20,general,¿Qué hago con un alumno llamado Juan Pérez?,privacidad_no_datos_personales_app,privacidad_no_datos_personales_app,1.0,PASS
+21,general,"mi alumno Juan Pérez tiene un expediente disciplinario, ¿qué hago?",privacidad_no_datos_personales_app,privacidad_no_datos_personales_app,1.0,PASS
+22,general,¿Se puede preguntar un caso concreto sin nombres?,,,0.0,PASS
+23,secundaria_bachillerato,Orden EDU 425/2024: evalúa bachillerato en CYL?,cyl_evaluacion_bach_norma,cyl_evaluacion_bach_norma,0.9371,PASS
+24,general,cuantas familias profesionales hay en fp,fp_numero_familias,fp_numero_familias,1.0,PASS
+25,infantil_primaria,cuantas familias hay en fp,,,0.0,PASS
+26,fp,familia profesional informática y comunicaciones,,,0.0,PASS
+27,general,"tengo un alumno con dificultades de lectura, sin nombres, ¿qué norma miro?",,,0.0,PASS
+28,general,tengo una alumna llamada Ana López puedo ponerlo aquí,privacidad_no_datos_personales_app,privacidad_no_datos_personales_app,1.0,PASS
+29,general,puedo poner el nombre de una profesora en la app,privacidad_no_datos_personales_app,privacidad_no_datos_personales_app,1.0,PASS
+30,general,pregunta anonimizada sobre un alumno con TDAH,privacidad_no_datos_personales_app,privacidad_no_datos_personales_app,1.0,PASS

@@ -1,0 +1,272 @@
+[
+  {
+    "n": 1,
+    "bloque": "fp",
+    "pregunta": "Oye, en FP, ¿eran 13 o 26 las familias profesionales? Me suena que antes eran menos.",
+    "esperado": "fp_numero_familias",
+    "obtenido": "fp_numero_familias",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 2,
+    "bloque": "fp",
+    "pregunta": "Si pregunto por “familias” en Formación Profesional, ¿me dices cuántas hay o me sacas ciclos concretos?",
+    "esperado": "fp_numero_familias",
+    "obtenido": "fp_numero_familias",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 3,
+    "bloque": "fp",
+    "pregunta": "¿Informática y comunicaciones es una familia profesional o un ciclo?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 4,
+    "bloque": "secundaria_bachillerato",
+    "pregunta": "Para Bachillerato en Castilla y León, ¿la evaluación la regula la orden esa de mayo de 2024 o el real decreto estatal?",
+    "esperado": "cyl_evaluacion_bach_norma",
+    "obtenido": "cyl_evaluacion_bach_norma",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 5,
+    "bloque": "infantil_primaria",
+    "pregunta": "En Primaria, lo de evaluar con IN, SU, BI, NT y SB, ¿de dónde sale exactamente?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.2418,
+    "resultado": "PASS"
+  },
+  {
+    "n": 6,
+    "bloque": "general",
+    "pregunta": "Los derechos del alumnado, ¿van por la LOE, por la LODE o por el decreto de convivencia de Castilla y León? Me lío.",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 7,
+    "bloque": "general",
+    "pregunta": "¿El BOCYL manda más que el BOE si hablamos de colegios de Castilla y León?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 8,
+    "bloque": "general",
+    "pregunta": "Si una norma está en BOE y otra en BOCYL y dicen cosas distintas, ¿hago caso a la autonómica porque estoy en Castilla y León?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 9,
+    "bloque": "general",
+    "pregunta": "¿Puedo meter nombres de alumnos en la app para que me diga qué hacer con un caso concreto?",
+    "esperado": "privacidad_no_datos_personales_app",
+    "obtenido": "privacidad_no_datos_personales_app",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 10,
+    "bloque": "general",
+    "pregunta": "Mi padre está hospitalizado fuera de mi provincia: ¿eso es baja, permiso, licencia o vacaciones?",
+    "esperado": "permiso_hospitalizacion_padre",
+    "obtenido": "permiso_hospitalizacion_padre",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 11,
+    "bloque": "fp",
+    "pregunta": "En FP hay muchas familias de alumnos en prácticas, ¿cuántas reuniones con padres hay?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.371,
+    "resultado": "PASS"
+  },
+  {
+    "n": 12,
+    "bloque": "fp",
+    "pregunta": "familias de alumnos en formación profesional, cuántas reuniones hay",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.5294,
+    "resultado": "PASS"
+  },
+  {
+    "n": 13,
+    "bloque": "fp",
+    "pregunta": "¿Cuántas familias profesionales tiene la FP?",
+    "esperado": "fp_numero_familias",
+    "obtenido": "fp_numero_familias",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 14,
+    "bloque": "general",
+    "pregunta": "Mi padre trabaja en un hospital de otra provincia: ¿eso es baja o permiso?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.6772,
+    "resultado": "PASS"
+  },
+  {
+    "n": 15,
+    "bloque": "general",
+    "pregunta": "Mi padre fue ingresado en un hospital de otra provincia, ¿tengo permiso?",
+    "esperado": "permiso_hospitalizacion_padre",
+    "obtenido": "permiso_hospitalizacion_padre",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 16,
+    "bloque": "general",
+    "pregunta": "Mi madre está hospitalizada fuera de mi provincia: ¿eso es baja o permiso?",
+    "esperado": "permiso_hospitalizacion_padre",
+    "obtenido": "permiso_hospitalizacion_padre",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 17,
+    "bloque": "general",
+    "pregunta": "Mi madre trabaja en un hospital de otra provincia, ¿tengo permiso?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 18,
+    "bloque": "general",
+    "pregunta": "Puedo poner DNI de un alumno y su diagnóstico TDAH aquí?",
+    "esperado": "privacidad_no_datos_personales_app",
+    "obtenido": "privacidad_no_datos_personales_app",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 19,
+    "bloque": "general",
+    "pregunta": "Necesito subir un expediente médico de una alumna a la app",
+    "esperado": "privacidad_no_datos_personales_app",
+    "obtenido": "privacidad_no_datos_personales_app",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 20,
+    "bloque": "general",
+    "pregunta": "¿Qué hago con un alumno llamado Juan Pérez?",
+    "esperado": "privacidad_no_datos_personales_app",
+    "obtenido": "privacidad_no_datos_personales_app",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 21,
+    "bloque": "general",
+    "pregunta": "mi alumno Juan Pérez tiene un expediente disciplinario, ¿qué hago?",
+    "esperado": "privacidad_no_datos_personales_app",
+    "obtenido": "privacidad_no_datos_personales_app",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 22,
+    "bloque": "general",
+    "pregunta": "¿Se puede preguntar un caso concreto sin nombres?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 23,
+    "bloque": "secundaria_bachillerato",
+    "pregunta": "Orden EDU 425/2024: evalúa bachillerato en CYL?",
+    "esperado": "cyl_evaluacion_bach_norma",
+    "obtenido": "cyl_evaluacion_bach_norma",
+    "score": 0.9371,
+    "resultado": "PASS"
+  },
+  {
+    "n": 24,
+    "bloque": "general",
+    "pregunta": "cuantas familias profesionales hay en fp",
+    "esperado": "fp_numero_familias",
+    "obtenido": "fp_numero_familias",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 25,
+    "bloque": "infantil_primaria",
+    "pregunta": "cuantas familias hay en fp",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 26,
+    "bloque": "fp",
+    "pregunta": "familia profesional informática y comunicaciones",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 27,
+    "bloque": "general",
+    "pregunta": "tengo un alumno con dificultades de lectura, sin nombres, ¿qué norma miro?",
+    "esperado": "",
+    "obtenido": "",
+    "score": 0.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 28,
+    "bloque": "general",
+    "pregunta": "tengo una alumna llamada Ana López puedo ponerlo aquí",
+    "esperado": "privacidad_no_datos_personales_app",
+    "obtenido": "privacidad_no_datos_personales_app",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 29,
+    "bloque": "general",
+    "pregunta": "puedo poner el nombre de una profesora en la app",
+    "esperado": "privacidad_no_datos_personales_app",
+    "obtenido": "privacidad_no_datos_personales_app",
+    "score": 1.0,
+    "resultado": "PASS"
+  },
+  {
+    "n": 30,
+    "bloque": "general",
+    "pregunta": "pregunta anonimizada sobre un alumno con TDAH",
+    "esperado": "privacidad_no_datos_personales_app",
+    "obtenido": "privacidad_no_datos_personales_app",
+    "score": 1.0,
+    "resultado": "PASS"
+  }
+]

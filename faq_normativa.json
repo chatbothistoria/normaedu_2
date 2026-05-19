@@ -1,13 +1,14 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "0.1",
+    "version": "0.3",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
-    "total_faq": 60,
+    "total_faq": 61,
     "activacion_recomendada": "coincidencia conservadora previa al RAG; no usar para casos individualizados.",
     "total_faqs": 61,
-    "ultima_actualizacion": "2026-05-19"
+    "ultima_actualizacion": "2026-05-19",
+    "nota_auditoria": "Matcher endurecido tras segunda auditoría: protección adicional ante nombres propios y extensión del permiso de hospitalización a padre/madre como familiar de primer grado."
   },
   "faqs": [
     {
@@ -1885,7 +1886,7 @@
     {
       "id": "permiso_hospitalizacion_padre",
       "bloque": "general",
-      "pregunta_canonica": "¿Cuántos días de permiso tiene un docente por hospitalización grave de su padre en distinta localidad?",
+      "pregunta_canonica": "¿Cuántos días de permiso tiene un docente por hospitalización grave de su padre o madre en distinta localidad?",
       "variantes": [
         "padre hospitalizado distinta localidad docente",
         "permiso padre hospital hospitalización otra provincia maestro",
@@ -1896,13 +1897,17 @@
         "padre ingresado en otra provincia permiso docente",
         "cuántos días tengo si mi padre está en el hospital en otra ciudad",
         "mi padre en el hospital fuera de la localidad permiso o baja",
-        "permiso por padre hospitalizado fuera de provincia"
+        "permiso por padre hospitalizado fuera de provincia",
+        "madre hospitalizada fuera de mi provincia baja o permiso",
+        "mi madre está hospitalizada en otra ciudad cuántos días tengo",
+        "familiar de primer grado hospitalizado distinta localidad permiso docente",
+        "padre o madre ingresado en otra provincia permiso"
       ],
       "required_terms": [
         "padre",
         "localidad"
       ],
-      "respuesta": "Para personal funcionario docente de Castilla y León, por fallecimiento, accidente o enfermedad grave de familiar de primer grado se conceden tres días hábiles en la misma localidad y cinco días hábiles en distinta localidad.",
+      "respuesta": "Para personal funcionario docente de Castilla y León, por fallecimiento, accidente o enfermedad grave de familiar de primer grado (por ejemplo, padre o madre) se conceden tres días hábiles en la misma localidad y cinco días hábiles en distinta localidad.",
       "fuentes": [
         {
           "documento": "Orden EDU/423/2014, vacaciones, permisos y licencias del personal funcionario docente de Castilla y León",
@@ -1917,7 +1922,7 @@
       "riesgo": "bajo",
       "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
       "normalizado_variantes": [
-        "cuantos dias de permiso tiene un docente por hospitalizacion grave de su padre en distinta localidad",
+        "cuantos dias de permiso tiene un docente por hospitalizacion grave de su padre o madre en distinta localidad",
         "padre hospitalizado distinta localidad docente",
         "permiso padre hospital hospitalizacion otra provincia maestro",
         "enfermedad grave padre distinta localidad docente",
@@ -1927,7 +1932,11 @@
         "padre ingresado en otra provincia permiso docente",
         "cuantos dias tengo si mi padre esta en el hospital en otra ciudad",
         "mi padre en el hospital fuera de la localidad permiso o baja",
-        "permiso por padre hospitalizado fuera de provincia"
+        "permiso por padre hospitalizado fuera de provincia",
+        "madre hospitalizada fuera de mi provincia baja o permiso",
+        "mi madre esta hospitalizada en otra ciudad cuantos dias tengo",
+        "familiar de primer grado hospitalizado distinta localidad permiso docente",
+        "padre o madre ingresado en otra provincia permiso"
       ]
     },
     {
@@ -2110,13 +2119,18 @@
         "puedo introducir datos personales de un alumno",
         "puedo subir un caso concreto con nombre de un menor",
         "puedo escribir dni expediente o datos médicos de alumnos",
-        "puedo meter nombres de alumnos para que me diga qué hacer con un caso concreto"
+        "puedo meter nombres de alumnos para que me diga qué hacer con un caso concreto",
+        "qué hago con un alumno llamado Juan Pérez",
+        "tengo una alumna llamada Ana López puedo ponerlo aquí",
+        "mi alumno Juan Pérez tiene un expediente disciplinario",
+        "puedo poner un nombre y apellidos de un menor",
+        "puedo escribir el nombre de una profesora en la app"
       ],
       "required_terms": [
         "datos",
         "alumnos"
       ],
-      "respuesta": "No introduzcas nombres, DNI, expedientes, datos médicos, diagnósticos, sanciones ni información que permita identificar a alumnado, familias, docentes u otras personas. Para consultar un caso, anonímalo antes y formula la pregunta de forma general.",
+      "respuesta": "No introduzcas nombres, apellidos, DNI, expedientes, datos médicos, diagnósticos, sanciones ni información que permita identificar a alumnado, familias, docentes u otras personas. Para consultar un caso, anonímalo antes y formula la pregunta de forma general.",
       "fuentes": [
         {
           "documento": "AEPD - Guía para centros educativos / criterios de tratamiento de datos personales en centros educativos",
@@ -2137,7 +2151,12 @@
         "puedo introducir datos personales de un alumno",
         "puedo subir un caso concreto con nombre de un menor",
         "puedo escribir dni expediente o datos medicos de alumnos",
-        "puedo meter nombres de alumnos para que me diga que hacer con un caso concreto"
+        "puedo meter nombres de alumnos para que me diga que hacer con un caso concreto",
+        "que hago con un alumno llamado juan perez",
+        "tengo una alumna llamada ana lopez puedo ponerlo aqui",
+        "mi alumno juan perez tiene un expediente disciplinario",
+        "puedo poner un nombre y apellidos de un menor",
+        "puedo escribir el nombre de una profesora en la app"
       ]
     }
   ]
