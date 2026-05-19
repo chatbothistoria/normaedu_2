@@ -239,6 +239,81 @@ def _bloque_faq_compatible(faq_bloque: str, bloque_elegido: str) -> bool:
     return faq_bloque == bloque_elegido
 
 
+def _faq_tiene_alguno(pregunta_n: str, opciones) -> bool:
+    return any(_normalizar_faq(op) in pregunta_n for op in opciones if op)
+
+
+def _faq_tiene_todos(pregunta_n: str, grupos) -> bool:
+    """Cada grupo puede contener varios sinónimos; debe aparecer al menos uno por grupo."""
+    return all(_faq_tiene_alguno(pregunta_n, grupo) for grupo in grupos)
+
+
+def _buscar_faq_por_id(faq_id: str):
+    for faq in faq_normativa:
+        if faq.get("id") == faq_id:
+            return faq
+    return None
+
+
+def _faq_bloque_intencion_ok(faq: dict, bloque_elegido: str) -> bool:
+    return bool(faq) and _bloque_faq_compatible(faq.get("bloque", ""), bloque_elegido)
+
+
+def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
+    """Reglas conservadoras para preguntas frecuentes formuladas de forma liosa.
+
+    No sustituyen al matcher general: solo cubren casos muy acotados donde
+    exigir similitud textual alta genera falsos negativos, pero los términos
+    presentes dejan clara la intención del usuario.
+    """
+    p = _normalizar_faq(pregunta)
+
+    reglas = [
+        (
+            "fp_numero_familias",
+            [
+                ["fp", "formacion profesional"],
+                ["familias profesionales", "familias"],
+                ["cuantas", "numero", "13", "26", "cuantos", "hay", "existen", "me dices cuantas"],
+            ],
+        ),
+        (
+            "cyl_evaluacion_bach_norma",
+            [
+                ["bachillerato", "bachiller"],
+                ["evaluacion", "evaluar", "calificacion", "calificaciones"],
+                ["castilla y leon", "castilla leon", "cyl", "castilla"],
+                ["orden", "mayo", "2024", "real decreto", "estatal", "rd"],
+            ],
+        ),
+        (
+            "permiso_hospitalizacion_padre",
+            [
+                ["padre"],
+                ["hospitalizado", "hospitalizacion", "ingresado", "hospital"],
+                ["provincia", "localidad", "ciudad", "fuera", "distinta", "otra"],
+                ["permiso", "baja", "licencia", "vacaciones", "dias", "dia"],
+            ],
+        ),
+        (
+            "privacidad_no_datos_personales_app",
+            [
+                ["nombre", "nombres", "dni", "datos", "expediente", "medico", "medica", "salud", "diagnostico", "tdah"],
+                ["alumno", "alumnos", "alumna", "alumnas", "menor", "menores", "familia", "familias", "docente", "profesor"],
+                ["app", "aplicacion", "meter", "poner", "introducir", "subir", "caso concreto", "que hacer"],
+            ],
+        ),
+    ]
+
+    for faq_id, grupos in reglas:
+        if _faq_tiene_todos(p, grupos):
+            faq = _buscar_faq_por_id(faq_id)
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    return None, 0.0
+
+
 def buscar_faq_verificada(pregunta: str, bloque_elegido: str):
     """Busca una FAQ verificada con criterio conservador.
 
@@ -248,6 +323,10 @@ def buscar_faq_verificada(pregunta: str, bloque_elegido: str):
     pregunta_tokens = _tokens_faq(pregunta)
     if not pregunta_n or not pregunta_tokens:
         return None, 0.0
+
+    faq_regla, score_regla = _faq_match_reglas_intencion(pregunta, bloque_elegido)
+    if faq_regla:
+        return faq_regla, score_regla
 
     mejor = None
     mejor_score = 0.0

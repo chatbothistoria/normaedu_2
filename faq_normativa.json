@@ -5,7 +5,9 @@
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 60,
-    "activacion_recomendada": "coincidencia conservadora previa al RAG; no usar para casos individualizados."
+    "activacion_recomendada": "coincidencia conservadora previa al RAG; no usar para casos individualizados.",
+    "total_faqs": 61,
+    "ultima_actualizacion": "2026-05-19"
   },
   "faqs": [
     {
@@ -1212,7 +1214,13 @@
       "variantes": [
         "cuántas familias profesionales hay en fp",
         "cuántas familias profesionales hay en formación profesional",
-        "número de familias profesionales fp"
+        "número de familias profesionales fp",
+        "eran 13 o 26 las familias profesionales en fp",
+        "me dices cuántas familias profesionales hay",
+        "cuántas familias hay en formación profesional",
+        "cuántas familias de fp existen",
+        "número total de familias profesionales",
+        "familias profesionales son 13 o 26"
       ],
       "required_terms": [
         "fp",
@@ -1236,7 +1244,13 @@
         "cuantas familias profesionales hay en formacion profesional",
         "cuantas familias profesionales hay en fp",
         "cuantas familias profesionales hay en formacion profesional",
-        "numero de familias profesionales fp"
+        "numero de familias profesionales fp",
+        "eran 13 o 26 las familias profesionales en fp",
+        "me dices cuantas familias profesionales hay",
+        "cuantas familias hay en formacion profesional",
+        "cuantas familias de fp existen",
+        "numero total de familias profesionales",
+        "familias profesionales son 13 o 26"
       ]
     },
     {
@@ -1626,7 +1640,11 @@
       "variantes": [
         "orden evaluación bachillerato castilla y león",
         "evaluación bachillerato cyl norma",
-        "orden edu 425 2024 bachillerato"
+        "orden edu 425 2024 bachillerato",
+        "la evaluación de bachillerato en castilla y león la regula una orden de mayo de 2024 o un real decreto estatal",
+        "orden de mayo de 2024 evaluación bachillerato castilla y león",
+        "real decreto estatal y orden autonómica evaluación bachillerato cyl",
+        "qué norma regula la evaluación de bachillerato en castilla y león orden edu 425 2024"
       ],
       "required_terms": [
         "bachillerato",
@@ -1651,7 +1669,11 @@
         "que norma desarrolla la evaluacion de bachillerato en castilla y leon",
         "orden evaluacion bachillerato castilla y leon",
         "evaluacion bachillerato cyl norma",
-        "orden edu 425 2024 bachillerato"
+        "orden edu 425 2024 bachillerato",
+        "la evaluacion de bachillerato en castilla y leon la regula una orden de mayo de 2024 o un real decreto estatal",
+        "orden de mayo de 2024 evaluacion bachillerato castilla y leon",
+        "real decreto estatal y orden autonomica evaluacion bachillerato cyl",
+        "que norma regula la evaluacion de bachillerato en castilla y leon orden edu 425 2024"
       ]
     },
     {
@@ -1869,7 +1891,12 @@
         "permiso padre hospital hospitalización otra provincia maestro",
         "enfermedad grave padre distinta localidad docente",
         "cuántos días tiene un maestro por su padre hospitalizado en otra provincia",
-        "días por padre hospitalizado otra provincia maestro"
+        "días por padre hospitalizado otra provincia maestro",
+        "mi padre está hospitalizado fuera de mi provincia eso es baja permiso licencia o vacaciones",
+        "padre ingresado en otra provincia permiso docente",
+        "cuántos días tengo si mi padre está en el hospital en otra ciudad",
+        "mi padre en el hospital fuera de la localidad permiso o baja",
+        "permiso por padre hospitalizado fuera de provincia"
       ],
       "required_terms": [
         "padre",
@@ -1893,7 +1920,14 @@
         "cuantos dias de permiso tiene un docente por hospitalizacion grave de su padre en distinta localidad",
         "padre hospitalizado distinta localidad docente",
         "permiso padre hospital hospitalizacion otra provincia maestro",
-        "enfermedad grave padre distinta localidad docente"
+        "enfermedad grave padre distinta localidad docente",
+        "cuantos dias tiene un maestro por su padre hospitalizado en otra provincia",
+        "dias por padre hospitalizado otra provincia maestro",
+        "mi padre esta hospitalizado fuera de mi provincia eso es baja permiso licencia o vacaciones",
+        "padre ingresado en otra provincia permiso docente",
+        "cuantos dias tengo si mi padre esta en el hospital en otra ciudad",
+        "mi padre en el hospital fuera de la localidad permiso o baja",
+        "permiso por padre hospitalizado fuera de provincia"
       ]
     },
     {
@@ -2064,6 +2098,46 @@
         "permiso lactancia docente",
         "lactancia hijo menor 12 meses docente",
         "hora ausencia lactancia funcionario docente"
+      ]
+    },
+    {
+      "id": "privacidad_no_datos_personales_app",
+      "bloque": "general",
+      "pregunta_canonica": "¿Puedo introducir nombres o datos personales de alumnos en la app?",
+      "variantes": [
+        "puedo meter nombres de alumnos en la app",
+        "puedo poner datos de alumnos en la aplicación",
+        "puedo introducir datos personales de un alumno",
+        "puedo subir un caso concreto con nombre de un menor",
+        "puedo escribir dni expediente o datos médicos de alumnos",
+        "puedo meter nombres de alumnos para que me diga qué hacer con un caso concreto"
+      ],
+      "required_terms": [
+        "datos",
+        "alumnos"
+      ],
+      "respuesta": "No introduzcas nombres, DNI, expedientes, datos médicos, diagnósticos, sanciones ni información que permita identificar a alumnado, familias, docentes u otras personas. Para consultar un caso, anonímalo antes y formula la pregunta de forma general.",
+      "fuentes": [
+        {
+          "documento": "AEPD - Guía para centros educativos / criterios de tratamiento de datos personales en centros educativos",
+          "archivo": "fuente_web_aepd_educacion_menores",
+          "pagina": null,
+          "url": "https://www.aepd.es/guias/guia-centros-educativos.pdf",
+          "fragmento_verificado": "Los datos personales en centros educativos deben tratarse con la debida diligencia, no usarse para fines diferentes al educativo y el personal que accede a datos del alumnado o familias está sometido al deber de secreto."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial_web_aepd",
+      "fecha_verificacion": "2026-05-19",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "Revisar si la AEPD actualiza sus guías o criterios para centros educativos.",
+      "normalizado_variantes": [
+        "puedo introducir nombres o datos personales de alumnos en la app",
+        "puedo meter nombres de alumnos en la app",
+        "puedo poner datos de alumnos en la aplicacion",
+        "puedo introducir datos personales de un alumno",
+        "puedo subir un caso concreto con nombre de un menor",
+        "puedo escribir dni expediente o datos medicos de alumnos",
+        "puedo meter nombres de alumnos para que me diga que hacer con un caso concreto"
       ]
     }
   ]

@@ -66,3 +66,12 @@ Criterio: cada FAQ incluye fuente oficial, página o URL, y fragmento de apoyo. 
 | 58 | `permiso_examenes` | general | ¿Tiene permiso un docente para concurrir a exámenes oficiales? | Orden EDU/423/2014, vacaciones, permisos y licencias del personal funcionario docente de Castilla y León | 7 | o 14. Para concurrir a exámenes finales y demás pruebas definitivas de aptitud. Se concederá el día completo en que se concurra a exámenes finales y a otras pruebas definitivas ... | bajo |
 | 59 | `permiso_matrimonio_docente` | general | ¿Cuántos días de permiso por matrimonio tiene un docente? | Orden EDU/423/2014, vacaciones, permisos y licencias del personal funcionario docente de Castilla y León | 8 | unio de 2014 Artículo 16. Por razón de matrimonio. 1. Los funcionarios docentes tendrán derecho a un permiso de quince días naturales ininterrumpidos por matrimonio. 2. En el ca... | bajo |
 | 60 | `permiso_lactancia_docente` | general | ¿En qué consiste el permiso por lactancia de hijo menor de 12 meses? | Orden EDU/423/2014, vacaciones, permisos y licencias del personal funcionario docente de Castilla y León | 12 | e trabajo. Artículo 23. Permisos por lactancia de un hijo menor de 12 meses. 1. Por lactancia de un hijo menor de 12 meses se tendrá derecho a una hora de ausencia del trabajo q... | bajo |
+
+## privacidad_no_datos_personales_app
+
+- **Bloque:** general
+- **Pregunta:** ¿Puedo introducir nombres o datos personales de alumnos en la app?
+- **Respuesta verificada:** No deben introducirse nombres, DNI, expedientes, datos médicos ni información identificativa. Las consultas deben anonimizarse.
+- **Fuente:** AEPD - Guía para centros educativos / criterios de tratamiento de datos personales en centros educativos
+- **URL:** https://www.aepd.es/guias/guia-centros-educativos.pdf
+- **Fragmento de verificación:** Los datos personales en centros educativos deben tratarse con la debida diligencia, no usarse para fines diferentes al educativo y el personal que accede a datos del alumnado o familias está sometido al deber de secreto.
