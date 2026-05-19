@@ -1,7 +1,7 @@
 import streamlit as st
 from sentence_transformers import SentenceTransformer
 import requests as _requests
-import csv, os, json, textwrap, time, requests
+import csv, os, json, textwrap, time, requests, re, unicodedata, difflib
 import numpy as np
 from fpdf import FPDF
 
@@ -23,6 +23,9 @@ MATCH_COUNT_RETRIEVAL = 40     # candidatos recuperados antes de reordenar
 HISTORIAL_TURNOS      = 0      # seguridad jurídica: no arrastrar respuestas previas al LLM
 MAX_HISTORIAL_LOCAL   = 10
 COLLECTION_NAME       = "normativa"
+FAQ_FILE              = "faq_normativa.json"
+FAQ_MATCH_MIN_RATIO   = 0.88
+FAQ_MATCH_MIN_COVER   = 0.78
 
 # =============================================================================
 # CONFIGURACIÓN DE PÁGINA
@@ -174,7 +177,150 @@ def cargar_enlaces():
                         enlaces[fila[0].strip()] = fila[1].strip()
         except Exception:
             pass
+
     return enlaces
+
+@st.cache_data
+def cargar_faq_normativa():
+    """Carga la base local de FAQ verificadas.
+
+    Es coste cero: no llama a Qdrant, Cerebras ni servicios externos.
+    """
+    rutas_posibles = [FAQ_FILE, os.path.join(os.path.dirname(__file__), FAQ_FILE)]
+    for ruta in rutas_posibles:
+        if os.path.exists(ruta):
+            try:
+                with open(ruta, encoding="utf-8") as f:
+                    data = json.load(f)
+                return data.get("faqs", [])
+            except Exception:
+                return []
+    return []
+
+
+def _normalizar_faq(texto: str) -> str:
+    texto = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode("ascii")
+    texto = texto.lower()
+    texto = re.sub(r"[^a-z0-9]+", " ", texto)
+    return re.sub(r"\s+", " ", texto).strip()
+
+
+def _tokens_faq(texto: str) -> set:
+    return {t for t in _normalizar_faq(texto).split() if len(t) > 2}
+
+
+_FAQ_SINONIMOS = {
+    "fp": ["fp", "formacion profesional"],
+    "evaluacion": ["evaluacion", "evalua", "evaluar", "calificacion", "calificaciones"],
+    "bachillerato": ["bachillerato", "bachiller"],
+    "titulo": ["titulo", "titular", "obtener"],
+    "castilla": ["castilla", "cyl", "castilla leon", "castilla y leon"],
+    "leon": ["leon", "cyl", "castilla leon", "castilla y leon"],
+    "localidad": ["localidad", "provincia", "otra provincia", "otra ciudad", "distinta localidad"],
+    "permiso": ["permiso", "dias", "dia", "baja"],
+    "areas": ["areas", "materias", "asignaturas", "ambitos"],
+    "cursos": ["cursos", "anos", "duracion"],
+}
+
+
+def _term_faq_presente(termino: str, pregunta_n: str) -> bool:
+    termino_n = _normalizar_faq(termino)
+    opciones = _FAQ_SINONIMOS.get(termino_n, [termino_n])
+    return any(op and op in pregunta_n for op in opciones)
+
+
+def _bloque_faq_compatible(faq_bloque: str, bloque_elegido: str) -> bool:
+    if not faq_bloque or faq_bloque == "general":
+        return True
+    if bloque_elegido == "general":
+        # En modo General permitimos respuestas FAQ de cualquier etapa solo si
+        # la pregunta coincide de forma muy clara por términos.
+        return True
+    return faq_bloque == bloque_elegido
+
+
+def buscar_faq_verificada(pregunta: str, bloque_elegido: str):
+    """Busca una FAQ verificada con criterio conservador.
+
+    Devuelve (faq, score) o (None, 0). No usa IA ni APIs.
+    """
+    pregunta_n = _normalizar_faq(pregunta)
+    pregunta_tokens = _tokens_faq(pregunta)
+    if not pregunta_n or not pregunta_tokens:
+        return None, 0.0
+
+    mejor = None
+    mejor_score = 0.0
+    for faq in faq_normativa:
+        if not _bloque_faq_compatible(faq.get("bloque", ""), bloque_elegido):
+            continue
+
+        required = [x for x in faq.get("required_terms", []) if x]
+        required_ok = all(_term_faq_presente(req, pregunta_n) for req in required) if required else True
+        if not required_ok:
+            continue
+
+        variantes = [faq.get("pregunta_canonica", "")] + faq.get("variantes", [])
+        for variante in variantes:
+            var_n = _normalizar_faq(variante)
+            if not var_n:
+                continue
+            var_tokens = _tokens_faq(variante)
+            if not var_tokens:
+                continue
+
+            ratio = difflib.SequenceMatcher(None, pregunta_n, var_n).ratio()
+            coverage = len(pregunta_tokens & var_tokens) / max(1, len(var_tokens))
+            jaccard = len(pregunta_tokens & var_tokens) / max(1, len(pregunta_tokens | var_tokens))
+            substring_bonus = 0.10 if (len(var_n) >= 14 and (var_n in pregunta_n or pregunta_n in var_n)) else 0.0
+
+            # Evita que variantes muy cortas tipo "evaluación ESO" secuestren
+            # preguntas más específicas sobre otra FAQ. La cobertura por tokens
+            # solo pesa fuerte si la variante tiene al menos 4 tokens.
+            if len(var_tokens) < 4:
+                token_score = jaccard * 0.80
+            else:
+                token_score = coverage * 0.78 + jaccard * 0.22
+            score = max(ratio, token_score) + substring_bonus
+
+            if score > mejor_score:
+                mejor = faq
+                mejor_score = score
+
+    if mejor and mejor_score >= FAQ_MATCH_MIN_RATIO:
+        return mejor, min(mejor_score, 1.0)
+    return None, mejor_score
+
+
+def construir_respuesta_faq(faq: dict, score: float):
+    fuente = (faq.get("fuentes") or [{}])[0]
+    pagina = fuente.get("pagina")
+    ref_pagina = f", página {pagina}" if pagina else ""
+    documento = fuente.get("documento", "Fuente oficial")
+    frag = fuente.get("fragmento_verificado", "")
+
+    texto = (
+        "## Respuesta verificada\n"
+        f"{faq.get('respuesta', '')}\n\n"
+        "## Base normativa encontrada\n"
+        "| Fuente | Qué acredita |\n"
+        "|---|---|\n"
+        f"| {documento}{ref_pagina} | {frag} |\n\n"
+        "## Límites de la respuesta\n"
+        "Esta respuesta procede de la base local de FAQ verificadas. No resuelve casos individualizados ni sustituye la consulta de la fuente oficial o del órgano competente.\n\n"
+        f"_FAQ verificada: `{faq.get('id', '')}` · coincidencia: {score:.2f}_"
+    )
+
+    url = fuente.get("url", "")
+    if url:
+        fuente_screen = f"[FAQ] [{documento}{ref_pagina}]({url})"
+        fuente_pdf = f"[FAQ] {documento}{ref_pagina} — {url}"
+    else:
+        fuente_screen = f"[FAQ] {documento}{ref_pagina}"
+        fuente_pdf = fuente_screen
+    return texto, [fuente_screen], [fuente_pdf]
+
+faq_normativa = cargar_faq_normativa()
 
 model        = load_model()
 # Cerebras usa requests directamente — sin cliente especial
@@ -575,120 +721,153 @@ if submit and pregunta_input:
     if bloque_elegido == "ninguno":
         st.warning("⚠️ Selecciona un nivel educativo antes de buscar.")
 
-    elif st.session_state.consultas_sesion >= MAX_PREGUNTAS_SESION:
-        st.error(
-            "Se ha alcanzado el límite gratuito de consultas de esta sesión. "
-            "Vuelve más tarde para seguir usando la app sin coste."
-        )
-
     else:
         valido, msg_error = validar_input(pregunta_input)
         if not valido:
             st.warning(f"⚠️ {msg_error}")
         else:
-            try:
-                t0 = time.time()
+            # 1) FAQ verificada local: no consume Cerebras ni Qdrant.
+            faq_match, faq_score = buscar_faq_verificada(pregunta_input, bloque_elegido)
+            if faq_match:
+                texto_final, fuentes_u, fuentes_up = construir_respuesta_faq(faq_match, faq_score)
 
-                with st.spinner("✏️ Analizando la consulta..."):
-                    pregunta_corregida, reformulaciones = expandir_y_corregir(pregunta_input)
+                st.write("---")
+                st.markdown("### 📝 Respuesta:")
+                st.success("Respuesta desde FAQ verificada local: no consume tokens de Cerebras.")
+                st.markdown(texto_final)
+                st.markdown("### 📚 Fuentes consultadas:")
+                for f in fuentes_u:
+                    st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
-                if pregunta_corregida.strip().lower() != pregunta_input.strip().lower():
-                    st.info(f"✏️ He corregido tu consulta a: **{pregunta_corregida}**")
+                # Las FAQ no consumen IA, por eso no incrementan consultas_sesion.
+                st.session_state.ultima_pregunta   = pregunta_input
+                st.session_state.pregunta_actual   = pregunta_input
+                st.session_state.ultima_respuesta  = texto_final
+                st.session_state.ultimas_fuentes   = fuentes_u
+                st.session_state.historial_completo.append({
+                    "pregunta":           pregunta_input,
+                    "pregunta_corregida": pregunta_input,
+                    "respuesta":          texto_final,
+                    "fuentes":            fuentes_up,
+                })
+                if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
+                    st.session_state.historial_completo = \
+                        st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
 
-                with st.spinner("🔎 Buscando en la normativa..."):
-                    # e5 requiere prefijo "query: " en las consultas
-                    todas = [pregunta_corregida] + reformulaciones[:2]
-                    embedding_avg = np.mean(
-                        [model.encode('query: ' + q, normalize_embeddings=True)
-                         for q in todas], axis=0
-                    ).tolist()
-                    resultados = buscar_normativa_hibrida(
-                        embedding_avg, pregunta_corregida, bloque_elegido
-                    )
+                st.session_state.feedback_pendiente = True
+                st.session_state.feedback_pregunta  = pregunta_input
+                st.session_state.feedback_respuesta = texto_final
 
-                if not resultados:
-                    st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
-                    guardar_log(bloque_elegido, pregunta_input, pregunta_corregida,
-                                0, (time.time()-t0)*1000, False)
-                else:
-                    with st.spinner("📊 Ordenando por relevancia..."):
-                        resultados = reranquear(pregunta_corregida, resultados)
-                        resultados = resultados[:MATCH_COUNT]
+            elif st.session_state.consultas_sesion >= MAX_PREGUNTAS_SESION:
+                st.error(
+                    "Se ha alcanzado el límite gratuito de consultas de esta sesión. "
+                    "Vuelve más tarde para seguir usando la app sin coste."
+                )
 
-                    contexto_xml, links_screen, fuentes_pdf = construir_contexto_xml(
-                        resultados, enlaces
-                    )
-                    contexto_xml = recortar_contexto_xml(contexto_xml)
-                    mensajes = construir_mensajes(pregunta_corregida, contexto_xml)
+            else:
+                try:
+                    t0 = time.time()
 
-                    st.write("---")
-                    st.markdown("### 📝 Respuesta:")
+                    with st.spinner("✏️ Analizando la consulta..."):
+                        pregunta_corregida, reformulaciones = expandir_y_corregir(pregunta_input)
 
-                    _resp = _requests.post(
-                        CEREBRAS_URL,
-                        headers={"Authorization": f"Bearer {CEREBRAS_API_KEY}",
-                                 "Content-Type": "application/json"},
-                        json={"model": CEREBRAS_MODEL,
-                              "messages": mensajes,
-                              "temperature": 0.1,
-                              "max_tokens": MAX_TOKENS_RESPUESTA},
-                        timeout=60
-                    )
-                    _resp.raise_for_status()
-                    texto_final = _resp.json()["choices"][0]["message"]["content"]
+                    if pregunta_corregida.strip().lower() != pregunta_input.strip().lower():
+                        st.info(f"✏️ He corregido tu consulta a: **{pregunta_corregida}**")
 
-                    citas_ok, citas_detectadas, citas_invalidas = validar_citas_fragmentos(
-                        texto_final, len(resultados)
-                    )
-                    if not citas_ok:
-                        texto_final = respuesta_segura_por_citas_invalidas(citas_invalidas)
-                        st.warning("La respuesta generada citaba fragmentos inexistentes y ha sido bloqueada.")
-                    elif not citas_detectadas:
-                        st.warning(
-                            "La respuesta no contiene citas [F#]. Revísala con especial cautela; "
-                            "en la siguiente fase podremos hacer este control aún más estricto."
+                    with st.spinner("🔎 Buscando en la normativa..."):
+                        # e5 requiere prefijo "query: " en las consultas
+                        todas = [pregunta_corregida] + reformulaciones[:2]
+                        embedding_avg = np.mean(
+                            [model.encode('query: ' + q, normalize_embeddings=True)
+                             for q in todas], axis=0
+                        ).tolist()
+                        resultados = buscar_normativa_hibrida(
+                            embedding_avg, pregunta_corregida, bloque_elegido
                         )
 
-                    st.markdown(texto_final)
+                    if not resultados:
+                        st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
+                        guardar_log(bloque_elegido, pregunta_input, pregunta_corregida,
+                                    0, (time.time()-t0)*1000, False)
+                    else:
+                        with st.spinner("📊 Ordenando por relevancia..."):
+                            resultados = reranquear(pregunta_corregida, resultados)
+                            resultados = resultados[:MATCH_COUNT]
 
-                    fuentes_u  = list(dict.fromkeys(links_screen))
-                    fuentes_up = list(dict.fromkeys(fuentes_pdf))
-                    st.markdown("### 📚 Fuentes consultadas:")
-                    for f in fuentes_u:
-                        st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+                        contexto_xml, links_screen, fuentes_pdf = construir_contexto_xml(
+                            resultados, enlaces
+                        )
+                        contexto_xml = recortar_contexto_xml(contexto_xml)
+                        mensajes = construir_mensajes(pregunta_corregida, contexto_xml)
 
-                    st.session_state.consultas_sesion += 1
-                    st.session_state.ultima_pregunta   = pregunta_input
-                    st.session_state.pregunta_actual   = pregunta_input
-                    st.session_state.ultima_respuesta  = texto_final
-                    st.session_state.ultimas_fuentes   = fuentes_u
-                    st.session_state.historial_completo.append({
-                        "pregunta":           pregunta_input,
-                        "pregunta_corregida": pregunta_corregida,
-                        "respuesta":          texto_final,
-                        "fuentes":            fuentes_up,
-                    })
-                    if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
-                        st.session_state.historial_completo = \
-                            st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
+                        st.write("---")
+                        st.markdown("### 📝 Respuesta:")
 
-                    st.session_state.feedback_pendiente = True
-                    st.session_state.feedback_pregunta  = pregunta_input
-                    st.session_state.feedback_respuesta = texto_final
+                        _resp = _requests.post(
+                            CEREBRAS_URL,
+                            headers={"Authorization": f"Bearer {CEREBRAS_API_KEY}",
+                                     "Content-Type": "application/json"},
+                            json={"model": CEREBRAS_MODEL,
+                                  "messages": mensajes,
+                                  "temperature": 0.1,
+                                  "max_tokens": MAX_TOKENS_RESPUESTA},
+                            timeout=60
+                        )
+                        _resp.raise_for_status()
+                        texto_final = _resp.json()["choices"][0]["message"]["content"]
 
-                    guardar_log(bloque_elegido, pregunta_input, pregunta_corregida,
-                                len(resultados), (time.time()-t0)*1000, True)
+                        citas_ok, citas_detectadas, citas_invalidas = validar_citas_fragmentos(
+                            texto_final, len(resultados)
+                        )
+                        if not citas_ok:
+                            texto_final = respuesta_segura_por_citas_invalidas(citas_invalidas)
+                            st.warning("La respuesta generada citaba fragmentos inexistentes y ha sido bloqueada.")
+                        elif not citas_detectadas:
+                            st.warning(
+                                "La respuesta no contiene citas [F#]. Revísala con especial cautela; "
+                                "en la siguiente fase podremos hacer este control aún más estricto."
+                            )
 
-            except Exception as e:
-                err = str(e).lower()
-                if "qdrant" in err:
-                    st.error(f"❌ Error en Qdrant: {e}")
-                elif "429" in err or "quota" in err or "exhausted" in err or "rate" in err:
-                    st.error("⏳ Límite gratuito diario de Cerebras alcanzado. Inténtalo mañana.")
-                elif "api_key" in err or "invalid" in err:
-                    st.error("❌ Error en la API de Cerebras. Revisa tu API key en los Secrets de Streamlit.")
-                else:
-                    st.error(f"Error técnico: {e}")
+                        st.markdown(texto_final)
+
+                        fuentes_u  = list(dict.fromkeys(links_screen))
+                        fuentes_up = list(dict.fromkeys(fuentes_pdf))
+                        st.markdown("### 📚 Fuentes consultadas:")
+                        for f in fuentes_u:
+                            st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+
+                        st.session_state.consultas_sesion += 1
+                        st.session_state.ultima_pregunta   = pregunta_input
+                        st.session_state.pregunta_actual   = pregunta_input
+                        st.session_state.ultima_respuesta  = texto_final
+                        st.session_state.ultimas_fuentes   = fuentes_u
+                        st.session_state.historial_completo.append({
+                            "pregunta":           pregunta_input,
+                            "pregunta_corregida": pregunta_corregida,
+                            "respuesta":          texto_final,
+                            "fuentes":            fuentes_up,
+                        })
+                        if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
+                            st.session_state.historial_completo = \
+                                st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
+
+                        st.session_state.feedback_pendiente = True
+                        st.session_state.feedback_pregunta  = pregunta_input
+                        st.session_state.feedback_respuesta = texto_final
+
+                        guardar_log(bloque_elegido, pregunta_input, pregunta_corregida,
+                                    len(resultados), (time.time()-t0)*1000, True)
+
+                except Exception as e:
+                    err = str(e).lower()
+                    if "qdrant" in err:
+                        st.error(f"❌ Error en Qdrant: {e}")
+                    elif "429" in err or "quota" in err or "exhausted" in err or "rate" in err:
+                        st.error("⏳ Límite gratuito diario de Cerebras alcanzado. Inténtalo mañana.")
+                    elif "api_key" in err or "invalid" in err:
+                        st.error("❌ Error en la API de Cerebras. Revisa tu API key en los Secrets de Streamlit.")
+                    else:
+                        st.error(f"Error técnico: {e}")
 
 elif st.session_state.ultima_respuesta:
     st.write("---")
