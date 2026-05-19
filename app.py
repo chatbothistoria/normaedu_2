@@ -27,7 +27,7 @@ COLLECTION_NAME       = "normativa"
 # =============================================================================
 # CONFIGURACIÓN DE PÁGINA
 # =============================================================================
-st.set_page_config(page_title="Normativa Educativa CyL", page_icon="📚", layout="centered")
+st.set_page_config(page_title="NormaEdu 2", page_icon="📚", layout="centered")
 
 # =============================================================================
 # SESSION STATE
@@ -241,10 +241,11 @@ def _qdrant_search_rest(embedding, bloque=None, threshold=None, limit=MATCH_COUN
         payload["score_threshold"] = threshold
     try:
         r = requests.post(url, json=payload, headers=headers, timeout=30)
-        r.raise_for_status()
+        if r.status_code != 200:
+            raise RuntimeError(f"Qdrant respondió HTTP {r.status_code}")
         return r.json().get("result", [])
-    except Exception:
-        return []
+    except requests.exceptions.RequestException as exc:
+        raise RuntimeError("No se pudo conectar con Qdrant. Revisa QDRANT_URL, QDRANT_API_KEY o la red.") from exc
 
 def _qdrant_text_search_rest(pregunta_texto, bloque=None, terminos=None):
     """Búsqueda textual desactivada como consulta remota.
@@ -486,7 +487,7 @@ with st.sidebar:
 # =============================================================================
 # INTERFAZ — CUERPO PRINCIPAL
 # =============================================================================
-st.title("📚 Buscador Inteligente de Normativa Educativa")
+st.title("📚 NormaEdu 2")
 
 st.warning(
     "No introduzcas nombres, DNI, expedientes, datos médicos, sanciones ni "
@@ -606,7 +607,8 @@ if submit and pregunta_input:
                         "fuentes":            fuentes_up,
                     })
                     if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
-                        st.session_state.historial_completo =                             st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
+                        st.session_state.historial_completo = \
+                            st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
 
                     st.session_state.feedback_pendiente = True
                     st.session_state.feedback_pregunta  = pregunta_input
@@ -617,7 +619,9 @@ if submit and pregunta_input:
 
             except Exception as e:
                 err = str(e).lower()
-                if "429" in err or "quota" in err or "exhausted" in err or "rate" in err:
+                if "qdrant" in err:
+                    st.error(f"❌ Error en Qdrant: {e}")
+                elif "429" in err or "quota" in err or "exhausted" in err or "rate" in err:
                     st.error("⏳ Límite gratuito diario de Cerebras alcanzado. Inténtalo mañana.")
                 elif "api_key" in err or "invalid" in err:
                     st.error("❌ Error en la API de Cerebras. Revisa tu API key en los Secrets de Streamlit.")
