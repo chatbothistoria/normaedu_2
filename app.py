@@ -89,9 +89,51 @@ def generar_pdf(lista_interacciones, titulo="Normativa Educativa"):
 # =============================================================================
 # CLAVES Y SERVICIOS
 # =============================================================================
-CEREBRAS_API_KEY = st.secrets["CEREBRAS_API_KEY"]
-QDRANT_URL    = st.secrets["QDRANT_URL"]
-QDRANT_API_KEY = st.secrets["QDRANT_API_KEY"]
+def _leer_secreto(nombre: str) -> str:
+    """Lee secretos desde Streamlit Cloud o variables de entorno, sin romper la app.
+
+    En Streamlit Cloud se configuran en Manage app > Settings > Secrets.
+    En local pueden definirse como variables de entorno.
+    """
+    try:
+        valor = st.secrets.get(nombre, "")
+    except Exception:
+        valor = ""
+    if not valor:
+        valor = os.environ.get(nombre, "")
+    return str(valor).strip()
+
+
+CEREBRAS_API_KEY = _leer_secreto("CEREBRAS_API_KEY")
+QDRANT_URL       = _leer_secreto("QDRANT_URL").rstrip("/")
+QDRANT_API_KEY   = _leer_secreto("QDRANT_API_KEY")
+
+_secretos_faltantes = [
+    nombre for nombre, valor in {
+        "CEREBRAS_API_KEY": CEREBRAS_API_KEY,
+        "QDRANT_URL": QDRANT_URL,
+        "QDRANT_API_KEY": QDRANT_API_KEY,
+    }.items()
+    if not valor
+]
+
+if _secretos_faltantes:
+    st.title("📚 NormaEdu 2")
+    st.error("Faltan claves obligatorias en los Secrets de Streamlit.")
+    st.write("Añade estas claves en Streamlit Cloud: **Manage app → Settings → Secrets**.")
+    st.code(
+        '''CEREBRAS_API_KEY = "pega_aqui_tu_clave_de_cerebras"
+QDRANT_URL = "https://tu-cluster.cloud.qdrant.io"
+QDRANT_API_KEY = "pega_aqui_tu_clave_de_qdrant"''',
+        language="toml",
+    )
+    st.warning(
+        "No pegues estas claves en GitHub. Deben ir solo en los Secrets de Streamlit "
+        "o en variables de entorno locales."
+    )
+    st.caption("Faltan: " + ", ".join(_secretos_faltantes))
+    st.stop()
+
 
 @st.cache_resource
 def load_model():
