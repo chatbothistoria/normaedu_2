@@ -1,14 +1,14 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "0.5.0-faq130",
+    "version": "0.5.1-faq130",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
-    "total_faq": 110,
+    "total_faq": 130,
     "activacion_recomendada": "coincidencia conservadora previa al RAG; no usar para casos individualizados.",
     "total_faqs": 130,
     "ultima_actualizacion": "2026-05-19",
-    "nota_auditoria": "Versión auditada v0.4.9: añade reglas/variantes para acceso a grado medio/superior, título de Bachiller desde FP, titulación con una asignatura suspensa y duración del Grado E; mantiene las protecciones de privacidad y permisos.",
+    "nota_auditoria": "v0.5.1 corrige el falso negativo de evaluación objetiva añadiendo variantes y regla de intención conservadora; mantiene 130 FAQ y coste 0.",
     "descripcion": "Base FAQ verificada ampliada a 130 entradas con 20 FAQ nuevas sobre convivencia/sanciones, repetición en Primaria, reclamación en Bachillerato y seguimiento en empresa en FP."
   },
   "faqs": [
@@ -1802,7 +1802,19 @@
       "variantes": [
         "derecho evaluación objetiva alumnado",
         "alumnado evaluación objetiva",
-        "ser evaluado objetivamente"
+        "ser evaluado objetivamente",
+        "garantías evaluación objetiva",
+        "garantias evaluacion objetiva",
+        "qué garantías tiene un alumno para que su evaluación sea objetiva",
+        "que garantias tiene un alumno para que su evaluacion sea objetiva",
+        "evaluación objetiva del alumnado",
+        "evaluacion objetiva del alumnado",
+        "derecho a que la evaluación sea objetiva",
+        "derecho a que la evaluacion sea objetiva",
+        "objetividad en la evaluación del alumnado",
+        "objetividad en la evaluacion del alumnado",
+        "que el esfuerzo y rendimiento se valore con objetividad",
+        "garantías para que la evaluación sea objetiva"
       ],
       "required_terms": [
         "derecho",
@@ -4420,7 +4432,15 @@
         "derecho evaluación objetiva bachillerato",
         "evaluación objetiva bachillerato artículo 11",
         "dedicación esfuerzo rendimiento objetividad bachillerato",
-        "derecho a que valoren objetivamente bachillerato"
+        "derecho a que valoren objetivamente bachillerato",
+        "garantías evaluación objetiva bachillerato",
+        "garantias evaluacion objetiva bachillerato",
+        "qué garantías tiene un alumno de bachillerato para que su evaluación sea objetiva",
+        "que garantias tiene un alumno de bachillerato para que su evaluacion sea objetiva",
+        "derecho a evaluación objetiva en bachillerato",
+        "derecho a evaluacion objetiva en bachillerato",
+        "objetividad de la evaluación en bachillerato",
+        "objetividad de la evaluacion en bachillerato"
       ],
       "required_terms": [
         "bachillerato",

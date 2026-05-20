@@ -471,6 +471,19 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
 
+    # Derecho transversal a evaluación objetiva.
+    # Cubre formulaciones generales como “qué garantías tiene un alumno para que su evaluación sea objetiva”,
+    # que antes podían no activar FAQ por no mencionar explícitamente “derecho” o “Bachillerato”.
+    # Evita falsos positivos de “prueba objetiva” exigiendo contexto de garantías/derechos/alumnado.
+    if _faq_tiene_alguno(p, ["evaluacion objetiva", "evaluacion sea objetiva", "objetividad en la evaluacion", "objetividad de la evaluacion", "valorados con objetividad"]):
+        if _faq_tiene_alguno(p, ["garantia", "garantias", "derecho", "alumno", "alumnado", "estudiante", "estudiantes", "esfuerzo", "rendimiento", "valorados", "reclamacion", "aclaraciones"]):
+            if _faq_tiene_alguno(p, ["bachillerato", "bachiller"]):
+                faq = _buscar_faq_por_id("bachillerato_evaluacion_objetiva_art11")
+            else:
+                faq = _buscar_faq_por_id("alumnado_derecho_evaluacion_objetiva")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
     # Bachillerato: evaluación objetiva, aclaraciones, reclamaciones y documentos.
     if _faq_tiene_alguno(p, ["bachillerato", "bachiller"]):
         if _faq_tiene_todos(p, [["evaluacion objetiva", "objetiva", "objetividad"], ["derecho", "valorados", "esfuerzo", "rendimiento"]]):

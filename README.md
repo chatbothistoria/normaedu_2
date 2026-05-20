@@ -47,3 +47,8 @@ La auditoría de matching está documentada en `AUDITORIA_EXHAUSTIVA_FAQ_MATCHIN
 ## Estado FAQ v0.4
 
 La base local contiene 110 FAQ verificadas. Las FAQ se consultan antes del RAG para ahorrar tokens y reducir alucinaciones en preguntas frecuentes.
+
+
+## Versión FAQ
+
+Base FAQ v0.5.1: 130 FAQ verificadas, con corrección de activación para evaluación objetiva.
