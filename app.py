@@ -415,6 +415,103 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
     """
     p = _normalizar_faq(pregunta)
 
+
+    # 0) Reglas directas añadidas v0.5.0 para cubrir fallos reales de recuperación.
+    # Convivencia, derechos/deberes y sanciones del alumnado en Castilla y León.
+    if _faq_tiene_alguno(p, ["castilla y leon", "castilla leon", "cyl", "centros educativos", "alumnado", "alumno", "alumnos"]):
+        if _faq_tiene_todos(p, [["convivencia", "disciplina"], ["norma", "regula", "decreto"]]):
+            faq = _buscar_faq_por_id("cyl_convivencia_norma_decreto51")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["derechos", "deberes"], ["sanciones", "convivencia", "disciplina"]]):
+            faq = _buscar_faq_por_id("cyl_derechos_deberes_sanciones_norma")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["sancion", "sanciones", "faltas graves", "faltas"], ["alumnado", "alumno", "convivencia"]]):
+            faq = _buscar_faq_por_id("cyl_sanciones_faltas_graves_art49")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["conductas contrarias", "conducta contraria", "normas de convivencia"]):
+            faq = _buscar_faq_por_id("cyl_conductas_contrarias_convivencia")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["gravemente perjudicial", "faltas graves", "conductas graves"]):
+            faq = _buscar_faq_por_id("cyl_conductas_gravemente_perjudiciales")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["actuaciones inmediatas", "amonestacion", "peticion de disculpas", "trabajos especificos"]):
+            faq = _buscar_faq_por_id("cyl_actuaciones_inmediatas_convivencia")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["mediacion escolar", "mediacion", "mediador"]):
+            faq = _buscar_faq_por_id("cyl_mediacion_escolar_convivencia")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["criterios", "proporcionalidad", "dignidad", "derecho a la educacion"], ["correcciones", "sanciones", "disciplinarias"]]):
+            faq = _buscar_faq_por_id("cyl_criterios_correcciones_alumnado")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    # Primaria: repetición, promoción y plan de refuerzo.
+    if _faq_tiene_alguno(p, ["primaria", "educacion primaria"]):
+        if _faq_tiene_alguno(p, ["primero tercero quinto", "1 3 5", "promocion automatica", "promociona automaticamente"]):
+            faq = _buscar_faq_por_id("primaria_promocion_fin_ciclo_automatica")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["repetir", "permanece", "permanecer", "repeticion"], ["cuantas veces", "una vez", "veces", "etapa"]]):
+            faq = _buscar_faq_por_id("primaria_repetir_una_vez_etapa_condicion")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["no promociona", "repite", "repetir", "permanece"], ["plan de refuerzo", "refuerzo", "apoyos", "padres", "tutores"]]) and not _faq_tiene_alguno(p, ["sin repetir", "sin repeticion", "sin que repita"]):
+            faq = _buscar_faq_por_id("primaria_no_promocion_plan_refuerzo")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["cuando se puede repetir", "cuando puede repetir", "cuando se repite", "permanecer un ano mas", "repeticion primaria"]):
+            faq = _buscar_faq_por_id("primaria_repetir_cuando_condiciones_cyl")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    # Bachillerato: evaluación objetiva, aclaraciones, reclamaciones y documentos.
+    if _faq_tiene_alguno(p, ["bachillerato", "bachiller"]):
+        if _faq_tiene_todos(p, [["evaluacion objetiva", "objetiva", "objetividad"], ["derecho", "valorados", "esfuerzo", "rendimiento"]]):
+            faq = _buscar_faq_por_id("bachillerato_evaluacion_objetiva_art11")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["aclaraciones", "pedir aclaraciones", "solicitar aclaraciones"]):
+            faq = _buscar_faq_por_id("bachillerato_aclaraciones_evaluacion")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["reclamar", "reclamacion", "reclama"], ["nota", "calificacion", "evaluacion", "promocion", "titulacion"]]):
+            if _faq_tiene_alguno(p, ["plazo", "dias", "dos dias", "2 dias", "hasta cuando"]):
+                faq = _buscar_faq_por_id("bachillerato_plazo_reclamacion_dos_dias")
+            else:
+                faq = _buscar_faq_por_id("bachillerato_reclamacion_calificaciones_centro")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["documentos oficiales", "actas", "expediente", "historial"], ["evaluacion", "documentos", "papeles"]]):
+            faq = _buscar_faq_por_id("bachillerato_documentos_oficiales_rd243")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    # FP: seguimiento en empresa, plan formativo y tutor dual.
+    if _faq_tiene_alguno(p, ["fp", "formacion profesional"]):
+        if _faq_tiene_todos(p, [["empresa", "formacion en empresa"], ["seguimiento", "supervision", "supervisa", "quien hace", "quien realiza"]]):
+            faq = _buscar_faq_por_id("fp_tutor_dual_empresa")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["contacto continuo", "coordinacion", "relacion"], ["centro", "empresa"]]):
+            faq = _buscar_faq_por_id("fp_contacto_continuo_centro_empresa")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["plan formativo", "plan de formacion"], ["firma", "firmado", "quien firma"]]):
+            faq = _buscar_faq_por_id("fp_plan_formacion_empresa_firmas")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["tutor dual", "tutora dual"], ["centro", "funciones", "que hace"]]):
+            faq = _buscar_faq_por_id("fp_tutor_dual_centro_funciones")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
     # 1) Número de familias profesionales de FP.
     # Debe ser muy claro que "familias" significa familias profesionales, no familias del alumnado.
     if _faq_tiene_alguno(p, ["fp", "formacion profesional"]) or bloque_elegido == "fp":

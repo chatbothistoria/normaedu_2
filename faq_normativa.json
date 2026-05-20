@@ -1,14 +1,15 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "0.4.9",
+    "version": "0.5.0-faq130",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 110,
     "activacion_recomendada": "coincidencia conservadora previa al RAG; no usar para casos individualizados.",
-    "total_faqs": 110,
+    "total_faqs": 130,
     "ultima_actualizacion": "2026-05-19",
-    "nota_auditoria": "Versión auditada v0.4.9: añade reglas/variantes para acceso a grado medio/superior, título de Bachiller desde FP, titulación con una asignatura suspensa y duración del Grado E; mantiene las protecciones de privacidad y permisos."
+    "nota_auditoria": "Versión auditada v0.4.9: añade reglas/variantes para acceso a grado medio/superior, título de Bachiller desde FP, titulación con una asignatura suspensa y duración del Grado E; mantiene las protecciones de privacidad y permisos.",
+    "descripcion": "Base FAQ verificada ampliada a 130 entradas con 20 FAQ nuevas sobre convivencia/sanciones, repetición en Primaria, reclamación en Bachillerato y seguimiento en empresa en FP."
   },
   "faqs": [
     {
@@ -3961,6 +3962,600 @@
         "deber basico asistir a clase",
         "alumnado debe asistir y ser puntual"
       ]
+    },
+    {
+      "id": "cyl_convivencia_norma_decreto51",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué norma regula la convivencia escolar en Castilla y León?",
+      "variantes": [
+        "qué decreto regula la convivencia escolar en Castilla y León",
+        "norma convivencia escolar Castilla y León",
+        "qué norma regula derechos deberes y convivencia en CYL",
+        "decreto convivencia disciplina centros educativos Castilla y León"
+      ],
+      "required_terms": [
+        "convivencia",
+        "castilla"
+      ],
+      "respuesta": "En Castilla y León, la norma básica sobre derechos y deberes del alumnado, participación de las familias y normas de convivencia y disciplina en los centros educativos es el Decreto 51/2007, de 17 de mayo.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, de 17 de mayo, derechos y deberes del alumnado en Castilla y León",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 1,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "DECRETO 51/2007, de 17 de mayo, por el que se regulan los derechos y deberes de los alumnos y la participación y los compromisos de las familias en el proceso educativo, y se establecen las normas de convivencia y disciplina en los Centros Educativos de Castilla y León."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "cyl_derechos_deberes_sanciones_norma",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué norma regula los derechos, deberes y sanciones del alumnado en Castilla y León?",
+      "variantes": [
+        "norma derechos deberes sanciones alumnado Castilla y León",
+        "qué norma regula las sanciones al alumnado en Castilla y León",
+        "derechos deberes alumnos sanciones CYL",
+        "decreto derechos deberes alumnos Castilla y León"
+      ],
+      "required_terms": [
+        "derechos",
+        "deberes"
+      ],
+      "respuesta": "El Decreto 51/2007 regula los derechos y deberes del alumnado, la participación y compromisos de las familias y las normas de convivencia y disciplina en los centros de Castilla y León. Para sanciones, el propio decreto diferencia conductas contrarias y conductas gravemente perjudiciales para la convivencia.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, de 17 de mayo, derechos y deberes del alumnado en Castilla y León",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 1,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "...por el que se regulan los derechos y deberes de los alumnos... y se establecen las normas de convivencia y disciplina en los Centros Educativos de Castilla y León."
+        },
+        {
+          "documento": "Decreto 51/2007, título III, disciplina escolar",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 4,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "Las conductas de los alumnos perturbadoras de la convivencia en el centro podrán ser calificadas como: a) Conductas contrarias a las normas de convivencia del centro. b) Conductas gravemente perjudiciales para la convivencia en el centro, que serán calificadas como faltas."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "cyl_conductas_contrarias_convivencia",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué son las conductas contrarias a las normas de convivencia en Castilla y León?",
+      "variantes": [
+        "conductas contrarias normas convivencia Castilla y León",
+        "qué se considera conducta contraria a la convivencia",
+        "faltas leves convivencia alumnado CYL",
+        "conductas que perturban la convivencia en el centro"
+      ],
+      "required_terms": [
+        "conductas",
+        "convivencia"
+      ],
+      "respuesta": "El Decreto 51/2007 clasifica las conductas perturbadoras de la convivencia, entre otras, como conductas contrarias a las normas de convivencia del centro. El reglamento de régimen interior debe concretar esas conductas dentro del marco del decreto.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, artículos 28 y 29",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 4,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "El reglamento de régimen interior... deberá... concretar... las conductas contrarias a las normas de convivencia en el centro... Las conductas de los alumnos perturbadoras de la convivencia... podrán ser calificadas como: a) Conductas contrarias a las normas de convivencia del centro."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "cyl_conductas_gravemente_perjudiciales",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué son las conductas gravemente perjudiciales para la convivencia?",
+      "variantes": [
+        "conductas gravemente perjudiciales convivencia escolar",
+        "faltas graves alumnado convivencia Castilla y León",
+        "qué conductas son faltas graves en convivencia",
+        "conductas gravemente perjudiciales para la convivencia en el centro"
+      ],
+      "required_terms": [
+        "gravemente",
+        "convivencia"
+      ],
+      "respuesta": "El Decreto 51/2007 califica como faltas las conductas gravemente perjudiciales para la convivencia. Estas conductas pueden dar lugar a procedimiento sancionador y a las sanciones previstas en el propio decreto.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, artículo 29",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 4,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "Las conductas de los alumnos perturbadoras de la convivencia en el centro podrán ser calificadas como... conductas gravemente perjudiciales para la convivencia en el centro, que serán calificadas como faltas."
+        },
+        {
+          "documento": "Decreto 51/2007, artículo 49",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 8,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "Las sanciones que pueden imponerse por la comisión de las faltas previstas en el artículo 48 son las siguientes..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "cyl_sanciones_faltas_graves_art49",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué sanciones pueden imponerse por faltas graves de convivencia en Castilla y León?",
+      "variantes": [
+        "sanciones por conductas gravemente perjudiciales convivencia CYL",
+        "qué sanciones hay por faltas graves alumnado",
+        "sanciones artículo 49 decreto 51 2007",
+        "cambio de centro suspensión clases faltas graves"
+      ],
+      "required_terms": [
+        "sanciones",
+        "convivencia"
+      ],
+      "respuesta": "Para conductas gravemente perjudiciales para la convivencia, el Decreto 51/2007 prevé sanciones como tareas de mejora o reparación, suspensión de actividades extraescolares, cambio de grupo, suspensión de asistencia a clases con programa de trabajo, y cambio de centro, en los términos del artículo 49.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, artículo 49",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 8,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "Artículo 49.– Sanciones. Las sanciones que pueden imponerse por la comisión de las faltas previstas en el artículo 48 son las siguientes: a) Realización de tareas... b) Suspensión del derecho a participar en las actividades extraescolares... c) Cambio de grupo... d) Suspensión del derecho de asistencia... e) Cambio de centro."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "cyl_actuaciones_inmediatas_convivencia",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué actuaciones inmediatas puede adoptar un profesor ante una conducta que perturba la convivencia?",
+      "variantes": [
+        "actuaciones inmediatas convivencia profesor",
+        "amonestación pública o privada disculpas recreo",
+        "qué puede hacer el profesor ante conducta perturbadora",
+        "actuaciones inmediatas artículo 35 Decreto 51/2007"
+      ],
+      "required_terms": [
+        "actuaciones",
+        "inmediatas"
+      ],
+      "respuesta": "El Decreto 51/2007 permite actuaciones inmediatas para el cese de la conducta perturbadora, como amonestación pública o privada, petición de disculpas, suspensión del derecho a permanecer en el lugar de la actividad con control del alumno, o trabajos específicos en recreo u horario no lectivo.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, artículo 35",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 6,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "Artículo 35.– Actuaciones inmediatas... tienen como objetivo el cese de la conducta perturbadora... el profesor llevará a cabo... a) Amonestación pública o privada. b) Exigencia de petición pública o privada de disculpas. c) Suspensión del derecho a permanecer... d) Realización de trabajos específicos..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "cyl_criterios_correcciones_alumnado",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué criterios deben respetar las correcciones disciplinarias al alumnado?",
+      "variantes": [
+        "criterios correcciones disciplinarias alumnado",
+        "proporcionalidad sanciones alumnado dignidad derecho educación",
+        "correcciones no pueden menoscabar dignidad alumno",
+        "criterios artículo 30 decreto 51 2007"
+      ],
+      "required_terms": [
+        "criterios",
+        "correcciones"
+      ],
+      "respuesta": "Las correcciones deben tener carácter educativo, ser proporcionales y contribuir a mantener y mejorar el proceso educativo. No pueden privar al alumnado de su derecho a la educación ni menoscabar su integridad física o dignidad personal.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, artículo 30",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 5,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "Los alumnos no pueden ser privados del ejercicio de su derecho a la educación... En ningún caso se llevarán a cabo correcciones que menoscaben la integridad física o la dignidad personal del alumno. Las correcciones... tendrán carácter educativo... deberán guardar la adecuada proporcionalidad..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "cyl_mediacion_escolar_convivencia",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué es la mediación escolar en la convivencia de Castilla y León?",
+      "variantes": [
+        "mediación escolar convivencia Castilla y León",
+        "qué es mediación en conflictos escolares",
+        "mediación artículo 42 Decreto 51/2007",
+        "mediador escolar conflictos alumnos"
+      ],
+      "required_terms": [
+        "mediacion",
+        "convivencia"
+      ],
+      "respuesta": "La mediación escolar es una forma de abordar conflictos entre dos o más personas con ayuda de una tercera persona mediadora. Su objetivo principal es analizar las necesidades de las partes y regular la comunicación para buscar una solución satisfactoria.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, artículo 42",
+          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
+          "pagina": 7,
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "Artículo 42.– Definición y objetivos. 1. La mediación es una forma de abordar los conflictos surgidos entre dos o más personas, contando para ello con la ayuda de una tercera persona denominada mediador. 2. El principal objetivo de la mediación es analizar las necesidades de las partes en conflicto..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "primaria_repetir_cuando_condiciones_cyl",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Cuándo puede repetir un alumno en Educación Primaria en Castilla y León?",
+      "variantes": [
+        "cuándo se puede repetir en Primaria",
+        "cuándo puede permanecer un año más en primaria",
+        "en primaria cuándo se repite",
+        "repetición primaria condiciones Castilla y León"
+      ],
+      "required_terms": [
+        "primaria",
+        "repetir"
+      ],
+      "respuesta": "En Castilla y León, la permanencia de un año más en Primaria es excepcional y solo puede decidirse al final de ciclo, en segundo, cuarto o sexto curso, cuando no se haya adoptado antes, se hayan aplicado medidas ordinarias suficientes y se considere la medida más adecuada para favorecer el desarrollo del alumnado.",
+      "fuentes": [
+        {
+          "documento": "Decreto 38/2022, currículo de Educación Primaria en Castilla y León, artículo 20",
+          "archivo": "DECRETO_38_2022_Curriculo_Primaria.pdf",
+          "pagina": 18,
+          "url": "https://bocyl.jcyl.es/boletines/2022/09/30/pdf/BOCYL-D-30092022-2.pdf",
+          "fragmento_verificado": "Las decisiones sobre promoción únicamente se tomarán al final de cada ciclo... la decisión de permanencia de un alumno un año más en segundo, cuarto o sexto curso tendrá carácter excepcional, y solo se podrá adoptar cuando concurran de forma conjunta..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "primaria_promocion_fin_ciclo_automatica",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿En qué cursos de Primaria la promoción es automática en Castilla y León?",
+      "variantes": [
+        "promoción automática primero tercero quinto primaria",
+        "en primero tercero quinto de primaria se promociona automáticamente",
+        "decisiones de promoción al final de ciclo primaria",
+        "cuándo se decide promoción en primaria"
+      ],
+      "required_terms": [
+        "primaria",
+        "promocion"
+      ],
+      "respuesta": "En Castilla y León, las decisiones sobre promoción en Primaria se toman únicamente al final de cada ciclo. Por tanto, la promoción es automática al finalizar primero, tercero y quinto curso.",
+      "fuentes": [
+        {
+          "documento": "Decreto 38/2022, artículo 20.3",
+          "archivo": "DECRETO_38_2022_Curriculo_Primaria.pdf",
+          "pagina": 18,
+          "url": "https://bocyl.jcyl.es/boletines/2022/09/30/pdf/BOCYL-D-30092022-2.pdf",
+          "fragmento_verificado": "Las decisiones sobre promoción únicamente se tomarán al final de cada ciclo, siendo por tanto automática al finalizar los cursos primero, tercero y quinto."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "primaria_repetir_una_vez_etapa_condicion",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Cuántas veces puede repetirse en Educación Primaria?",
+      "variantes": [
+        "cuántas veces se puede repetir en primaria",
+        "solo se puede repetir una vez en primaria",
+        "permanencia una vez durante la etapa primaria",
+        "repetir dos veces en primaria"
+      ],
+      "required_terms": [
+        "primaria",
+        "veces"
+      ],
+      "respuesta": "La permanencia de un año más en el mismo curso de Primaria solo puede adoptarse una vez durante la etapa y tiene carácter excepcional.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 157/2022, artículo 15.3",
+          "archivo": "Real_Decreto_157_2022_1_marzo_establecen_ordenacion.pdf",
+          "pagina": 8,
+          "url": "https://www.boe.es/boe/dias/2022/03/02/pdfs/BOE-A-2022-3296.pdf",
+          "fragmento_verificado": "...la permanencia un año más en el mismo curso es la medida más adecuada... Esta decisión solo se podrá adoptar una vez durante la etapa y tendrá, en todo caso, carácter excepcional."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "primaria_no_promocion_plan_refuerzo",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué debe hacerse si un alumno no promociona en Primaria?",
+      "variantes": [
+        "qué pasa si un alumno no promociona en primaria",
+        "plan específico de refuerzo al repetir primaria",
+        "si repite primaria hay plan de refuerzo",
+        "medidas cuando no promociona primaria"
+      ],
+      "required_terms": [
+        "primaria",
+        "no promociona"
+      ],
+      "respuesta": "Cuando un alumno no promociona en Primaria, el equipo docente debe diseñar y aplicar un plan específico de refuerzo basado en un informe del equipo docente del curso anterior. Antes de adoptar la decisión de no promoción, el tutor debe oír a los padres, madres o tutores legales.",
+      "fuentes": [
+        {
+          "documento": "Decreto 38/2022, artículo 20",
+          "archivo": "DECRETO_38_2022_Curriculo_Primaria.pdf",
+          "pagina": 19,
+          "url": "https://bocyl.jcyl.es/boletines/2022/09/30/pdf/BOCYL-D-30092022-2.pdf",
+          "fragmento_verificado": "Antes de la adopción de la decisión de no promoción, el tutor docente oirá a los padres, madres o personas que ejerzan la tutoría legal... Cuando un alumno no promocione, el equipo docente que le atiende diseñará y aplicará un plan específico de refuerzo..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "bachillerato_reclamacion_calificaciones_centro",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cómo se reclama una calificación final de Bachillerato en Castilla y León?",
+      "variantes": [
+        "reclamación calificación bachillerato Castilla y León",
+        "reclamar nota final bachillerato",
+        "cómo reclamar una nota en bachillerato",
+        "procedimiento reclamación evaluación bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "reclamacion"
+      ],
+      "respuesta": "En Bachillerato en Castilla y León, si tras las aclaraciones existe desacuerdo, el alumno o sus representantes legales pueden formular reclamación por escrito dirigida a la dirección del centro. La reclamación puede referirse a resultados de evaluación final ordinaria o extraordinaria y, en su caso, a decisiones de promoción o titulación.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/425/2024, artículo 13",
+          "archivo": "ORDEN_EDU_425_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 8,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-4.pdf",
+          "fragmento_verificado": "En el supuesto de que tras las oportunas aclaraciones exista desacuerdo... podrán formular reclamaciones sobre los resultados de la evaluación final ordinaria y... extraordinaria... La reclamación deberá formularse mediante escrito dirigido a quien ejerza la dirección del centro..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "bachillerato_plazo_reclamacion_dos_dias",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cuál es el plazo para reclamar una calificación final de Bachillerato en Castilla y León?",
+      "variantes": [
+        "plazo reclamación bachillerato dos días hábiles",
+        "cuántos días hay para reclamar nota bachillerato",
+        "plazo para reclamar calificación final bachillerato",
+        "hasta cuándo se puede reclamar nota bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "plazo"
+      ],
+      "respuesta": "En Bachillerato en Castilla y León, la reclamación debe formularse en el plazo de dos días hábiles contados desde el día siguiente a la comunicación de los resultados o de la decisión de promoción o titulación, sin que pueda formularse después del 5 de julio.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/425/2024, artículo 13.3",
+          "archivo": "ORDEN_EDU_425_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 8,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-4.pdf",
+          "fragmento_verificado": "El plazo para formular la reclamación será de dos días hábiles contados a partir del día siguiente a la comunicación de los resultados... sin que en ningún caso pueda formularse después del 5 de julio."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "bachillerato_aclaraciones_evaluacion",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Puede el alumnado pedir aclaraciones sobre sus calificaciones de Bachillerato?",
+      "variantes": [
+        "aclaraciones calificaciones bachillerato",
+        "pedir aclaraciones sobre notas bachillerato",
+        "aclaraciones a profesores evaluación bachillerato",
+        "solicitar aclaraciones decisiones promoción titulación bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "aclaraciones"
+      ],
+      "respuesta": "Sí. En Bachillerato en Castilla y León, el alumno o sus representantes legales pueden solicitar aclaraciones al profesorado sobre los resultados de evaluación en las materias y al tutor sobre decisiones de promoción o titulación.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/425/2024, artículo 12",
+          "archivo": "ORDEN_EDU_425_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 7,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-4.pdf",
+          "fragmento_verificado": "El alumno o alumna o... los padres, madres o personas que ejerzan la tutela legal... podrán solicitar en cualquier momento del curso aclaraciones al profesorado acerca de los resultados de la evaluación... Igualmente, podrán solicitar aclaraciones a quienes ejerzan la tutoría... sobre las decisiones de promoción o titulación..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "bachillerato_evaluacion_objetiva_art11",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Tiene el alumnado de Bachillerato derecho a una evaluación objetiva?",
+      "variantes": [
+        "derecho evaluación objetiva bachillerato",
+        "evaluación objetiva bachillerato artículo 11",
+        "dedicación esfuerzo rendimiento objetividad bachillerato",
+        "derecho a que valoren objetivamente bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "objetiva"
+      ],
+      "respuesta": "Sí. En Bachillerato en Castilla y León, todo el alumnado tiene derecho a que su dedicación, esfuerzo y rendimiento sean valorados y reconocidos con objetividad. Para garantizarlo se establecen procesos de aclaraciones y reclamación.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/425/2024, artículo 11",
+          "archivo": "ORDEN_EDU_425_2024_9_mayo_desarrolla_evaluacion.pdf",
+          "pagina": 7,
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-4.pdf",
+          "fragmento_verificado": "Artículo 11. Derecho del alumnado a una evaluación objetiva. 1. Todo el alumnado tiene derecho a que su dedicación, esfuerzo y rendimiento sean valorados y reconocidos con objetividad... se establecen los procesos de aclaraciones y de reclamación..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "bachillerato_documentos_oficiales_rd243",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué documentos oficiales de evaluación hay en Bachillerato según la normativa estatal?",
+      "variantes": [
+        "documentos oficiales bachillerato normativa estatal",
+        "actas expediente historial informe traslado bachillerato",
+        "documentos oficiales de evaluación bachillerato RD 243",
+        "qué documentos oficiales hay en bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "documentos"
+      ],
+      "respuesta": "Según el Real Decreto 243/2022, los documentos oficiales de evaluación en Bachillerato son las actas de evaluación, el expediente académico, el historial académico y, en su caso, el informe personal por traslado. El historial académico y el informe por traslado son documentos básicos para garantizar la movilidad del alumnado.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, artículo 29",
+          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
+          "pagina": 15,
+          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
+          "fragmento_verificado": "En Bachillerato, los documentos oficiales de evaluación son las actas de evaluación, el expediente académico, el historial académico y, en su caso, el informe personal por traslado. El historial académico y, en su caso, el informe personal por traslado se consideran documentos básicos para garantizar la movilidad..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "fp_plan_formacion_empresa_firmas",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Quién firma el plan formativo de la formación en empresa de FP?",
+      "variantes": [
+        "quién firma el plan formativo FP empresa",
+        "plan de formación empresa firmado por quién",
+        "plan formativo firmado empresa centro persona en formación",
+        "firma plan formación FP empresa"
+      ],
+      "required_terms": [
+        "plan",
+        "formacion"
+      ],
+      "respuesta": "El plan formativo debe estar firmado por la empresa u organismo equiparado, el centro de formación profesional y la persona en formación.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, anexo XVI, cláusula segunda",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 170,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "El plan formativo estará firmado por la empresa u organismo equiparado, el centro de formación profesional y la persona en formación."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "fp_tutor_dual_centro_funciones",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué funciones tiene el tutor dual del centro de FP?",
+      "variantes": [
+        "funciones tutor dual del centro FP",
+        "qué hace el tutor dual del centro",
+        "tutor dual centro relaciones empresa plan formación seguimiento evaluación",
+        "visitas periódicas tutor dual centro empresa"
+      ],
+      "required_terms": [
+        "tutor dual",
+        "centro"
+      ],
+      "respuesta": "El tutor o tutora dual del centro facilita las relaciones permanentes entre el centro y la empresa, coordina y concreta el plan de formación junto con el tutor de empresa y el equipo docente, coordina el seguimiento y evaluación, asiste a la persona en formación y vela por su aprovechamiento mediante visitas periódicas a la empresa.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, anexo XVI, cláusula decimotercera",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 172,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "Cada tutor o tutora dual del centro... se compromete a: Facilitar las relaciones permanentes entre el centro de formación profesional y la empresa. Determinar... las plazas formativas... Coordinar y concretar el Plan de Formación... así como el proceso de seguimiento y evaluación. Asistir a la persona en formación... mediante visitas periódicas..."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "fp_contacto_continuo_centro_empresa",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Debe haber contacto continuo entre el centro de FP y la empresa durante la formación en empresa?",
+      "variantes": [
+        "contacto continuo centro empresa FP",
+        "debe haber coordinación entre centro y empresa en FP",
+        "relación entre centro de formación profesional y empresa durante la formación",
+        "contacto entre tutor centro y tutor empresa FP"
+      ],
+      "required_terms": [
+        "empresa",
+        "centro"
+      ],
+      "respuesta": "Sí. El Real Decreto 659/2023 exige asegurar el contacto continuo entre el centro de Formación Profesional y la empresa u organismo equiparado, tanto antes como durante los periodos de formación en empresa.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, artículo 9.6.j",
+          "archivo": "Real_Decreto_659_2023_18_julio_desarrolla_ordenacion.pdf",
+          "pagina": 15,
+          "url": "https://www.boe.es/buscar/pdf/2023/BOE-A-2023-16889-consolidado.pdf",
+          "fragmento_verificado": "Se asegurará el contacto continuo entre el centro de Formación Profesional y la empresa u organismo equiparado, tanto previo como durante los periodos de formación en empresa."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-20",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
     }
   ]
 }
