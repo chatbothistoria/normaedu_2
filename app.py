@@ -47,6 +47,7 @@ _DEFAULTS = {
     "feedback_respuesta": None, "pregunta_actual": "",
     "consultas_sesion": 0,
     "ultimo_diagnostico": None,
+    "admin_diagnostico_ok": False,
 }
 for _k, _v in _DEFAULTS.items():
     if _k not in st.session_state:
@@ -117,6 +118,7 @@ IA_API_URL = _leer_secreto("IA_API_URL").rstrip("/")
 IA_MODEL = _leer_secreto("IA_MODEL")
 QDRANT_URL = _leer_secreto("QDRANT_URL").rstrip("/")
 QDRANT_API_KEY = _leer_secreto("QDRANT_API_KEY")
+ADMIN_DIAGNOSTIC_KEY = _leer_secreto("ADMIN_DIAGNOSTIC_KEY")
 
 _secretos_faltantes = [
     nombre for nombre, valor in {
@@ -1346,19 +1348,56 @@ def _post_ia_con_reintento(mensajes, modo_diagnostico=False):
 # =============================================================================
 # INTERFAZ — BARRA LATERAL
 # =============================================================================
+def _param_admin_activo() -> bool:
+    """Activa el acceso admin solo si la URL incluye ?admin=1.
+
+    Así los usuarios normales no ven el botón de diagnóstico ni el formulario de clave.
+    """
+    try:
+        valor = st.query_params.get("admin", "")
+    except Exception:
+        valor = ""
+    if isinstance(valor, list):
+        valor = valor[0] if valor else ""
+    return str(valor).lower().strip() in {"1", "true", "si", "sí", "admin"}
+
+
 with st.sidebar:
     st.markdown("### 📊 Sesión actual")
     st.caption(f"Consultas usadas: {st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}")
     if st.session_state.historial_completo:
         st.caption(f"Consultas en historial local: {len(st.session_state.historial_completo)}")
     st.info("Modo coste 0: no se guardan preguntas ni respuestas en bases de datos externas.")
-    modo_diagnostico = st.checkbox(
-        "🔎 Modo diagnóstico",
-        value=False,
-        help="Muestra si la respuesta viene de FAQ o RAG, qué FAQ se activó y qué fragmentos recuperó Qdrant. No añade coste ni guarda datos."
-    )
-    if modo_diagnostico:
-        st.caption("Diagnóstico activo: visible solo en esta sesión.")
+
+    modo_diagnostico = False
+    if _param_admin_activo():
+        st.markdown("### 🔐 Administración")
+        if not ADMIN_DIAGNOSTIC_KEY:
+            st.warning(
+                "El modo diagnóstico no está configurado. Añade ADMIN_DIAGNOSTIC_KEY en los Secrets."
+            )
+        else:
+            clave_admin = st.text_input(
+                "Clave de administrador",
+                type="password",
+                help="Introduce la clave para mostrar herramientas de diagnóstico."
+            )
+            if clave_admin:
+                if clave_admin == ADMIN_DIAGNOSTIC_KEY:
+                    st.session_state.admin_diagnostico_ok = True
+                    st.success("Acceso administrador activo.")
+                else:
+                    st.session_state.admin_diagnostico_ok = False
+                    st.error("Clave de administrador incorrecta.")
+
+            if st.session_state.admin_diagnostico_ok:
+                modo_diagnostico = st.checkbox(
+                    "🔎 Modo diagnóstico",
+                    value=False,
+                    help="Muestra si la respuesta viene de FAQ o RAG, qué FAQ se activó y qué fragmentos recuperó Qdrant. No añade coste ni guarda datos."
+                )
+                if modo_diagnostico:
+                    st.caption("Diagnóstico activo: visible solo en esta sesión de administrador.")
 
 # =============================================================================
 # INTERFAZ — CUERPO PRINCIPAL
@@ -1421,7 +1460,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v054_limites_ia_reintento",
+                    "version": "v055_diagnostico_admin",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1485,7 +1524,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v054_limites_ia_reintento",
+                            "version": "v055_diagnostico_admin",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1520,7 +1559,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v054_limites_ia_reintento",
+                                "version": "v055_diagnostico_admin",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1558,7 +1597,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v054_limites_ia_reintento",
+                            "version": "v055_diagnostico_admin",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,

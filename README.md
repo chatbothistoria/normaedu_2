@@ -21,6 +21,9 @@ IA_API_URL = "https://endpoint-del-proveedor/v1/chat/completions"
 IA_MODEL = "nombre-del-modelo"
 QDRANT_URL = "https://tu-cluster.cloud.qdrant.io"
 QDRANT_API_KEY = "pega_aqui_tu_clave_de_qdrant"
+
+# Opcional: solo para administradores. Permite activar diagnóstico con ?admin=1.
+ADMIN_DIAGNOSTIC_KEY = "elige_una_clave_larga_para_admin"
 ```
 
 No subas nunca claves reales a GitHub. El archivo `.streamlit/secrets.toml.example` es solo una plantilla.
@@ -43,9 +46,16 @@ No subas nunca claves reales a GitHub. El archivo `.streamlit/secrets.toml.examp
 
 La app incluye `faq_normativa.json` con 130 FAQ verificadas. Esta capa se consulta antes del RAG para ahorrar tokens y reducir errores en preguntas frecuentes.
 
-## Modo diagnóstico
+## Modo diagnóstico protegido
 
-La barra lateral incluye `🔎 Modo diagnóstico`. Permite ver:
+El modo diagnóstico ya no es visible para usuarios normales. Para activarlo:
+
+1. Añade `ADMIN_DIAGNOSTIC_KEY` en los Secrets de Streamlit.
+2. Abre la app añadiendo `?admin=1` al final de la URL.
+3. Introduce la clave de administrador en la barra lateral.
+4. Activa `🔎 Modo diagnóstico`.
+
+Permite ver:
 
 - si la respuesta viene de FAQ o RAG/IA;
 - qué FAQ se activó y con qué puntuación;
@@ -57,6 +67,6 @@ La barra lateral incluye `🔎 Modo diagnóstico`. Permite ver:
 
 No guarda datos personales ni añade coste.
 
-## v054
+## v055
 
-Esta versión mantiene oculto el proveedor de IA en los mensajes de usuario y archivos públicos, usa Secrets genéricos (`IA_API_KEY`, `IA_API_URL`, `IA_MODEL`) y añade un reintento automático suave cuando la IA devuelve un límite temporal. Si el reintento falla, la app muestra un mensaje genérico de límite temporal y las FAQ siguen funcionando sin consumir tokens de IA.
+Esta versión mantiene los cambios de v054 y añade protección del modo diagnóstico por clave de administrador. Los usuarios normales no ven el botón de diagnóstico. Para acceder, usa `?admin=1` y la clave definida en `ADMIN_DIAGNOSTIC_KEY`.
