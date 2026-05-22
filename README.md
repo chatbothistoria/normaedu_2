@@ -22,7 +22,7 @@ IA_MODEL = "nombre-del-modelo"
 QDRANT_URL = "https://tu-cluster.cloud.qdrant.io"
 QDRANT_API_KEY = "pega_aqui_tu_clave_de_qdrant"
 
-# Opcional: solo para administradores. Permite activar diagnóstico accediendo a /admin.
+# Opcional: solo para administradores. Permite activar diagnóstico accediendo a ?admin.
 ADMIN_DIAGNOSTIC_KEY = "elige_una_clave_larga_para_admin"
 ```
 
@@ -51,7 +51,7 @@ La app incluye `faq_normativa.json` con 130 FAQ verificadas. Esta capa se consul
 El modo diagnóstico ya no es visible para usuarios normales. Para activarlo:
 
 1. Añade `ADMIN_DIAGNOSTIC_KEY` en los Secrets de Streamlit.
-2. Abre la app añadiendo `/admin` al final de la URL, por ejemplo `https://tu-app.streamlit.app/admin`.
+2. Abre la app añadiendo `?admin` al final de la URL, por ejemplo `https://tu-app.streamlit.app/?admin`.
 3. Introduce la clave de administrador en la barra lateral.
 4. Activa `🔎 Modo diagnóstico`.
 
@@ -69,4 +69,27 @@ No guarda datos personales ni añade coste.
 
 ## v056
 
-Esta versión mantiene los cambios de v055 y cambia el acceso de administrador: el modo diagnóstico se activa entrando en la ruta `/admin`, por ejemplo `https://tu-app.streamlit.app/admin`, y usando la clave definida en `ADMIN_DIAGNOSTIC_KEY`. Los usuarios normales no ven el botón de diagnóstico.
+Esta versión mantiene los cambios de v055 y cambia el acceso de administrador: el modo diagnóstico se activa entrando en la ruta `?admin`, por ejemplo `https://tu-app.streamlit.app/?admin`, y usando la clave definida en `ADMIN_DIAGNOSTIC_KEY`. Los usuarios normales no ven el botón de diagnóstico.
+
+
+## Acceso diagnóstico privado
+
+El modo diagnóstico no se muestra a los usuarios normales.
+
+Para activarlo:
+
+1. Añade en Streamlit Secrets:
+
+```toml
+ADMIN_DIAGNOSTIC_KEY = "elige_una_clave_larga_y_privada"
+```
+
+2. Entra en:
+
+```text
+https://tu-app.streamlit.app/?admin
+```
+
+3. Introduce la clave en la barra lateral.
+
+No se usa `pages/admin.py`, para evitar que Streamlit muestre opciones `app/admin` en el menú lateral.

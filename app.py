@@ -3,6 +3,7 @@ from sentence_transformers import SentenceTransformer
 import requests as _requests
 import csv, os, json, textwrap, time, requests, re, unicodedata, difflib
 import numpy as np
+import hmac
 from urllib.parse import urlparse
 from fpdf import FPDF
 
@@ -1368,6 +1369,18 @@ def _post_ia_con_reintento(mensajes, modo_diagnostico=False):
 # INTERFAZ — BARRA LATERAL
 # =============================================================================
 
+def _admin_solicitado_por_url() -> bool:
+    """Activa el acceso admin solo si la URL contiene ?admin.
+
+    Usamos una sola página de Streamlit para evitar que aparezcan opciones
+    multipágina tipo "app/admin" en el menú lateral.
+    """
+    try:
+        return "admin" in st.query_params
+    except Exception:
+        return False
+
+
 with st.sidebar:
     st.markdown("### 📊 Sesión actual")
     st.caption(f"Consultas usadas: {st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}")
@@ -1376,12 +1389,31 @@ with st.sidebar:
     st.info("Modo coste 0: no se guardan preguntas ni respuestas en bases de datos externas.")
 
     modo_diagnostico = False
+    _admin_url = _admin_solicitado_por_url()
+
+    if _admin_url and not st.session_state.get("admin_diagnostico_ok", False):
+        st.markdown("### 🔐 Administración")
+        if not ADMIN_DIAGNOSTIC_KEY:
+            st.warning("El acceso de administración no está configurado.")
+        else:
+            _clave_admin = st.text_input("Clave de administrador", type="password")
+            if _clave_admin:
+                if hmac.compare_digest(str(_clave_admin), str(ADMIN_DIAGNOSTIC_KEY)):
+                    st.session_state.admin_diagnostico_ok = True
+                    st.session_state.modo_diagnostico = True
+                    st.success("Acceso diagnóstico activado para esta sesión.")
+                    st.rerun()
+                else:
+                    st.session_state.admin_diagnostico_ok = False
+                    st.session_state.modo_diagnostico = False
+                    st.error("Clave de administrador incorrecta.")
+
     if st.session_state.get("admin_diagnostico_ok", False):
         st.markdown("### 🔐 Administración")
         modo_diagnostico = st.checkbox(
             "🔎 Modo diagnóstico",
             value=st.session_state.get("modo_diagnostico", False),
-            help="Muestra información técnica de depuración. Solo visible tras acceder por /admin."
+            help="Muestra información técnica de depuración. Solo visible tras activar el acceso admin."
         )
         st.session_state.modo_diagnostico = modo_diagnostico
         if modo_diagnostico:
@@ -1451,7 +1483,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v058_admin_oculto",
+                    "version": "v059_admin_query_oculto",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1515,7 +1547,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v058_admin_oculto",
+                            "version": "v059_admin_query_oculto",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1550,7 +1582,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v058_admin_oculto",
+                                "version": "v059_admin_query_oculto",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1588,7 +1620,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v058_admin_oculto",
+                            "version": "v059_admin_query_oculto",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,
