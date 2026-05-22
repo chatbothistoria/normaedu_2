@@ -495,7 +495,7 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
             faq = _buscar_faq_por_id("primaria_repetir_una_vez_etapa_condicion")
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
-        if _faq_tiene_todos(p, [["no promociona", "repite", "repetir", "permanece"], ["plan de refuerzo", "refuerzo", "apoyos", "padres", "tutores"]]) and not _faq_tiene_alguno(p, ["sin repetir", "sin repeticion", "sin que repita"]):
+        if _faq_tiene_todos(p, [["no promociona", "repite", "repetir", "permanece"], ["plan de refuerzo", "plan especifico", "plan especifico de refuerzo", "refuerzo", "apoyos", "padres", "tutores"]]) and not _faq_tiene_alguno(p, ["sin repetir", "sin repeticion", "sin que repita"]):
             faq = _buscar_faq_por_id("primaria_no_promocion_plan_refuerzo")
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
@@ -1483,7 +1483,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v059_admin_query_oculto",
+                    "version": "v060_plan_refuerzo_primaria",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1547,7 +1547,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v059_admin_query_oculto",
+                            "version": "v060_plan_refuerzo_primaria",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1582,7 +1582,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v059_admin_query_oculto",
+                                "version": "v060_plan_refuerzo_primaria",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1620,7 +1620,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v059_admin_query_oculto",
+                            "version": "v060_plan_refuerzo_primaria",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,
