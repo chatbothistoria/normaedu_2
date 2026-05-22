@@ -8,8 +8,10 @@ from fpdf import FPDF
 # =============================================================================
 # CONFIGURACIÓN CENTRAL
 # =============================================================================
-CEREBRAS_MODEL = "qwen-3-235b-a22b-instruct-2507"
-CEREBRAS_URL   = "https://api.cerebras.ai/v1/chat/completions"
+# Proveedor de IA oculto al usuario: URL, modelo y clave se configuran en Secrets.
+# No fijamos aquí el proveedor para no exponerlo en la interfaz ni en el repositorio.
+IA_MODEL   = ""  # se lee más abajo desde Secrets
+IA_API_URL = ""  # se lee más abajo desde Secrets
 # Modo coste cero: límites duros para evitar consumo excesivo de free tiers.
 MAX_TOKENS_RESPUESTA  = 900
 MAX_TOKENS_RAPIDO     = 300
@@ -108,13 +110,17 @@ def _leer_secreto(nombre: str) -> str:
     return str(valor).strip()
 
 
-CEREBRAS_API_KEY = _leer_secreto("CEREBRAS_API_KEY")
-QDRANT_URL       = _leer_secreto("QDRANT_URL").rstrip("/")
-QDRANT_API_KEY   = _leer_secreto("QDRANT_API_KEY")
+IA_API_KEY = _leer_secreto("IA_API_KEY")
+IA_API_URL = _leer_secreto("IA_API_URL").rstrip("/")
+IA_MODEL = _leer_secreto("IA_MODEL")
+QDRANT_URL = _leer_secreto("QDRANT_URL").rstrip("/")
+QDRANT_API_KEY = _leer_secreto("QDRANT_API_KEY")
 
 _secretos_faltantes = [
     nombre for nombre, valor in {
-        "CEREBRAS_API_KEY": CEREBRAS_API_KEY,
+        "IA_API_KEY": IA_API_KEY,
+        "IA_API_URL": IA_API_URL,
+        "IA_MODEL": IA_MODEL,
         "QDRANT_URL": QDRANT_URL,
         "QDRANT_API_KEY": QDRANT_API_KEY,
     }.items()
@@ -126,7 +132,9 @@ if _secretos_faltantes:
     st.error("Faltan claves obligatorias en los Secrets de Streamlit.")
     st.write("Añade estas claves en Streamlit Cloud: **Manage app → Settings → Secrets**.")
     st.code(
-        '''CEREBRAS_API_KEY = "pega_aqui_tu_clave_de_cerebras"
+        '''IA_API_KEY = "pega_aqui_tu_clave_de_ia"
+IA_API_URL = "https://endpoint-del-proveedor/v1/chat/completions"
+IA_MODEL = "nombre-del-modelo"
 QDRANT_URL = "https://tu-cluster.cloud.qdrant.io"
 QDRANT_API_KEY = "pega_aqui_tu_clave_de_qdrant"''',
         language="toml",
@@ -185,7 +193,7 @@ def cargar_enlaces():
 def cargar_faq_normativa():
     """Carga la base local de FAQ verificadas.
 
-    Es coste cero: no llama a Qdrant, Cerebras ni servicios externos.
+    Es coste cero: no llama a Qdrant, IA ni servicios externos.
     """
     rutas_posibles = [FAQ_FILE, os.path.join(os.path.dirname(__file__), FAQ_FILE)]
     for ruta in rutas_posibles:
@@ -823,7 +831,7 @@ def construir_respuesta_faq(faq: dict, score: float):
 faq_normativa = cargar_faq_normativa()
 
 model        = load_model()
-# Cerebras usa requests directamente — sin cliente especial
+# IA usa requests directamente — sin cliente especial
 enlaces      = cargar_enlaces()
 if not enlaces:
     st.sidebar.warning("⚠️ enlaces.csv no encontrado — las fuentes no tendrán enlace.")
@@ -855,7 +863,7 @@ def validar_input(pregunta):
     return True, ""
 
 def expandir_y_corregir(pregunta):
-    """Sin LLM para ahorrar tokens de Cerebras.
+    """Sin LLM para ahorrar tokens de IA.
     La búsqueda semántica + reordenación local mantiene el coste en cero.
     """
     import re
@@ -1044,7 +1052,7 @@ def reranquear(pregunta, fragmentos):
 
 
 def recortar_contexto_xml(contexto_xml: str, max_chars: int = MAX_CHARS_CONTEXTO) -> str:
-    """Límite duro de contexto para proteger el free tier de Cerebras."""
+    """Límite duro de contexto para proteger el free tier de IA."""
     if len(contexto_xml) <= max_chars:
         return contexto_xml
     return contexto_xml[:max_chars] + "\n\n[CONTEXTO RECORTADO POR LÍMITE GRATUITO DE LA APP]"
@@ -1205,6 +1213,73 @@ def mostrar_diagnostico(diagnostico: dict):
         )
         st.json(diagnostico, expanded=False)
 
+
+def _resumen_error_proveedor_ia(resp) -> str:
+    """Devuelve un resumen corto y seguro del error de IA, sin exponer claves."""
+    try:
+        data = resp.json()
+        raw = json.dumps(data, ensure_ascii=False)
+    except Exception:
+        raw = getattr(resp, "text", "") or ""
+    raw = re.sub(r"Bearer\s+[A-Za-z0-9._\-]+", "Bearer [oculto]", raw)
+    raw = raw.replace(IA_API_KEY, "[clave_oculta]") if IA_API_KEY else raw
+    return raw[:600]
+
+
+def _clasificar_error_ia(resp):
+    """Clasifica errores del proveedor de IA sin asumir que un 429 sea diario."""
+    status = getattr(resp, "status_code", None)
+    resumen = _resumen_error_proveedor_ia(resp)
+    resumen_l = resumen.lower()
+
+    if status == 429 or any(x in resumen_l for x in ["rate", "quota", "limit", "tokens", "too many"]):
+        return "limite_temporal", resumen
+    if status in (401, 403) or any(x in resumen_l for x in ["unauthorized", "forbidden", "api key", "api_key", "invalid key"]):
+        return "configuracion", resumen
+    if status and status >= 500:
+        return "servicio_temporal", resumen
+    return "error_api", resumen
+
+
+def _mostrar_error_ia(resp, diagnostico_base=None, modo_diagnostico=False):
+    """Muestra un error de IA genérico y preciso para el usuario final."""
+    tipo, resumen = _clasificar_error_ia(resp)
+    status = getattr(resp, "status_code", None)
+
+    diagnostico = dict(diagnostico_base or {})
+    diagnostico.update({
+        "capa_usada": "RAG_IA",
+        "consume_qdrant": True,
+        "consume_ia": False,
+        "ia_peticion_aceptada": False,
+        "ia_error_tipo": tipo,
+        "ia_http_status": status,
+        "ia_error_resumen": resumen,
+    })
+    st.session_state.ultimo_diagnostico = diagnostico
+
+    if tipo == "limite_temporal":
+        st.warning(
+            "⏳ La IA ha devuelto un límite temporal de uso del plan gratuito. "
+            "Puedes reintentarlo en unos minutos. Las respuestas FAQ siguen funcionando sin consumir tokens de IA."
+        )
+    elif tipo == "configuracion":
+        st.error(
+            "❌ Error de configuración de la IA. Revisa las claves y parámetros de IA en los Secrets de Streamlit."
+        )
+    elif tipo == "servicio_temporal":
+        st.warning(
+            "⏳ La IA no está disponible temporalmente. Puedes reintentarlo en unos minutos. "
+            "Las respuestas FAQ siguen funcionando sin consumir tokens de IA."
+        )
+    else:
+        st.error(
+            "❌ No se ha podido obtener respuesta de la IA. Puedes reintentarlo más tarde o formular una pregunta frecuente verificada."
+        )
+
+    if modo_diagnostico:
+        mostrar_diagnostico(diagnostico)
+
 # =============================================================================
 # INTERFAZ — BARRA LATERAL
 # =============================================================================
@@ -1269,23 +1344,23 @@ if submit and pregunta_input:
         if not valido:
             st.warning(f"⚠️ {msg_error}")
         else:
-            # 1) FAQ verificada local: no consume Cerebras ni Qdrant.
+            # 1) FAQ verificada local: no consume IA ni Qdrant.
             faq_match, faq_score = buscar_faq_verificada(pregunta_input, bloque_elegido)
             if faq_match:
                 texto_final, fuentes_u, fuentes_up = construir_respuesta_faq(faq_match, faq_score)
 
                 st.write("---")
                 st.markdown("### 📝 Respuesta:")
-                st.success("Respuesta desde FAQ verificada local: no consume tokens de Cerebras.")
+                st.success("Respuesta desde FAQ verificada local: no consume tokens de IA.")
                 st.markdown(texto_final)
                 st.markdown("### 📚 Fuentes consultadas:")
                 for f in fuentes_u:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v052_diagnostico",
+                    "version": "v053_limites_ia",
                     "capa_usada": "FAQ",
-                    "consume_cerebras": False,
+                    "consume_ia": False,
                     "consume_qdrant": False,
                     "bloque_seleccionado": bloque_elegido,
                     "faq_id": faq_match.get("id", ""),
@@ -1347,11 +1422,11 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v052_diagnostico",
+                            "version": "v053_limites_ia",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
-                            "consume_cerebras": False,
+                            "consume_ia": False,
                             "bloque_seleccionado": bloque_elegido,
                             "faq_id": None,
                             "resultados_recuperados": 0,
@@ -1378,16 +1453,30 @@ if submit and pregunta_input:
                         st.markdown("### 📝 Respuesta:")
 
                         _resp = _requests.post(
-                            CEREBRAS_URL,
-                            headers={"Authorization": f"Bearer {CEREBRAS_API_KEY}",
+                            IA_API_URL,
+                            headers={"Authorization": f"Bearer {IA_API_KEY}",
                                      "Content-Type": "application/json"},
-                            json={"model": CEREBRAS_MODEL,
+                            json={"model": IA_MODEL,
                                   "messages": mensajes,
                                   "temperature": 0.1,
                                   "max_tokens": MAX_TOKENS_RESPUESTA},
                             timeout=60
                         )
-                        _resp.raise_for_status()
+                        if _resp.status_code != 200:
+                            diagnostico_base = {
+                                "version": "v053_limites_ia",
+                                "bloque_seleccionado": bloque_elegido,
+                                "resultados_enviados_llm": len(resultados),
+                                "fragmentos": _diagnostico_fragmentos(resultados),
+                                "contexto_chars": len(contexto_xml),
+                                "contexto_limite_chars": MAX_CHARS_CONTEXTO,
+                                "max_tokens_respuesta": MAX_TOKENS_RESPUESTA,
+                                "limite_ia_actual": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                                "tiempo_ms": round((time.time()-t0)*1000, 2),
+                            }
+                            _mostrar_error_ia(_resp, diagnostico_base, modo_diagnostico)
+                            st.stop()
+
                         texto_final = _resp.json()["choices"][0]["message"]["content"]
 
                         citas_ok, citas_detectadas, citas_invalidas = validar_citas_fragmentos(
@@ -1411,10 +1500,10 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v052_diagnostico",
-                            "capa_usada": "RAG_CEREBRAS",
+                            "version": "v053_limites_ia",
+                            "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
-                            "consume_cerebras": True,
+                            "consume_ia": True,
                             "bloque_seleccionado": bloque_elegido,
                             "faq_id": None,
                             "resultados_enviados_llm": len(resultados),
@@ -1459,9 +1548,9 @@ if submit and pregunta_input:
                     if "qdrant" in err:
                         st.error(f"❌ Error en Qdrant: {e}")
                     elif "429" in err or "quota" in err or "exhausted" in err or "rate" in err:
-                        st.error("⏳ Límite gratuito diario de Cerebras alcanzado. Inténtalo mañana.")
+                        st.warning("⏳ La IA ha devuelto un límite temporal de uso del plan gratuito. Puedes reintentarlo en unos minutos. Las respuestas FAQ siguen funcionando sin consumir tokens de IA.")
                     elif "api_key" in err or "invalid" in err:
-                        st.error("❌ Error en la API de Cerebras. Revisa tu API key en los Secrets de Streamlit.")
+                        st.error("❌ Error de configuración de la IA. Revisa las claves y parámetros de IA en los Secrets de Streamlit.")
                     else:
                         st.error(f"Error técnico: {e}")
 

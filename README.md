@@ -1,68 +1,62 @@
 # NormaEdu 2
 
-App Streamlit de consulta de normativa educativa con Qdrant y Cerebras, configurada para mantener coste 0 con límites duros de uso.
+App Streamlit de consulta de normativa educativa con FAQ verificadas, RAG con Qdrant y una capa de IA configurada mediante Secrets. La versión pública no muestra el proveedor de IA a los usuarios.
 
 ## Archivos principales
 
 - `app.py`: aplicación principal.
-- `requirements.txt`: dependencias sin Supabase.
+- `requirements.txt`: dependencias.
+- `faq_normativa.json`: base local de FAQ verificadas.
+- `MATRIZ_VERIFICACION_FAQ.md`: trazabilidad de las FAQ.
 - `enlaces.csv`: correspondencia entre documentos y enlaces oficiales.
-- `CAMBIOS_COSTE_CERO.md`: resumen de cambios aplicados.
-- `AUDITORIA_PRE_DESPLIEGUE.md`: revisión previa al despliegue.
-
+- `.streamlit/secrets.toml.example`: plantilla segura de configuración.
 
 ## Configuración de Secrets en Streamlit Cloud
 
-La app necesita estas tres claves configuradas en **Manage app → Settings → Secrets**:
+Configura estos valores en **Manage app → Settings → Secrets**:
 
 ```toml
-CEREBRAS_API_KEY = "pega_aqui_tu_clave_de_cerebras"
+IA_API_KEY = "pega_aqui_tu_clave_de_ia"
+IA_API_URL = "https://endpoint-del-proveedor/v1/chat/completions"
+IA_MODEL = "nombre-del-modelo"
 QDRANT_URL = "https://tu-cluster.cloud.qdrant.io"
 QDRANT_API_KEY = "pega_aqui_tu_clave_de_qdrant"
 ```
 
-No subas nunca claves reales a GitHub. El archivo `.streamlit/secrets.toml.example` es solo una plantilla segura.
+No subas nunca claves reales a GitHub. El archivo `.streamlit/secrets.toml.example` es solo una plantilla.
 
-Si falta alguna clave, la app ya no se caerá con un `KeyError`: mostrará una pantalla de configuración indicando qué secreto falta.
+## Control de coste 0
+
+- Las FAQ verificadas responden sin usar Qdrant ni IA.
+- Las consultas RAG usan Qdrant y la IA solo cuando no hay FAQ aplicable.
+- Existe un límite duro de consultas IA por sesión.
+- Si la IA devuelve un límite temporal, la app no lo presenta como límite diario definitivo.
 
 ## Control de fiabilidad jurídica
 
-Esta versión usa un prompt jurídico estricto: la respuesta debe basarse solo en los fragmentos recuperados de Qdrant y citar dichos fragmentos como `[F1]`, `[F2]`, etc.
-
-Si la respuesta generada cita fragmentos inexistentes, la app la bloquea. Si no incluye citas por fragmento, la app muestra una advertencia de cautela.
-
+- Prompt jurídico estricto: la respuesta debe basarse en fragmentos recuperados.
+- Citas obligatorias por fragmento `[F1]`, `[F2]`, etc.
+- Si la IA cita fragmentos inexistentes, la respuesta se bloquea.
+- Si no hay base suficiente en los fragmentos, la app debe responder de forma prudente.
 
 ## FAQ normativa verificada
 
-Esta versión incorpora una capa local `faq_normativa.json` que responde preguntas frecuentes verificadas antes de llamar a Qdrant/Cerebras.
+La app incluye `faq_normativa.json` con 130 FAQ verificadas. Esta capa se consulta antes del RAG para ahorrar tokens y reducir errores en preguntas frecuentes.
 
-- No consume tokens de Cerebras.
-- No incrementa el contador de 10 consultas de IA.
-- Solo debe activarse ante coincidencias claras o reglas de intención conservadoras.
-- Las preguntas no cubiertas por FAQ pasan al RAG normal con prompt jurídico estricto.
+## Modo diagnóstico
 
-La auditoría de matching está documentada en `AUDITORIA_EXHAUSTIVA_FAQ_MATCHING.md` y los resultados de la última batería están en `resultados_auditoria_faq_matching_v4.csv/json`.
+La barra lateral incluye `🔎 Modo diagnóstico`. Permite ver:
 
+- si la respuesta viene de FAQ o RAG/IA;
+- qué FAQ se activó y con qué puntuación;
+- si se ha usado Qdrant;
+- si se ha usado IA;
+- fragmentos recuperados y puntuaciones;
+- citas detectadas e inválidas;
+- errores temporales de IA si los hay.
 
-## Estado FAQ v0.4
+No guarda datos personales ni añade coste.
 
-La base local contiene 110 FAQ verificadas. Las FAQ se consultan antes del RAG para ahorrar tokens y reducir alucinaciones en preguntas frecuentes.
+## v053
 
-
-## Versión FAQ
-
-Base FAQ v0.5.1: 130 FAQ verificadas, con corrección de activación para evaluación objetiva.
-
-
-## v052 — Modo diagnóstico opcional
-
-Esta versión añade un modo diagnóstico en la barra lateral. Sirve para desarrollo y permite ver:
-
-- si la respuesta ha salido de FAQ o de RAG/Cerebras;
-- qué FAQ se ha activado y con qué puntuación;
-- si una consulta ha consumido Cerebras;
-- qué fragmentos ha recuperado Qdrant;
-- puntuaciones vectoriales, léxicas y bonus por bloque;
-- citas detectadas e inválidas.
-
-El modo diagnóstico no añade coste, no llama a APIs nuevas y no guarda datos personales.
+Esta versión oculta el proveedor de IA en los mensajes de usuario y archivos públicos, usa Secrets genéricos (`IA_API_KEY`, `IA_API_URL`, `IA_MODEL`) y mejora el tratamiento de límites temporales de IA.
