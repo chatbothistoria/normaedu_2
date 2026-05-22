@@ -15,6 +15,8 @@ IA_API_URL = ""  # se lee más abajo desde Secrets
 # Modo coste cero: límites duros para evitar consumo excesivo de free tiers.
 MAX_TOKENS_RESPUESTA  = 900
 MAX_TOKENS_RAPIDO     = 300
+IA_REINTENTOS_TEMPORALES = 1      # reintento suave si la IA devuelve límite temporal
+IA_REINTENTO_SEGUNDOS    = 12     # espera antes del reintento automático
 MAX_CHARS_PREGUNTA    = 500
 MAX_CHARS_CONTEXTO    = 18000
 MAX_PREGUNTAS_SESION  = 10
@@ -1280,6 +1282,67 @@ def _mostrar_error_ia(resp, diagnostico_base=None, modo_diagnostico=False):
     if modo_diagnostico:
         mostrar_diagnostico(diagnostico)
 
+
+def _post_ia_con_reintento(mensajes, modo_diagnostico=False):
+    """Llama a la IA y reintenta una sola vez si aparece un límite temporal.
+
+    El reintento solo se hace para errores clasificados como límite/servicio temporal.
+    No cambia el proveedor, no usa servicios adicionales y mantiene coste 0.
+    Devuelve (response, intentos), donde intentos no contiene claves ni contenido de la pregunta.
+    """
+    payload = {
+        "model": IA_MODEL,
+        "messages": mensajes,
+        "temperature": 0.1,
+        "max_tokens": MAX_TOKENS_RESPUESTA,
+    }
+    headers = {
+        "Authorization": f"Bearer {IA_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    intentos = []
+    ultimo_resp = None
+
+    for intento in range(IA_REINTENTOS_TEMPORALES + 1):
+        t_intento = time.time()
+        resp = _requests.post(
+            IA_API_URL,
+            headers=headers,
+            json=payload,
+            timeout=60,
+        )
+        ultimo_resp = resp
+
+        if resp.status_code == 200:
+            tipo = "ok"
+            resumen = ""
+        else:
+            tipo, resumen = _clasificar_error_ia(resp)
+
+        intentos.append({
+            "intento": intento + 1,
+            "http_status": resp.status_code,
+            "tipo": tipo,
+            "duracion_ms": round((time.time() - t_intento) * 1000, 2),
+        })
+
+        if resp.status_code == 200:
+            return resp, intentos
+
+        puede_reintentar = tipo in ("limite_temporal", "servicio_temporal")
+        quedan_reintentos = intento < IA_REINTENTOS_TEMPORALES
+        if puede_reintentar and quedan_reintentos:
+            st.info(
+                f"⏳ La IA ha devuelto un límite temporal. Reintentando una vez en {IA_REINTENTO_SEGUNDOS} segundos..."
+            )
+            time.sleep(IA_REINTENTO_SEGUNDOS)
+            continue
+
+        return resp, intentos
+
+    return ultimo_resp, intentos
+
 # =============================================================================
 # INTERFAZ — BARRA LATERAL
 # =============================================================================
@@ -1306,7 +1369,7 @@ st.warning(
     "No introduzcas nombres, DNI, expedientes, datos médicos, sanciones ni "
     "información que permita identificar a alumnos, familias, docentes u otras personas. "
     "La app no guarda tus preguntas en bases de datos externas, pero la consulta se envía "
-    "al proveedor gratuito del modelo de IA para generar la respuesta."
+    "al servicio gratuito de IA para generar la respuesta."
 )
 
 bloque_elegido = st.selectbox(
@@ -1358,7 +1421,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v053_limites_ia",
+                    "version": "v054_limites_ia_reintento",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1422,7 +1485,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v053_limites_ia",
+                            "version": "v054_limites_ia_reintento",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1452,19 +1515,12 @@ if submit and pregunta_input:
                         st.write("---")
                         st.markdown("### 📝 Respuesta:")
 
-                        _resp = _requests.post(
-                            IA_API_URL,
-                            headers={"Authorization": f"Bearer {IA_API_KEY}",
-                                     "Content-Type": "application/json"},
-                            json={"model": IA_MODEL,
-                                  "messages": mensajes,
-                                  "temperature": 0.1,
-                                  "max_tokens": MAX_TOKENS_RESPUESTA},
-                            timeout=60
+                        _resp, _intentos_ia = _post_ia_con_reintento(
+                            mensajes, modo_diagnostico=modo_diagnostico
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v053_limites_ia",
+                                "version": "v054_limites_ia_reintento",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1472,6 +1528,8 @@ if submit and pregunta_input:
                                 "contexto_limite_chars": MAX_CHARS_CONTEXTO,
                                 "max_tokens_respuesta": MAX_TOKENS_RESPUESTA,
                                 "limite_ia_actual": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                                "ia_intentos": _intentos_ia,
+                                "ia_reintentos_usados": max(0, len(_intentos_ia) - 1),
                                 "tiempo_ms": round((time.time()-t0)*1000, 2),
                             }
                             _mostrar_error_ia(_resp, diagnostico_base, modo_diagnostico)
@@ -1500,7 +1558,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v053_limites_ia",
+                            "version": "v054_limites_ia_reintento",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,
@@ -1511,6 +1569,9 @@ if submit and pregunta_input:
                             "contexto_chars": len(contexto_xml),
                             "contexto_limite_chars": MAX_CHARS_CONTEXTO,
                             "max_tokens_respuesta": MAX_TOKENS_RESPUESTA,
+                            "ia_intentos": _intentos_ia,
+                            "ia_reintentos_usados": max(0, len(_intentos_ia) - 1),
+                            "ia_peticion_aceptada": True,
                             "citas_detectadas": [f"[F{x}]" for x in citas_detectadas],
                             "citas_invalidas": [f"[F{x}]" for x in citas_invalidas],
                             "citas_validas": citas_ok,

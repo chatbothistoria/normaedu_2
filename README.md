@@ -30,7 +30,7 @@ No subas nunca claves reales a GitHub. El archivo `.streamlit/secrets.toml.examp
 - Las FAQ verificadas responden sin usar Qdrant ni IA.
 - Las consultas RAG usan Qdrant y la IA solo cuando no hay FAQ aplicable.
 - Existe un límite duro de consultas IA por sesión.
-- Si la IA devuelve un límite temporal, la app no lo presenta como límite diario definitivo.
+- Si la IA devuelve un límite temporal, la app hace un reintento automático suave y no lo presenta como límite diario definitivo.
 
 ## Control de fiabilidad jurídica
 
@@ -53,10 +53,10 @@ La barra lateral incluye `🔎 Modo diagnóstico`. Permite ver:
 - si se ha usado IA;
 - fragmentos recuperados y puntuaciones;
 - citas detectadas e inválidas;
-- errores temporales de IA si los hay.
+- errores temporales de IA y reintentos si los hay.
 
 No guarda datos personales ni añade coste.
 
-## v053
+## v054
 
-Esta versión oculta el proveedor de IA en los mensajes de usuario y archivos públicos, usa Secrets genéricos (`IA_API_KEY`, `IA_API_URL`, `IA_MODEL`) y mejora el tratamiento de límites temporales de IA.
+Esta versión mantiene oculto el proveedor de IA en los mensajes de usuario y archivos públicos, usa Secrets genéricos (`IA_API_KEY`, `IA_API_URL`, `IA_MODEL`) y añade un reintento automático suave cuando la IA devuelve un límite temporal. Si el reintento falla, la app muestra un mensaje genérico de límite temporal y las FAQ siguen funcionando sin consumir tokens de IA.
