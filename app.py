@@ -42,6 +42,7 @@ _DEFAULTS = {
     "feedback_pendiente": False, "feedback_pregunta": None,
     "feedback_respuesta": None, "pregunta_actual": "",
     "consultas_sesion": 0,
+    "ultimo_diagnostico": None,
 }
 for _k, _v in _DEFAULTS.items():
     if _k not in st.session_state:
@@ -1168,6 +1169,42 @@ def guardar_feedback(pregunta, respuesta, util):
     """Feedback no persistente: no se envía a bases de datos externas ni a terceros."""
     return None
 
+
+# =============================================================================
+# MODO DIAGNÓSTICO
+# =============================================================================
+def _diagnostico_fragmentos(fragmentos):
+    """Resumen seguro de fragmentos recuperados para depuración.
+
+    No incluye el texto completo de los fragmentos ni la pregunta del usuario.
+    Sirve para ver si Qdrant está recuperando documentos coherentes sin añadir coste.
+    """
+    resumen = []
+    for i, res in enumerate(fragmentos or [], 1):
+        nombre = (res.get("nombre_archivo", "") or "").replace(".pdf", "").replace("_", " ")
+        resumen.append({
+            "fragmento": f"F{i}",
+            "documento": nombre,
+            "pagina": res.get("pagina_num", ""),
+            "bloque_payload": res.get("bloque", ""),
+            "score_final": round(float(res.get("similarity", 0.0) or 0.0), 4),
+            "score_vectorial": round(float(res.get("score_vectorial", 0.0) or 0.0), 4),
+            "score_lexico": round(float(res.get("score_lexico", 0.0) or 0.0), 4),
+            "bonus_bloque": round(float(res.get("bonus_bloque", 0.0) or 0.0), 4),
+        })
+    return resumen
+
+
+def mostrar_diagnostico(diagnostico: dict):
+    """Muestra diagnóstico solo cuando el modo desarrollo está activado."""
+    if not diagnostico:
+        return
+    with st.expander("🔎 Diagnóstico técnico de la respuesta", expanded=False):
+        st.caption(
+            "Este panel es solo para desarrollo. No añade coste, no llama a APIs y no guarda datos personales."
+        )
+        st.json(diagnostico, expanded=False)
+
 # =============================================================================
 # INTERFAZ — BARRA LATERAL
 # =============================================================================
@@ -1177,6 +1214,13 @@ with st.sidebar:
     if st.session_state.historial_completo:
         st.caption(f"Consultas en historial local: {len(st.session_state.historial_completo)}")
     st.info("Modo coste 0: no se guardan preguntas ni respuestas en bases de datos externas.")
+    modo_diagnostico = st.checkbox(
+        "🔎 Modo diagnóstico",
+        value=False,
+        help="Muestra si la respuesta viene de FAQ o RAG, qué FAQ se activó y qué fragmentos recuperó Qdrant. No añade coste ni guarda datos."
+    )
+    if modo_diagnostico:
+        st.caption("Diagnóstico activo: visible solo en esta sesión.")
 
 # =============================================================================
 # INTERFAZ — CUERPO PRINCIPAL
@@ -1238,6 +1282,22 @@ if submit and pregunta_input:
                 for f in fuentes_u:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
+                diagnostico = {
+                    "version": "v052_diagnostico",
+                    "capa_usada": "FAQ",
+                    "consume_cerebras": False,
+                    "consume_qdrant": False,
+                    "bloque_seleccionado": bloque_elegido,
+                    "faq_id": faq_match.get("id", ""),
+                    "faq_score": round(float(faq_score), 4),
+                    "pregunta_canonica": faq_match.get("pregunta_canonica", ""),
+                    "num_fuentes": len(fuentes_u),
+                    "limite_ia_usado": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                }
+                st.session_state.ultimo_diagnostico = diagnostico
+                if modo_diagnostico:
+                    mostrar_diagnostico(diagnostico)
+
                 # Las FAQ no consumen IA, por eso no incrementan consultas_sesion.
                 st.session_state.ultima_pregunta   = pregunta_input
                 st.session_state.pregunta_actual   = pregunta_input
@@ -1286,6 +1346,21 @@ if submit and pregunta_input:
 
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
+                        diagnostico = {
+                            "version": "v052_diagnostico",
+                            "capa_usada": "RAG",
+                            "estado": "sin_resultados",
+                            "consume_qdrant": True,
+                            "consume_cerebras": False,
+                            "bloque_seleccionado": bloque_elegido,
+                            "faq_id": None,
+                            "resultados_recuperados": 0,
+                            "tiempo_ms": round((time.time()-t0)*1000, 2),
+                            "limite_ia_usado": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                        }
+                        st.session_state.ultimo_diagnostico = diagnostico
+                        if modo_diagnostico:
+                            mostrar_diagnostico(diagnostico)
                         guardar_log(bloque_elegido, pregunta_input, pregunta_corregida,
                                     0, (time.time()-t0)*1000, False)
                     else:
@@ -1335,6 +1410,28 @@ if submit and pregunta_input:
                         for f in fuentes_u:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
+                        diagnostico = {
+                            "version": "v052_diagnostico",
+                            "capa_usada": "RAG_CEREBRAS",
+                            "consume_qdrant": True,
+                            "consume_cerebras": True,
+                            "bloque_seleccionado": bloque_elegido,
+                            "faq_id": None,
+                            "resultados_enviados_llm": len(resultados),
+                            "fragmentos": _diagnostico_fragmentos(resultados),
+                            "contexto_chars": len(contexto_xml),
+                            "contexto_limite_chars": MAX_CHARS_CONTEXTO,
+                            "max_tokens_respuesta": MAX_TOKENS_RESPUESTA,
+                            "citas_detectadas": [f"[F{x}]" for x in citas_detectadas],
+                            "citas_invalidas": [f"[F{x}]" for x in citas_invalidas],
+                            "citas_validas": citas_ok,
+                            "tiempo_ms": round((time.time()-t0)*1000, 2),
+                            "limite_ia_antes_de_incrementar": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                        }
+                        st.session_state.ultimo_diagnostico = diagnostico
+                        if modo_diagnostico:
+                            mostrar_diagnostico(diagnostico)
+
                         st.session_state.consultas_sesion += 1
                         st.session_state.ultima_pregunta   = pregunta_input
                         st.session_state.pregunta_actual   = pregunta_input
@@ -1374,6 +1471,8 @@ elif st.session_state.ultima_respuesta:
     st.markdown("### 📚 Fuentes consultadas:")
     for f in st.session_state.ultimas_fuentes:
         st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+    if modo_diagnostico:
+        mostrar_diagnostico(st.session_state.get("ultimo_diagnostico"))
 
 # =============================================================================
 # FEEDBACK

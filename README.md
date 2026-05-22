@@ -52,3 +52,17 @@ La base local contiene 110 FAQ verificadas. Las FAQ se consultan antes del RAG p
 ## Versión FAQ
 
 Base FAQ v0.5.1: 130 FAQ verificadas, con corrección de activación para evaluación objetiva.
+
+
+## v052 — Modo diagnóstico opcional
+
+Esta versión añade un modo diagnóstico en la barra lateral. Sirve para desarrollo y permite ver:
+
+- si la respuesta ha salido de FAQ o de RAG/Cerebras;
+- qué FAQ se ha activado y con qué puntuación;
+- si una consulta ha consumido Cerebras;
+- qué fragmentos ha recuperado Qdrant;
+- puntuaciones vectoriales, léxicas y bonus por bloque;
+- citas detectadas e inválidas.
+
+El modo diagnóstico no añade coste, no llama a APIs nuevas y no guarda datos personales.
