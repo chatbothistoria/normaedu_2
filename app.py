@@ -37,6 +37,24 @@ FAQ_MATCH_MIN_COVER   = 0.78
 # =============================================================================
 st.set_page_config(page_title="NormaEdu 2", page_icon="📚", layout="centered")
 
+def _ocultar_navegacion_multipagina():
+    st.markdown(
+        """
+        <style>
+        [data-testid="stSidebarNav"] {
+            display: none !important;
+        }
+        section[data-testid="stSidebar"] nav {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+_ocultar_navegacion_multipagina()
+
+
 # =============================================================================
 # SESSION STATE
 # =============================================================================
@@ -1433,7 +1451,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v057_admin_page",
+                    "version": "v058_admin_oculto",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1497,7 +1515,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v057_admin_page",
+                            "version": "v058_admin_oculto",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1532,7 +1550,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v057_admin_page",
+                                "version": "v058_admin_oculto",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1570,7 +1588,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v057_admin_page",
+                            "version": "v058_admin_oculto",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,

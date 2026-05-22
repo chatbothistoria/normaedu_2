@@ -3,6 +3,24 @@ import hmac
 
 st.set_page_config(page_title="Administración - NormaEdu 2", page_icon="🔐")
 
+def _ocultar_navegacion_multipagina():
+    st.markdown(
+        """
+        <style>
+        [data-testid="stSidebarNav"] {
+            display: none !important;
+        }
+        section[data-testid="stSidebar"] nav {
+            display: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+_ocultar_navegacion_multipagina()
+
+
 def _leer_secreto(nombre: str, default=None):
     try:
         return st.secrets[nombre]
