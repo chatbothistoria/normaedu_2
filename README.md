@@ -22,7 +22,7 @@ IA_MODEL = "nombre-del-modelo"
 QDRANT_URL = "https://tu-cluster.cloud.qdrant.io"
 QDRANT_API_KEY = "pega_aqui_tu_clave_de_qdrant"
 
-# Opcional: solo para administradores. Permite activar diagnóstico con ?admin=1.
+# Opcional: solo para administradores. Permite activar diagnóstico accediendo a /admin.
 ADMIN_DIAGNOSTIC_KEY = "elige_una_clave_larga_para_admin"
 ```
 
@@ -51,7 +51,7 @@ La app incluye `faq_normativa.json` con 130 FAQ verificadas. Esta capa se consul
 El modo diagnóstico ya no es visible para usuarios normales. Para activarlo:
 
 1. Añade `ADMIN_DIAGNOSTIC_KEY` en los Secrets de Streamlit.
-2. Abre la app añadiendo `?admin=1` al final de la URL.
+2. Abre la app añadiendo `/admin` al final de la URL, por ejemplo `https://tu-app.streamlit.app/admin`.
 3. Introduce la clave de administrador en la barra lateral.
 4. Activa `🔎 Modo diagnóstico`.
 
@@ -67,6 +67,6 @@ Permite ver:
 
 No guarda datos personales ni añade coste.
 
-## v055
+## v056
 
-Esta versión mantiene los cambios de v054 y añade protección del modo diagnóstico por clave de administrador. Los usuarios normales no ven el botón de diagnóstico. Para acceder, usa `?admin=1` y la clave definida en `ADMIN_DIAGNOSTIC_KEY`.
+Esta versión mantiene los cambios de v055 y cambia el acceso de administrador: el modo diagnóstico se activa entrando en la ruta `/admin`, por ejemplo `https://tu-app.streamlit.app/admin`, y usando la clave definida en `ADMIN_DIAGNOSTIC_KEY`. Los usuarios normales no ven el botón de diagnóstico.
