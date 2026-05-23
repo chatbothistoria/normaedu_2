@@ -93,3 +93,22 @@ https://tu-app.streamlit.app/?admin
 3. Introduce la clave en la barra lateral.
 
 No se usa `pages/admin.py`, para evitar que Streamlit muestre opciones `app/admin` en el menú lateral.
+
+
+## v060 - Ajuste de FAQ de Primaria
+
+La FAQ `primaria_no_promocion_plan_refuerzo` se ha reforzado para cubrir formulaciones como:
+
+```text
+En Primaria, si un alumno no promociona, ¿debe tener algún plan específico?
+```
+
+No se ha duplicado la FAQ porque ya existía una respuesta verificada sobre el plan específico de refuerzo tras no promocionar en Primaria.
+
+
+## v061 - Repetición en Primaria y corrección del campo de pregunta
+
+Cambios mínimos:
+- La pregunta «¿En qué cursos de Primaria puede decidirse la repetición?» activa ahora la FAQ `primaria_repetir_cuando_condiciones_cyl`.
+- Se corrige un desfase visual del cuadro de pregunta: la app podía mostrar la pregunta anterior mientras respondía a la nueva.
+- No se modifican Qdrant, IA, prompt, admin, privacidad ni límites.

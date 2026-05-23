@@ -1,7 +1,7 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "0.5.1-faq130",
+    "version": "v061_primaria_input_fix",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 130,
@@ -9,7 +9,9 @@
     "total_faqs": 130,
     "ultima_actualizacion": "2026-05-19",
     "nota_auditoria": "v0.5.1 corrige el falso negativo de evaluación objetiva añadiendo variantes y regla de intención conservadora; mantiene 130 FAQ y coste 0.",
-    "descripcion": "Base FAQ verificada ampliada a 130 entradas con 20 FAQ nuevas sobre convivencia/sanciones, repetición en Primaria, reclamación en Bachillerato y seguimiento en empresa en FP."
+    "descripcion": "Base FAQ verificada ampliada a 130 entradas con 20 FAQ nuevas sobre convivencia/sanciones, repetición en Primaria, reclamación en Bachillerato y seguimiento en empresa en FP.",
+    "nota_v060": "Se refuerza la FAQ primaria_no_promocion_plan_refuerzo; no se añaden FAQ nuevas para evitar duplicados.",
+    "nota_v061": "Se refuerza la FAQ de repetición por cursos en Primaria y se corrige el desfase visual del campo de pregunta."
   },
   "faqs": [
     {
@@ -4229,7 +4231,17 @@
         "cuándo se puede repetir en Primaria",
         "cuándo puede permanecer un año más en primaria",
         "en primaria cuándo se repite",
-        "repetición primaria condiciones Castilla y León"
+        "repetición primaria condiciones Castilla y León",
+        "en qué cursos de primaria puede decidirse la repetición",
+        "en que cursos de primaria puede decidirse la repeticion",
+        "en qué cursos se puede repetir en primaria",
+        "en que cursos se puede repetir en primaria",
+        "qué cursos de primaria permiten repetir",
+        "que cursos de primaria permiten repetir",
+        "puede decidirse la repetición en segundo cuarto o sexto de primaria",
+        "la repetición en primaria solo se decide al final de ciclo",
+        "en segundo cuarto y sexto se decide la promoción en primaria",
+        "en qué cursos se decide la promoción en primaria"
       ],
       "required_terms": [
         "primaria",
@@ -4248,7 +4260,8 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa.",
+      "nota_mantenimiento_v061": "Se añaden variantes para formulaciones sobre los cursos en los que puede decidirse la repetición en Primaria, evitando que caigan en RAG/IA innecesariamente."
     },
     {
       "id": "primaria_promocion_fin_ciclo_automatica",
@@ -4316,7 +4329,13 @@
         "qué pasa si un alumno no promociona en primaria",
         "plan específico de refuerzo al repetir primaria",
         "si repite primaria hay plan de refuerzo",
-        "medidas cuando no promociona primaria"
+        "medidas cuando no promociona primaria",
+        "si un alumno no promociona en primaria debe tener algún plan específico",
+        "debe tener plan específico si no promociona en primaria",
+        "no promociona primaria plan específico",
+        "si no promociona en primaria hay plan específico de refuerzo",
+        "alumno que no promociona en primaria plan específico de refuerzo",
+        "en primaria si un alumno no promociona debe tener algún plan específico"
       ],
       "required_terms": [
         "primaria",
@@ -4335,7 +4354,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+      "nota_mantenimiento": "FAQ reforzada en v060 tras detectar que la formulación «En Primaria, si un alumno no promociona, ¿debe tener algún plan específico?» pasaba a RAG/IA y podía generar una analogía innecesaria con ESO. Se añaden variantes y regla de intención para responder desde FAQ verificada."
     },
     {
       "id": "bachillerato_reclamacion_calificaciones_centro",

@@ -499,6 +499,10 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
             faq = _buscar_faq_por_id("primaria_no_promocion_plan_refuerzo")
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
+        if _faq_tiene_todos(p, [["curso", "cursos", "segundo", "cuarto", "sexto", "2", "4", "6", "final de ciclo"], ["repeticion", "repetir", "permanencia", "decidirse", "decidir"]]):
+            faq = _buscar_faq_por_id("primaria_repetir_cuando_condiciones_cyl")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
         if _faq_tiene_alguno(p, ["cuando se puede repetir", "cuando puede repetir", "cuando se repite", "permanecer un ano mas", "repeticion primaria"]):
             faq = _buscar_faq_por_id("primaria_repetir_cuando_condiciones_cyl")
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
@@ -1448,9 +1452,12 @@ bloque_elegido = st.selectbox(
 
 
 with st.form(key="form_busqueda"):
+    # No usamos value=st.session_state["pregunta_actual"] porque provocaba
+    # un desfase visual: al enviar una pregunta nueva, el cuadro podía seguir
+    # mostrando la pregunta anterior mientras la respuesta correspondía a la nueva.
     pregunta_input = st.text_area(
         "Haz tu pregunta sobre la normativa:",
-        value=st.session_state.get("pregunta_actual", ""),
+        key="pregunta_input_widget",
         height=100, max_chars=MAX_CHARS_PREGUNTA,
         placeholder="Escribe tu consulta sobre normativa educativa...",
     )
@@ -1483,7 +1490,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v060_plan_refuerzo_primaria",
+                    "version": "v061_primaria_input_fix",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1547,7 +1554,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v060_plan_refuerzo_primaria",
+                            "version": "v061_primaria_input_fix",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1582,7 +1589,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v060_plan_refuerzo_primaria",
+                                "version": "v061_primaria_input_fix",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1620,7 +1627,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v060_plan_refuerzo_primaria",
+                            "version": "v061_primaria_input_fix",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,
@@ -1752,6 +1759,7 @@ if historial:
                         st.session_state[k] = ([] if isinstance(v, list) else v)
                     # Reiniciar el chat no reinicia el contador de uso del free tier.
                     st.session_state.consultas_sesion = consultas_usadas
+                    st.session_state.pop("pregunta_input_widget", None)
                     st.rerun()
             with cb:
                 if st.button("❌ Cancelar", use_container_width=True):
