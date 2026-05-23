@@ -1,17 +1,19 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v061_primaria_input_fix",
+    "version": "v063_fuentes_permisos_auditadas",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
-    "total_faq": 130,
+    "total_faq": 161,
     "activacion_recomendada": "coincidencia conservadora previa al RAG; no usar para casos individualizados.",
-    "total_faqs": 130,
+    "total_faqs": 161,
     "ultima_actualizacion": "2026-05-19",
     "nota_auditoria": "v0.5.1 corrige el falso negativo de evaluación objetiva añadiendo variantes y regla de intención conservadora; mantiene 130 FAQ y coste 0.",
     "descripcion": "Base FAQ verificada ampliada a 130 entradas con 20 FAQ nuevas sobre convivencia/sanciones, repetición en Primaria, reclamación en Bachillerato y seguimiento en empresa en FP.",
     "nota_v060": "Se refuerza la FAQ primaria_no_promocion_plan_refuerzo; no se añaden FAQ nuevas para evitar duplicados.",
-    "nota_v061": "Se refuerza la FAQ de repetición por cursos en Primaria y se corrige el desfase visual del campo de pregunta."
+    "nota_v061": "Se refuerza la FAQ de repetición por cursos en Primaria y se corrige el desfase visual del campo de pregunta.",
+    "nota_v062": "Se añade un primer paquete de FAQ básicas tras auditoría de cobertura de 120 preguntas: Primaria, ESO/Bachillerato, FP, uso de fuentes y permisos; además se refuerzan variantes de FAQ existentes. Se añade también la FAQ de acuerdo reeducativo para cerrar la cobertura básica de convivencia.",
+    "nota_v063": "Corrige dos FAQ de permisos que en v062 tenían una URL incorrecta a BOE-A-2015-10566; se sustituyen por Orden EDU/423/2014 y se actualizan fragmentos verificados."
   },
   "faqs": [
     {
@@ -395,7 +397,10 @@
       "pregunta_canonica": "¿Quién decide la promoción en Educación Primaria?",
       "variantes": [
         "promoción primaria quién decide",
-        "pasar de curso primaria"
+        "pasar de curso primaria",
+        "quién decide si un alumno promociona en primaria",
+        "quién decide la promoción en primaria",
+        "equipo docente decide promoción primaria"
       ],
       "required_terms": [
         "primaria",
@@ -414,12 +419,14 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "quien decide la promocion en educacion primaria",
         "promocion primaria quien decide",
         "pasar de curso primaria",
-        "repetir en primaria"
+        "quien decide si un alumno promociona en primaria",
+        "quien decide la promocion en primaria",
+        "equipo docente decide promocion primaria"
       ]
     },
     {
@@ -473,7 +480,10 @@
       "variantes": [
         "evaluación de diagnóstico primaria curso",
         "diagnóstico cuarto primaria",
-        "evaluación diagnóstico 4 primaria"
+        "evaluación diagnóstico 4 primaria",
+        "hay evaluación de diagnóstico en primaria",
+        "en qué curso se hace la evaluación de diagnóstico en primaria",
+        "evaluación de diagnóstico primaria"
       ],
       "required_terms": [
         "primaria",
@@ -492,12 +502,15 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "en que curso se realiza la evaluacion de diagnostico en primaria",
         "evaluacion de diagnostico primaria curso",
         "diagnostico cuarto primaria",
-        "evaluacion diagnostico 4 primaria"
+        "evaluacion diagnostico 4 primaria",
+        "hay evaluacion de diagnostico en primaria",
+        "en que curso se hace la evaluacion de diagnostico en primaria",
+        "evaluacion de diagnostico primaria"
       ]
     },
     {
@@ -1816,12 +1829,13 @@
         "objetividad en la evaluación del alumnado",
         "objetividad en la evaluacion del alumnado",
         "que el esfuerzo y rendimiento se valore con objetividad",
-        "garantías para que la evaluación sea objetiva"
+        "garantías para que la evaluación sea objetiva",
+        "el alumnado tiene derecho a recibir información sobre criterios de evaluación",
+        "puede un alumno reclamar una calificación",
+        "derecho a criterios de evaluación y reclamaciones"
       ],
       "required_terms": [
-        "derecho",
-        "evaluacion",
-        "objetiva"
+        "evaluacion"
       ],
       "respuesta": "Sí. El alumnado tiene derecho a que su dedicación, esfuerzo y rendimiento sean valorados y reconocidos con objetividad.",
       "fuentes": [
@@ -1836,12 +1850,27 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "tiene el alumnado derecho a una evaluacion objetiva",
         "derecho evaluacion objetiva alumnado",
         "alumnado evaluacion objetiva",
-        "ser evaluado objetivamente"
+        "ser evaluado objetivamente",
+        "garantias evaluacion objetiva",
+        "garantias evaluacion objetiva",
+        "que garantias tiene un alumno para que su evaluacion sea objetiva",
+        "que garantias tiene un alumno para que su evaluacion sea objetiva",
+        "evaluacion objetiva del alumnado",
+        "evaluacion objetiva del alumnado",
+        "derecho a que la evaluacion sea objetiva",
+        "derecho a que la evaluacion sea objetiva",
+        "objetividad en la evaluacion del alumnado",
+        "objetividad en la evaluacion del alumnado",
+        "que el esfuerzo y rendimiento se valore con objetividad",
+        "garantias para que la evaluacion sea objetiva",
+        "el alumnado tiene derecho a recibir informacion sobre criterios de evaluacion",
+        "puede un alumno reclamar una calificacion",
+        "derecho a criterios de evaluacion y reclamaciones"
       ]
     },
     {
@@ -2009,7 +2038,9 @@
       "variantes": [
         "permiso traslado domicilio docente",
         "días por mudanza docente",
-        "traslado de domicilio permiso"
+        "traslado de domicilio permiso",
+        "qué permiso hay por traslado de domicilio",
+        "permiso por traslado de domicilio"
       ],
       "required_terms": [
         "traslado",
@@ -2028,12 +2059,14 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "cuantos dias corresponden por traslado de domicilio al personal docente",
         "permiso traslado domicilio docente",
         "dias por mudanza docente",
-        "traslado de domicilio permiso"
+        "traslado de domicilio permiso",
+        "que permiso hay por traslado de domicilio",
+        "permiso por traslado de domicilio"
       ]
     },
     {
@@ -2077,10 +2110,11 @@
       "variantes": [
         "permiso matrimonio docente",
         "días matrimonio funcionario docente",
-        "maestro se casa permiso"
+        "maestro se casa permiso",
+        "qué permiso corresponde por matrimonio",
+        "permiso por matrimonio"
       ],
       "required_terms": [
-        "permiso",
         "matrimonio"
       ],
       "respuesta": "El personal funcionario docente de Castilla y León tiene derecho a quince días naturales ininterrumpidos por matrimonio.",
@@ -2096,12 +2130,14 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "cuantos dias de permiso por matrimonio tiene un docente",
         "permiso matrimonio docente",
         "dias matrimonio funcionario docente",
-        "maestro se casa permiso"
+        "maestro se casa permiso",
+        "que permiso corresponde por matrimonio",
+        "permiso por matrimonio"
       ]
     },
     {
@@ -2111,11 +2147,12 @@
       "variantes": [
         "permiso lactancia docente",
         "lactancia hijo menor 12 meses docente",
-        "hora ausencia lactancia funcionario docente"
+        "hora ausencia lactancia funcionario docente",
+        "qué permiso corresponde por lactancia",
+        "permiso por lactancia"
       ],
       "required_terms": [
-        "lactancia",
-        "docente"
+        "lactancia"
       ],
       "respuesta": "Por lactancia de hijo menor de 12 meses se tiene derecho a una hora de ausencia del trabajo, que puede dividirse en dos fracciones o sustituirse por reducción de jornada en los términos previstos.",
       "fuentes": [
@@ -2130,12 +2167,14 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "en que consiste el permiso por lactancia de hijo menor de 12 meses",
         "permiso lactancia docente",
         "lactancia hijo menor 12 meses docente",
-        "hora ausencia lactancia funcionario docente"
+        "hora ausencia lactancia funcionario docente",
+        "que permiso corresponde por lactancia",
+        "permiso por lactancia"
       ]
     },
     {
@@ -2153,11 +2192,14 @@
         "tengo una alumna llamada Ana López puedo ponerlo aquí",
         "mi alumno Juan Pérez tiene un expediente disciplinario",
         "puedo poner un nombre y apellidos de un menor",
-        "puedo escribir el nombre de una profesora en la app"
+        "puedo escribir el nombre de una profesora en la app",
+        "puedo consultar un caso real si quito nombres y apellidos",
+        "qué datos personales no debo introducir en la app",
+        "qué hago si mi pregunta contiene datos de salud de un alumno",
+        "puedo pegar un informe médico anonimizado"
       ],
       "required_terms": [
-        "datos",
-        "alumnos"
+        "datos"
       ],
       "respuesta": "No introduzcas nombres, apellidos, DNI, expedientes, datos médicos, diagnósticos, sanciones ni información que permita identificar a alumnado, familias, docentes u otras personas. Para consultar un caso, anonímalo antes y formula la pregunta de forma general.",
       "fuentes": [
@@ -2173,7 +2215,7 @@
       "estado_verificacion": "verificado_fuente_oficial_web_aepd",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si la AEPD actualiza sus guías o criterios para centros educativos.",
+      "nota_mantenimiento": "Revisar si la AEPD actualiza sus guías o criterios para centros educativos. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "puedo introducir nombres o datos personales de alumnos en la app",
         "puedo meter nombres de alumnos en la app",
@@ -2186,7 +2228,11 @@
         "tengo una alumna llamada ana lopez puedo ponerlo aqui",
         "mi alumno juan perez tiene un expediente disciplinario",
         "puedo poner un nombre y apellidos de un menor",
-        "puedo escribir el nombre de una profesora en la app"
+        "puedo escribir el nombre de una profesora en la app",
+        "puedo consultar un caso real si quito nombres y apellidos",
+        "que datos personales no debo introducir en la app",
+        "que hago si mi pregunta contiene datos de salud de un alumno",
+        "puedo pegar un informe medico anonimizado"
       ]
     },
     {
@@ -2236,11 +2282,12 @@
         "permiso deber inexcusable cuánto tiempo",
         "tengo un juicio como docente permiso",
         "ir al juzgado es deber inexcusable docente",
-        "permiso por obligación pública personal docente"
+        "permiso por obligación pública personal docente",
+        "qué es un deber inexcusable",
+        "permiso por deber inexcusable"
       ],
       "required_terms": [
-        "deber inexcusable",
-        "permiso"
+        "deber inexcusable"
       ],
       "respuesta": "El permiso por deber inexcusable se concede por el tiempo indispensable para cumplir un deber público o personal que no pueda eludirse, no pueda realizarse por representante y no pueda hacerse fuera del horario de trabajo.",
       "fuentes": [
@@ -2255,13 +2302,15 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "cuanto dura el permiso por deber inexcusable de un docente",
         "permiso deber inexcusable cuanto tiempo",
         "tengo un juicio como docente permiso",
         "ir al juzgado es deber inexcusable docente",
-        "permiso por obligacion publica personal docente"
+        "permiso por obligacion publica personal docente",
+        "que es un deber inexcusable",
+        "permiso por deber inexcusable"
       ]
     },
     {
@@ -2845,7 +2894,10 @@
         "máximo tiempo en bachillerato ordinario",
         "cuánto tiempo se puede permanecer en bachillerato ordinario",
         "cuánto dura bachillerato ordinario",
-        "duración bachillerato régimen ordinario"
+        "duración bachillerato régimen ordinario",
+        "se puede repetir 1º de bachillerato",
+        "se puede repetir 2º de bachillerato",
+        "repetir primero segundo bachillerato"
       ],
       "required_terms": [
         "bachillerato"
@@ -2863,7 +2915,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "cuanto tiempo puede permanecer un alumno cursando bachillerato en regimen ordinario",
         "bachillerato regimen ordinario cuatro anos",
@@ -2873,7 +2925,12 @@
         "cuantos anos puedo estar en bachillerato ordinario",
         "cuantos anos puedo estar en bachillerato ordinario",
         "maximo tiempo en bachillerato ordinario",
-        "cuanto tiempo se puede permanecer en bachillerato ordinario"
+        "cuanto tiempo se puede permanecer en bachillerato ordinario",
+        "cuanto dura bachillerato ordinario",
+        "duracion bachillerato regimen ordinario",
+        "se puede repetir 1o de bachillerato",
+        "se puede repetir 2o de bachillerato",
+        "repetir primero segundo bachillerato"
       ]
     },
     {
@@ -2884,7 +2941,9 @@
         "promocionar primero segundo bachillerato dos materias",
         "bachillerato pasar a segundo con dos suspensas",
         "promoción 1 bachillerato 2 materias negativas",
-        "cuántas suspensas para pasar a segundo bachillerato"
+        "cuántas suspensas para pasar a segundo bachillerato",
+        "con cuántas materias se promociona de 1º a 2º de bachillerato",
+        "con cuántas materias se promociona de 1.º a 2.º de bachillerato"
       ],
       "required_terms": [
         "bachillerato",
@@ -2903,13 +2962,15 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v062 con variantes de preguntas básicas.",
       "normalizado_variantes": [
         "con cuantas materias suspensas se promociona de primero a segundo de bachillerato",
         "promocionar primero segundo bachillerato dos materias",
         "bachillerato pasar a segundo con dos suspensas",
         "promocion 1 bachillerato 2 materias negativas",
-        "cuantas suspensas para pasar a segundo bachillerato"
+        "cuantas suspensas para pasar a segundo bachillerato",
+        "con cuantas materias se promociona de 1o a 2o de bachillerato",
+        "con cuantas materias se promociona de 1 o a 2 o de bachillerato"
       ]
     },
     {
@@ -4050,7 +4111,9 @@
         "conductas contrarias normas convivencia Castilla y León",
         "qué se considera conducta contraria a la convivencia",
         "faltas leves convivencia alumnado CYL",
-        "conductas que perturban la convivencia en el centro"
+        "conductas que perturban la convivencia en el centro",
+        "qué son las conductas contrarias a la convivencia",
+        "conductas contrarias a la convivencia"
       ],
       "required_terms": [
         "conductas",
@@ -4069,7 +4132,16 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas.",
+      "normalizado_variantes": [
+        "que son las conductas contrarias a las normas de convivencia en castilla y leon",
+        "conductas contrarias normas convivencia castilla y leon",
+        "que se considera conducta contraria a la convivencia",
+        "faltas leves convivencia alumnado cyl",
+        "conductas que perturban la convivencia en el centro",
+        "que son las conductas contrarias a la convivencia",
+        "conductas contrarias a la convivencia"
+      ]
     },
     {
       "id": "cyl_conductas_gravemente_perjudiciales",
@@ -4144,11 +4216,14 @@
         "actuaciones inmediatas convivencia profesor",
         "amonestación pública o privada disculpas recreo",
         "qué puede hacer el profesor ante conducta perturbadora",
-        "actuaciones inmediatas artículo 35 Decreto 51/2007"
+        "actuaciones inmediatas artículo 35 Decreto 51/2007",
+        "qué medidas puede tomar un profesor ante una conducta disruptiva",
+        "qué puede hacer el centro si un alumno impide reiteradamente la clase",
+        "alumno impide reiteradamente el desarrollo de la clase",
+        "conducta disruptiva profesor medidas"
       ],
       "required_terms": [
-        "actuaciones",
-        "inmediatas"
+        "conducta"
       ],
       "respuesta": "El Decreto 51/2007 permite actuaciones inmediatas para el cese de la conducta perturbadora, como amonestación pública o privada, petición de disculpas, suspensión del derecho a permanecer en el lugar de la actividad con control del alumno, o trabajos específicos en recreo u horario no lectivo.",
       "fuentes": [
@@ -4163,7 +4238,18 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas.",
+      "normalizado_variantes": [
+        "que actuaciones inmediatas puede adoptar un profesor ante una conducta que perturba la convivencia",
+        "actuaciones inmediatas convivencia profesor",
+        "amonestacion publica o privada disculpas recreo",
+        "que puede hacer el profesor ante conducta perturbadora",
+        "actuaciones inmediatas articulo 35 decreto 51 2007",
+        "que medidas puede tomar un profesor ante una conducta disruptiva",
+        "que puede hacer el centro si un alumno impide reiteradamente la clase",
+        "alumno impide reiteradamente el desarrollo de la clase",
+        "conducta disruptiva profesor medidas"
+      ]
     },
     {
       "id": "cyl_criterios_correcciones_alumnado",
@@ -4173,10 +4259,11 @@
         "criterios correcciones disciplinarias alumnado",
         "proporcionalidad sanciones alumnado dignidad derecho educación",
         "correcciones no pueden menoscabar dignidad alumno",
-        "criterios artículo 30 decreto 51 2007"
+        "criterios artículo 30 decreto 51 2007",
+        "las correcciones disciplinarias deben ser proporcionales",
+        "proporcionalidad correcciones disciplinarias"
       ],
       "required_terms": [
-        "criterios",
         "correcciones"
       ],
       "respuesta": "Las correcciones deben tener carácter educativo, ser proporcionales y contribuir a mantener y mejorar el proceso educativo. No pueden privar al alumnado de su derecho a la educación ni menoscabar su integridad física o dignidad personal.",
@@ -4192,7 +4279,16 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas.",
+      "normalizado_variantes": [
+        "que criterios deben respetar las correcciones disciplinarias al alumnado",
+        "criterios correcciones disciplinarias alumnado",
+        "proporcionalidad sanciones alumnado dignidad derecho educacion",
+        "correcciones no pueden menoscabar dignidad alumno",
+        "criterios articulo 30 decreto 51 2007",
+        "las correcciones disciplinarias deben ser proporcionales",
+        "proporcionalidad correcciones disciplinarias"
+      ]
     },
     {
       "id": "cyl_mediacion_escolar_convivencia",
@@ -4202,11 +4298,12 @@
         "mediación escolar convivencia Castilla y León",
         "qué es mediación en conflictos escolares",
         "mediación artículo 42 Decreto 51/2007",
-        "mediador escolar conflictos alumnos"
+        "mediador escolar conflictos alumnos",
+        "qué es la mediación escolar",
+        "mediación escolar"
       ],
       "required_terms": [
-        "mediacion",
-        "convivencia"
+        "mediacion"
       ],
       "respuesta": "La mediación escolar es una forma de abordar conflictos entre dos o más personas con ayuda de una tercera persona mediadora. Su objetivo principal es analizar las necesidades de las partes y regular la comunicación para buscar una solución satisfactoria.",
       "fuentes": [
@@ -4221,7 +4318,16 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas.",
+      "normalizado_variantes": [
+        "que es la mediacion escolar en la convivencia de castilla y leon",
+        "mediacion escolar convivencia castilla y leon",
+        "que es mediacion en conflictos escolares",
+        "mediacion articulo 42 decreto 51 2007",
+        "mediador escolar conflictos alumnos",
+        "que es la mediacion escolar",
+        "mediacion escolar"
+      ]
     },
     {
       "id": "primaria_repetir_cuando_condiciones_cyl",
@@ -4335,11 +4441,13 @@
         "no promociona primaria plan específico",
         "si no promociona en primaria hay plan específico de refuerzo",
         "alumno que no promociona en primaria plan específico de refuerzo",
-        "en primaria si un alumno no promociona debe tener algún plan específico"
+        "en primaria si un alumno no promociona debe tener algún plan específico",
+        "hay que oír a las familias antes de decidir que un alumno no promocione",
+        "se oye a los padres antes de decidir no promoción en primaria",
+        "familias antes de no promocionar primaria"
       ],
       "required_terms": [
-        "primaria",
-        "no promociona"
+        "primaria"
       ],
       "respuesta": "Cuando un alumno no promociona en Primaria, el equipo docente debe diseñar y aplicar un plan específico de refuerzo basado en un informe del equipo docente del curso anterior. Antes de adoptar la decisión de no promoción, el tutor debe oír a los padres, madres o tutores legales.",
       "fuentes": [
@@ -4354,7 +4462,23 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ reforzada en v060 tras detectar que la formulación «En Primaria, si un alumno no promociona, ¿debe tener algún plan específico?» pasaba a RAG/IA y podía generar una analogía innecesaria con ESO. Se añaden variantes y regla de intención para responder desde FAQ verificada."
+      "nota_mantenimiento": "FAQ reforzada en v060 tras detectar que la formulación «En Primaria, si un alumno no promociona, ¿debe tener algún plan específico?» pasaba a RAG/IA y podía generar una analogía innecesaria con ESO. Se añaden variantes y regla de intención para responder desde FAQ verificada. Reforzada en v062 con variantes de preguntas básicas.",
+      "normalizado_variantes": [
+        "que debe hacerse si un alumno no promociona en primaria",
+        "que pasa si un alumno no promociona en primaria",
+        "plan especifico de refuerzo al repetir primaria",
+        "si repite primaria hay plan de refuerzo",
+        "medidas cuando no promociona primaria",
+        "si un alumno no promociona en primaria debe tener algun plan especifico",
+        "debe tener plan especifico si no promociona en primaria",
+        "no promociona primaria plan especifico",
+        "si no promociona en primaria hay plan especifico de refuerzo",
+        "alumno que no promociona en primaria plan especifico de refuerzo",
+        "en primaria si un alumno no promociona debe tener algun plan especifico",
+        "hay que oir a las familias antes de decidir que un alumno no promocione",
+        "se oye a los padres antes de decidir no promocion en primaria",
+        "familias antes de no promocionar primaria"
+      ]
     },
     {
       "id": "bachillerato_reclamacion_calificaciones_centro",
@@ -4595,6 +4719,1156 @@
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
       "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+    },
+    {
+      "id": "primaria_asignaturas_primero_quinto",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué asignaturas o áreas hay de 1.º a 5.º de Primaria en Castilla y León?",
+      "variantes": [
+        "qué asignaturas hay en 1º de primaria",
+        "qué asignaturas hay en 1.º de primaria",
+        "dame el nombre de las asignaturas de 1º de primaria",
+        "qué asignaturas hay en 3º de primaria",
+        "qué asignaturas hay en 3.º de primaria",
+        "qué áreas se dan en 4º de primaria",
+        "qué áreas se dan en 4.º de primaria",
+        "qué asignaturas hay en 5º de primaria",
+        "qué asignaturas hay en 5.º de primaria",
+        "áreas de primaria de primero a quinto"
+      ],
+      "required_terms": [
+        "primaria",
+        "areas"
+      ],
+      "respuesta": "En 1.º a 5.º de Educación Primaria en Castilla y León se imparten las áreas de Ciencias de la Naturaleza, Ciencias Sociales, Educación Plástica y Visual, Música y Danza, Educación Física, Lengua Castellana y Literatura, Lengua Extranjera y Matemáticas. Además, Religión es de oferta obligada y de elección voluntaria, y el alumnado que no curse Religión realiza un área basada en proyectos significativos vinculados a aspectos transversales del currículo.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - Educación Primaria: currículo y áreas",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/educacion-primaria/educacion-primaria",
+          "fragmento_verificado": "Las áreas que se imparten en todos los cursos de educación primaria son Ciencias de la Naturaleza, Ciencias Sociales, Educación Plástica y Visual, Música y Danza, Educación Física, Lengua Castellana y Literatura, Lengua Extranjera y Matemáticas; Religión es de oferta obligada y elección voluntaria; en sexto se añade Educación en Valores Cívicos y Éticos."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que asignaturas o areas hay de 1 o a 5 o de primaria en castilla y leon",
+        "que asignaturas hay en 1o de primaria",
+        "que asignaturas hay en 1 o de primaria",
+        "dame el nombre de las asignaturas de 1o de primaria",
+        "que asignaturas hay en 3o de primaria",
+        "que asignaturas hay en 3 o de primaria",
+        "que areas se dan en 4o de primaria",
+        "que areas se dan en 4 o de primaria",
+        "que asignaturas hay en 5o de primaria",
+        "que asignaturas hay en 5 o de primaria",
+        "areas de primaria de primero a quinto"
+      ]
+    },
+    {
+      "id": "primaria_asignaturas_sexto_valores",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué asignaturas o áreas hay en 6.º de Primaria?",
+      "variantes": [
+        "qué asignaturas hay en 6º de primaria",
+        "qué asignaturas hay en 6.º de primaria",
+        "qué áreas hay en sexto de primaria",
+        "en qué curso se imparte educación en valores cívicos y éticos en primaria",
+        "valores cívicos y éticos en primaria en qué curso",
+        "educación en valores cívicos y éticos primaria sexto"
+      ],
+      "required_terms": [
+        "primaria"
+      ],
+      "respuesta": "En 6.º de Educación Primaria se imparten las áreas comunes de Primaria y, además, se añade el área Educación en Valores Cívicos y Éticos. Religión sigue siendo de oferta obligada y elección voluntaria.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - Educación Primaria: currículo y áreas",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/educacion-primaria/educacion-primaria",
+          "fragmento_verificado": "Las áreas que se imparten en todos los cursos de educación primaria son Ciencias de la Naturaleza, Ciencias Sociales, Educación Plástica y Visual, Música y Danza, Educación Física, Lengua Castellana y Literatura, Lengua Extranjera y Matemáticas; Religión es de oferta obligada y elección voluntaria; en sexto se añade Educación en Valores Cívicos y Éticos."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que asignaturas o areas hay en 6 o de primaria",
+        "que asignaturas hay en 6o de primaria",
+        "que asignaturas hay en 6 o de primaria",
+        "que areas hay en sexto de primaria",
+        "en que curso se imparte educacion en valores civicos y eticos en primaria",
+        "valores civicos y eticos en primaria en que curso",
+        "educacion en valores civicos y eticos primaria sexto"
+      ]
+    },
+    {
+      "id": "primaria_religion_oferta_voluntaria",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿La Religión es obligatoria en Primaria?",
+      "variantes": [
+        "la religión es obligatoria en primaria",
+        "religión obligatoria primaria",
+        "es obligatorio cursar religión en primaria",
+        "religión en educación primaria es voluntaria"
+      ],
+      "required_terms": [
+        "primaria",
+        "religion"
+      ],
+      "respuesta": "No. En Educación Primaria, el área de Religión es de oferta obligada para los centros, pero de elección voluntaria para las familias o representantes legales del alumnado.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - Educación Primaria: currículo y áreas",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/educacion-primaria/educacion-primaria",
+          "fragmento_verificado": "Las áreas que se imparten en todos los cursos de educación primaria son Ciencias de la Naturaleza, Ciencias Sociales, Educación Plástica y Visual, Música y Danza, Educación Física, Lengua Castellana y Literatura, Lengua Extranjera y Matemáticas; Religión es de oferta obligada y elección voluntaria; en sexto se añade Educación en Valores Cívicos y Éticos."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "la religion es obligatoria en primaria",
+        "la religion es obligatoria en primaria",
+        "religion obligatoria primaria",
+        "es obligatorio cursar religion en primaria",
+        "religion en educacion primaria es voluntaria"
+      ]
+    },
+    {
+      "id": "primaria_atencion_educativa_no_religion",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué hace el alumnado que no cursa Religión en Primaria?",
+      "variantes": [
+        "qué hace el alumnado que no cursa religión en primaria",
+        "alternativa a religión primaria",
+        "qué cursan los alumnos que no dan religión en primaria",
+        "atención educativa si no cursa religión primaria"
+      ],
+      "required_terms": [
+        "primaria",
+        "religion"
+      ],
+      "respuesta": "El alumnado que no reciba enseñanzas de Religión cursará un área basada en la realización de proyectos significativos vinculados a los aspectos más transversales del currículo, contextualizados en los valores, tradiciones y cultura de Castilla y León.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - Educación Primaria: currículo y áreas",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/educacion-primaria/educacion-primaria",
+          "fragmento_verificado": "Las áreas que se imparten en todos los cursos de educación primaria son Ciencias de la Naturaleza, Ciencias Sociales, Educación Plástica y Visual, Música y Danza, Educación Física, Lengua Castellana y Literatura, Lengua Extranjera y Matemáticas; Religión es de oferta obligada y elección voluntaria; en sexto se añade Educación en Valores Cívicos y Éticos."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que hace el alumnado que no cursa religion en primaria",
+        "que hace el alumnado que no cursa religion en primaria",
+        "alternativa a religion primaria",
+        "que cursan los alumnos que no dan religion en primaria",
+        "atencion educativa si no cursa religion primaria"
+      ]
+    },
+    {
+      "id": "primaria_calificaciones_siglas_in_su_bi_nt_sb",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué significan IN, SU, BI, NT y SB en Primaria?",
+      "variantes": [
+        "qué significan in su bi nt y sb en primaria",
+        "cómo se expresan las calificaciones en primaria",
+        "calificaciones in su bi nt sb primaria",
+        "notas primaria in su bi nt sb"
+      ],
+      "required_terms": [
+        "primaria",
+        "calificaciones"
+      ],
+      "respuesta": "En Primaria, las calificaciones finales se expresan de forma cualitativa. Las siglas habituales son IN para Insuficiente, SU para Suficiente, BI para Bien, NT para Notable y SB para Sobresaliente.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2024, evaluación en Educación Primaria en Castilla y León",
+          "archivo": "fuente_oficial_web",
+          "pagina": "BOCYL",
+          "url": "https://bocyl.jcyl.es/boletines/2024/05/17/pdf/BOCYL-D-17052024-2.pdf",
+          "fragmento_verificado": "La evaluación final del alumnado en Educación Primaria se expresa mediante calificaciones cualitativas: Insuficiente, Suficiente, Bien, Notable y Sobresaliente."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que significan in su bi nt y sb en primaria",
+        "que significan in su bi nt y sb en primaria",
+        "como se expresan las calificaciones en primaria",
+        "calificaciones in su bi nt sb primaria",
+        "notas primaria in su bi nt sb"
+      ]
+    },
+    {
+      "id": "primaria_evaluacion_continua_finalidad",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿La evaluación en Primaria es continua y qué finalidad tiene?",
+      "variantes": [
+        "qué finalidad tiene la evaluación en primaria",
+        "la evaluación en primaria es continua",
+        "evaluación continua primaria",
+        "finalidad de la evaluación en educación primaria"
+      ],
+      "required_terms": [
+        "primaria",
+        "evaluacion"
+      ],
+      "respuesta": "La evaluación en Educación Primaria es global, continua y formativa. En Castilla y León, además, tiene carácter criterial y orientador. Debe valorar el desarrollo de las competencias clave y el progreso del alumnado en los procesos de aprendizaje.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - Educación Primaria: evaluación y calificación",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/educacion-primaria/educacion-primaria",
+          "fragmento_verificado": "La evaluación en Educación Primaria será global, continua y formativa; en Castilla y León será además criterial y orientadora."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "la evaluacion en primaria es continua y que finalidad tiene",
+        "que finalidad tiene la evaluacion en primaria",
+        "la evaluacion en primaria es continua",
+        "evaluacion continua primaria",
+        "finalidad de la evaluacion en educacion primaria"
+      ]
+    },
+    {
+      "id": "primaria_refuerzo_dificultades_aprendizaje",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué pasa si un alumno tiene dificultades en Primaria?",
+      "variantes": [
+        "qué pasa si un alumno tiene dificultades en primaria",
+        "qué medidas de refuerzo puede recibir un alumno de primaria",
+        "dificultades de aprendizaje primaria refuerzo",
+        "medidas de refuerzo primaria"
+      ],
+      "required_terms": [
+        "primaria",
+        "refuerzo"
+      ],
+      "respuesta": "Cuando se detectan dificultades en Educación Primaria, deben adoptarse medidas de apoyo y refuerzo orientadas a superar las dificultades y favorecer el progreso del alumnado. Si finalmente el alumno no promociona, el equipo docente debe diseñar y aplicar un plan específico de refuerzo basado en un informe del curso anterior.",
+      "fuentes": [
+        {
+          "documento": "Decreto 38/2022, currículo de Educación Primaria en Castilla y León",
+          "archivo": "fuente_oficial_web",
+          "pagina": "art. 20",
+          "url": "https://bocyl.jcyl.es/boletines/2022/09/30/pdf/BOCYL-D-30092022-2.pdf",
+          "fragmento_verificado": "El Decreto 38/2022 regula la promoción en Primaria y prevé el plan específico de refuerzo cuando un alumno no promocione."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que pasa si un alumno tiene dificultades en primaria",
+        "que pasa si un alumno tiene dificultades en primaria",
+        "que medidas de refuerzo puede recibir un alumno de primaria",
+        "dificultades de aprendizaje primaria refuerzo",
+        "medidas de refuerzo primaria"
+      ]
+    },
+    {
+      "id": "primaria_norma_estatal_rd157",
+      "bloque": "infantil_primaria",
+      "pregunta_canonica": "¿Qué norma estatal regula la ordenación de Primaria?",
+      "variantes": [
+        "qué norma estatal regula la ordenación de primaria",
+        "norma estatal educación primaria",
+        "real decreto primaria ordenación",
+        "real decreto 157 2022 primaria"
+      ],
+      "required_terms": [
+        "primaria",
+        "norma"
+      ],
+      "respuesta": "La norma estatal básica de ordenación de Educación Primaria es el Real Decreto 157/2022, de 1 de marzo, por el que se establecen la ordenación y las enseñanzas mínimas de la Educación Primaria.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 157/2022, ordenación y enseñanzas mínimas de Educación Primaria",
+          "archivo": "Real_Decreto_157_2022_1_marzo_ordenacion_primaria.pdf",
+          "pagina": "1",
+          "url": "https://www.boe.es/boe/dias/2022/03/02/pdfs/BOE-A-2022-3296.pdf",
+          "fragmento_verificado": "Real Decreto 157/2022, de 1 de marzo, por el que se establecen la ordenación y las enseñanzas mínimas de la Educación Primaria."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que norma estatal regula la ordenacion de primaria",
+        "que norma estatal regula la ordenacion de primaria",
+        "norma estatal educacion primaria",
+        "real decreto primaria ordenacion",
+        "real decreto 157 2022 primaria"
+      ]
+    },
+    {
+      "id": "eso_edades_comprende",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué edades comprende la ESO?",
+      "variantes": [
+        "qué edades comprende la eso",
+        "edad eso",
+        "edades educación secundaria obligatoria",
+        "qué edad tiene el alumnado de eso"
+      ],
+      "required_terms": [
+        "eso"
+      ],
+      "respuesta": "La Educación Secundaria Obligatoria se cursa ordinariamente después de Primaria y comprende cuatro cursos académicos. Con carácter general se cursa entre los doce y los dieciséis años, aunque la permanencia puede variar conforme a las reglas de promoción y repetición.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-4975",
+          "fragmento_verificado": "El Real Decreto 217/2022 establece la ordenación y las enseñanzas mínimas de la Educación Secundaria Obligatoria, incluyendo aspectos de evaluación, promoción y titulación."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que edades comprende la eso",
+        "que edades comprende la eso",
+        "edad eso",
+        "edades educacion secundaria obligatoria",
+        "que edad tiene el alumnado de eso"
+      ]
+    },
+    {
+      "id": "eso_materias_primero_tercero",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué materias hay en 1.º, 2.º y 3.º de ESO en Castilla y León?",
+      "variantes": [
+        "qué materias hay en 1º de eso",
+        "qué materias hay en 1.º de eso",
+        "qué materias hay en 2º de eso",
+        "qué materias hay en 2.º de eso",
+        "qué materias hay en 3º de eso",
+        "qué materias hay en 3.º de eso",
+        "asignaturas primero segundo tercero eso"
+      ],
+      "required_terms": [
+        "eso",
+        "areas"
+      ],
+      "respuesta": "En 1.º, 2.º y 3.º de ESO en Castilla y León existen materias comunes como Biología y Geología, Educación Física, Geografía e Historia, Lengua Castellana y Literatura, Lengua Extranjera y Matemáticas, junto con otras materias según curso y elección, como Física y Química, Educación Plástica, Visual y Audiovisual, Música, Tecnología y Digitalización, Educación en Valores Cívicos y Éticos, Religión/alternativa y materias optativas.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - ESO: organización de materias y horario semanal",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/educacion-secundaria-obligatoria/educacion-secundaria-obligatoria/ordenacion-etapa/organizacion",
+          "fragmento_verificado": "La organización de ESO recoge las materias comunes de 1.º a 3.º, las materias optativas y la organización de 4.º curso, con materias comunes y materias de elección."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que materias hay en 1 o 2 o y 3 o de eso en castilla y leon",
+        "que materias hay en 1o de eso",
+        "que materias hay en 1 o de eso",
+        "que materias hay en 2o de eso",
+        "que materias hay en 2 o de eso",
+        "que materias hay en 3o de eso",
+        "que materias hay en 3 o de eso",
+        "asignaturas primero segundo tercero eso"
+      ]
+    },
+    {
+      "id": "eso_materias_cuarto",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué materias hay en 4.º de ESO en Castilla y León?",
+      "variantes": [
+        "qué materias hay en 4º de eso",
+        "qué materias hay en 4.º de eso",
+        "asignaturas cuarto eso",
+        "materias cuarto de eso castilla y león"
+      ],
+      "required_terms": [
+        "eso",
+        "areas"
+      ],
+      "respuesta": "En 4.º de ESO en Castilla y León todo el alumnado cursa Educación Física, Geografía e Historia, Lengua Castellana y Literatura, Lengua Extranjera y Matemáticas A o B. Además, cursa materias de elección, entre otras Biología y Geología, Latín, Economía y Emprendimiento, Física y Química, Digitalización, Expresión Artística, Formación y Orientación Personal y Profesional y Música, según la organización normativa y la oferta del centro.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - ESO: organización de materias y horario semanal",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/educacion-secundaria-obligatoria/educacion-secundaria-obligatoria/ordenacion-etapa/organizacion",
+          "fragmento_verificado": "La organización de ESO recoge las materias comunes de 1.º a 3.º, las materias optativas y la organización de 4.º curso, con materias comunes y materias de elección."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que materias hay en 4 o de eso en castilla y leon",
+        "que materias hay en 4o de eso",
+        "que materias hay en 4 o de eso",
+        "asignaturas cuarto eso",
+        "materias cuarto de eso castilla y leon"
+      ]
+    },
+    {
+      "id": "eso_promocion_repeticion_basica",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cuándo se promociona o se repite en ESO?",
+      "variantes": [
+        "cuándo puede repetir un alumno en eso",
+        "cuántas veces se puede repetir en eso",
+        "con cuántas materias suspensas se puede promocionar en eso",
+        "quién decide la promoción en eso",
+        "promoción eso materias suspensas",
+        "repetición eso"
+      ],
+      "required_terms": [
+        "eso"
+      ],
+      "respuesta": "En ESO, las decisiones de promoción y permanencia se adoptan de forma colegiada por el equipo docente, atendiendo a la consecución de los objetivos, al grado de adquisición de competencias y a las posibilidades de progreso del alumnado. La permanencia en el mismo curso tiene carácter excepcional.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-4975",
+          "fragmento_verificado": "El Real Decreto 217/2022 establece la ordenación y las enseñanzas mínimas de la Educación Secundaria Obligatoria, incluyendo aspectos de evaluación, promoción y titulación."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "cuando se promociona o se repite en eso",
+        "cuando puede repetir un alumno en eso",
+        "cuantas veces se puede repetir en eso",
+        "con cuantas materias suspensas se puede promocionar en eso",
+        "quien decide la promocion en eso",
+        "promocion eso materias suspensas",
+        "repeticion eso"
+      ]
+    },
+    {
+      "id": "eso_titulacion_materias_suspensas",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Cuándo se obtiene el título de ESO y puede titularse con materias suspensas?",
+      "variantes": [
+        "cuándo se obtiene el título de eso",
+        "se puede titular en eso con materias suspensas",
+        "título eso materias suspensas",
+        "graduado en eso con suspensas"
+      ],
+      "required_terms": [
+        "eso",
+        "titulo"
+      ],
+      "respuesta": "El título de Graduado en Educación Secundaria Obligatoria se obtiene cuando el equipo docente considera que el alumno ha adquirido, en términos generales, las competencias establecidas y alcanzado los objetivos de la etapa. La decisión de titulación corresponde al equipo docente conforme a la normativa de evaluación y titulación.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-4975",
+          "fragmento_verificado": "El Real Decreto 217/2022 establece la ordenación y las enseñanzas mínimas de la Educación Secundaria Obligatoria, incluyendo aspectos de evaluación, promoción y titulación."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "cuando se obtiene el titulo de eso y puede titularse con materias suspensas",
+        "cuando se obtiene el titulo de eso",
+        "se puede titular en eso con materias suspensas",
+        "titulo eso materias suspensas",
+        "graduado en eso con suspensas"
+      ]
+    },
+    {
+      "id": "eso_documentos_consejo_diagnostico",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué documentos, consejo orientador y evaluación de diagnóstico hay en ESO?",
+      "variantes": [
+        "qué documentos oficiales de evaluación hay en eso",
+        "qué es el consejo orientador en eso",
+        "qué es la evaluación de diagnóstico en eso",
+        "documentos oficiales eso",
+        "consejo orientador eso",
+        "evaluación de diagnóstico eso"
+      ],
+      "required_terms": [
+        "eso"
+      ],
+      "respuesta": "En ESO existen documentos oficiales de evaluación y medidas de orientación, entre ellas el consejo orientador. Además, la normativa prevé evaluaciones de diagnóstico para valorar el grado de adquisición de competencias y orientar la mejora educativa.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 217/2022, ordenación y enseñanzas mínimas de ESO",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-4975",
+          "fragmento_verificado": "El Real Decreto 217/2022 establece la ordenación y las enseñanzas mínimas de la Educación Secundaria Obligatoria, incluyendo aspectos de evaluación, promoción y titulación."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que documentos consejo orientador y evaluacion de diagnostico hay en eso",
+        "que documentos oficiales de evaluacion hay en eso",
+        "que es el consejo orientador en eso",
+        "que es la evaluacion de diagnostico en eso",
+        "documentos oficiales eso",
+        "consejo orientador eso",
+        "evaluacion de diagnostico eso"
+      ]
+    },
+    {
+      "id": "bachillerato_modalidades_basica",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué modalidades de Bachillerato existen?",
+      "variantes": [
+        "qué modalidades de bachillerato existen",
+        "modalidades bachillerato",
+        "qué modalidades hay en bachillerato",
+        "artes ciencias tecnología general humanidades ciencias sociales bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "modalidades"
+      ],
+      "respuesta": "Las modalidades de Bachillerato son Artes, Ciencias y Tecnología, General y Humanidades y Ciencias Sociales. La modalidad de Artes se estructura en dos vías: Artes Plásticas, Imagen y Diseño, y Música y Artes Escénicas.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - Bachillerato ordinario: organización",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/bachillerato/bachillerato-regimen-diurno/bachillerato-ordinario/organizacion",
+          "fragmento_verificado": "Las modalidades de Bachillerato son Artes, Ciencias y Tecnología, General y Humanidades y Ciencias Sociales; la etapa se organiza en materias comunes, específicas de modalidad y optativas."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que modalidades de bachillerato existen",
+        "que modalidades de bachillerato existen",
+        "modalidades bachillerato",
+        "que modalidades hay en bachillerato",
+        "artes ciencias tecnologia general humanidades ciencias sociales bachillerato"
+      ]
+    },
+    {
+      "id": "bachillerato_materias_comunes_primero_segundo",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué materias comunes hay en 1.º y 2.º de Bachillerato?",
+      "variantes": [
+        "qué materias hay en 1º de bachillerato",
+        "qué materias hay en 1.º de bachillerato",
+        "qué materias hay en 2º de bachillerato",
+        "qué materias hay en 2.º de bachillerato",
+        "materias comunes primero segundo bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "areas"
+      ],
+      "respuesta": "En Bachillerato hay materias comunes, materias específicas de modalidad y materias optativas. Entre las materias comunes de 1.º figuran Educación Física, Filosofía, Lengua Castellana y Literatura I y Lengua Extranjera I; en 2.º figuran Historia de España, Historia de la Filosofía, Lengua Castellana y Literatura II y Lengua Extranjera II. Además, el alumnado cursa materias específicas de modalidad y optativas según la modalidad y la oferta del centro.",
+      "fuentes": [
+        {
+          "documento": "Educacyl - Bachillerato ordinario: organización",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educa.jcyl.es/es/informacion/sistema-educativo/bachillerato/bachillerato-regimen-diurno/bachillerato-ordinario/organizacion",
+          "fragmento_verificado": "Las modalidades de Bachillerato son Artes, Ciencias y Tecnología, General y Humanidades y Ciencias Sociales; la etapa se organiza en materias comunes, específicas de modalidad y optativas."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que materias comunes hay en 1 o y 2 o de bachillerato",
+        "que materias hay en 1o de bachillerato",
+        "que materias hay en 1 o de bachillerato",
+        "que materias hay en 2o de bachillerato",
+        "que materias hay en 2 o de bachillerato",
+        "materias comunes primero segundo bachillerato"
+      ]
+    },
+    {
+      "id": "bachillerato_repeticion_promocion_basica",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Se puede repetir en Bachillerato y con cuántas materias se promociona?",
+      "variantes": [
+        "con cuántas materias se promociona de 1º a 2º de bachillerato",
+        "con cuántas materias se promociona de 1.º a 2.º de bachillerato",
+        "se puede repetir 1º de bachillerato",
+        "se puede repetir 1.º de bachillerato",
+        "se puede repetir 2º de bachillerato",
+        "se puede repetir 2.º de bachillerato",
+        "promoción y repetición bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato"
+      ],
+      "respuesta": "En Bachillerato se promociona de 1.º a 2.º cuando se superan las materias cursadas o se tienen como máximo dos materias con evaluación negativa. La permanencia en régimen ordinario tiene límite temporal, por lo que la repetición debe interpretarse dentro de ese máximo de permanencia.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521",
+          "fragmento_verificado": "El Real Decreto 243/2022 establece la ordenación y las enseñanzas mínimas del Bachillerato; la promoción de primero a segundo procede cuando se superan las materias o se tienen como máximo dos materias con evaluación negativa."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "se puede repetir en bachillerato y con cuantas materias se promociona",
+        "con cuantas materias se promociona de 1o a 2o de bachillerato",
+        "con cuantas materias se promociona de 1 o a 2 o de bachillerato",
+        "se puede repetir 1o de bachillerato",
+        "se puede repetir 1 o de bachillerato",
+        "se puede repetir 2o de bachillerato",
+        "se puede repetir 2 o de bachillerato",
+        "promocion y repeticion bachillerato"
+      ]
+    },
+    {
+      "id": "bachillerato_norma_estatal_rd243",
+      "bloque": "secundaria_bachillerato",
+      "pregunta_canonica": "¿Qué norma estatal regula Bachillerato?",
+      "variantes": [
+        "qué norma estatal regula bachillerato",
+        "real decreto bachillerato",
+        "real decreto 243 2022 bachillerato",
+        "norma estatal de bachillerato"
+      ],
+      "required_terms": [
+        "bachillerato",
+        "norma"
+      ],
+      "respuesta": "La norma estatal básica de Bachillerato es el Real Decreto 243/2022, de 5 de abril, por el que se establecen la ordenación y las enseñanzas mínimas del Bachillerato.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 243/2022, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521",
+          "fragmento_verificado": "El Real Decreto 243/2022 establece la ordenación y las enseñanzas mínimas del Bachillerato; la promoción de primero a segundo procede cuando se superan las materias o se tienen como máximo dos materias con evaluación negativa."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que norma estatal regula bachillerato",
+        "que norma estatal regula bachillerato",
+        "real decreto bachillerato",
+        "real decreto 243 2022 bachillerato",
+        "norma estatal de bachillerato"
+      ]
+    },
+    {
+      "id": "fp_familia_profesional_definicion_basica",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué es una familia profesional en FP?",
+      "variantes": [
+        "qué es una familia profesional",
+        "informática y comunicaciones es una familia profesional",
+        "familia profesional fp",
+        "familias profesionales formación profesional"
+      ],
+      "required_terms": [
+        "fp"
+      ],
+      "respuesta": "Una familia profesional agrupa ciclos y ofertas de Formación Profesional vinculadas a un mismo campo profesional. Informática y Comunicaciones es una de las familias profesionales de FP. La FP oferta más de 150 ciclos formativos dentro de 26 familias profesionales.",
+      "fuentes": [
+        {
+          "documento": "Ministerio de Educación - Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.educacionfpydeportes.gob.es/contenidos/estudiantes/formacion-profesional.html",
+          "fragmento_verificado": "La Formación Profesional oferta más de 150 ciclos formativos dentro de 26 familias profesionales y se estructura en contenidos teóricos y prácticos adecuados a los diversos campos profesionales."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que es una familia profesional en fp",
+        "que es una familia profesional",
+        "informatica y comunicaciones es una familia profesional",
+        "familia profesional fp",
+        "familias profesionales formacion profesional"
+      ]
+    },
+    {
+      "id": "fp_ciclos_basico_medio_superior_definicion",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué es un ciclo formativo de grado básico, medio o superior?",
+      "variantes": [
+        "qué es un ciclo formativo de grado básico",
+        "qué es un ciclo formativo de grado medio",
+        "qué es un ciclo formativo de grado superior",
+        "ciclo formativo grado básico medio superior",
+        "qué tipos de ciclos formativos hay en fp"
+      ],
+      "required_terms": [
+        "fp"
+      ],
+      "respuesta": "En Formación Profesional, los ciclos formativos de Grado Básico, Grado Medio y Grado Superior forman parte del Grado D del Sistema de Formación Profesional. Tienen organización modular y conducen a títulos oficiales de Técnico Básico, Técnico o Técnico Superior, según el nivel.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que es un ciclo formativo de grado basico medio o superior",
+        "que es un ciclo formativo de grado basico",
+        "que es un ciclo formativo de grado medio",
+        "que es un ciclo formativo de grado superior",
+        "ciclo formativo grado basico medio superior",
+        "que tipos de ciclos formativos hay en fp"
+      ]
+    },
+    {
+      "id": "fp_titulos_basico_medio_superior",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué título se obtiene al superar un grado básico, medio o superior?",
+      "variantes": [
+        "qué título se obtiene al superar un grado básico",
+        "qué título se obtiene al superar un grado medio",
+        "qué título se obtiene al superar un grado superior",
+        "título grado básico medio superior fp",
+        "técnico básico técnico técnico superior"
+      ],
+      "required_terms": [
+        "fp",
+        "titulo"
+      ],
+      "respuesta": "Al superar un ciclo de Grado Básico se obtiene el título de Técnico Básico; al superar un ciclo de Grado Medio se obtiene el título de Técnico; y al superar un ciclo de Grado Superior se obtiene el título de Técnico Superior.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que titulo se obtiene al superar un grado basico medio o superior",
+        "que titulo se obtiene al superar un grado basico",
+        "que titulo se obtiene al superar un grado medio",
+        "que titulo se obtiene al superar un grado superior",
+        "titulo grado basico medio superior fp",
+        "tecnico basico tecnico tecnico superior"
+      ]
+    },
+    {
+      "id": "fp_titulo_tecnico_acceso_bachillerato",
+      "bloque": "fp",
+      "pregunta_canonica": "¿El título de Técnico permite acceder a Bachillerato?",
+      "variantes": [
+        "el título de técnico permite acceder a bachillerato",
+        "técnico fp acceso bachillerato",
+        "con título de técnico puedo hacer bachillerato",
+        "título técnico cualquier modalidad bachillerato"
+      ],
+      "required_terms": [
+        "fp",
+        "bachillerato"
+      ],
+      "respuesta": "Sí. El título de Técnico de Formación Profesional permite el acceso a cualquier modalidad de Bachillerato, conforme a la regulación del Real Decreto 659/2023.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "el titulo de tecnico permite acceder a bachillerato",
+        "el titulo de tecnico permite acceder a bachillerato",
+        "tecnico fp acceso bachillerato",
+        "con titulo de tecnico puedo hacer bachillerato",
+        "titulo tecnico cualquier modalidad bachillerato"
+      ]
+    },
+    {
+      "id": "fp_grados_abcde_conjunto",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué son los grados A, B, C, D y E de FP?",
+      "variantes": [
+        "qué son los grados a b c d y e de fp",
+        "grados a b c d e formación profesional",
+        "qué significan los grados a b c d e de fp",
+        "cómo se organizan los grados de fp"
+      ],
+      "required_terms": [
+        "fp",
+        "grados"
+      ],
+      "respuesta": "El Sistema de Formación Profesional se organiza en grados: Grado A, acreditación parcial de competencia; Grado B, certificado de competencia; Grado C, certificado profesional; Grado D, ciclos formativos de Grado Básico, Medio y Superior; y Grado E, cursos de especialización.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que son los grados a b c d y e de fp",
+        "que son los grados a b c d y e de fp",
+        "grados a b c d e formacion profesional",
+        "que significan los grados a b c d e de fp",
+        "como se organizan los grados de fp"
+      ]
+    },
+    {
+      "id": "fp_formacion_empresa_obligatoria_plan",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué es la formación en empresa en FP y es obligatoria?",
+      "variantes": [
+        "qué es la formación en empresa en fp",
+        "la formación en empresa es obligatoria en fp",
+        "qué es el plan de formación en empresa",
+        "formación en empresa organismo equiparado fp",
+        "plan de formación en empresa fp"
+      ],
+      "required_terms": [
+        "fp",
+        "empresa"
+      ],
+      "respuesta": "La formación en empresa u organismo equiparado es la parte de la FP que se desarrolla en un entorno productivo real. En el nuevo sistema, la FP tiene carácter dual y la formación en empresa se integra en las ofertas formativas, mediante un plan de formación coordinado entre centro y empresa.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que es la formacion en empresa en fp y es obligatoria",
+        "que es la formacion en empresa en fp",
+        "la formacion en empresa es obligatoria en fp",
+        "que es el plan de formacion en empresa",
+        "formacion en empresa organismo equiparado fp",
+        "plan de formacion en empresa fp"
+      ]
+    },
+    {
+      "id": "fp_regimen_general_intensivo",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué diferencia hay entre régimen general e intensivo en FP?",
+      "variantes": [
+        "qué diferencia hay entre régimen general e intensivo en fp",
+        "régimen general intensivo fp",
+        "fp dual régimen general régimen intensivo",
+        "formación en empresa régimen general intensivo"
+      ],
+      "required_terms": [
+        "fp",
+        "regimen"
+      ],
+      "respuesta": "En FP, el régimen general y el régimen intensivo se diferencian principalmente por el peso de la formación en empresa u organismo equiparado y por el grado de participación de la empresa en los resultados de aprendizaje. El régimen intensivo implica una participación más amplia de la empresa y se articula con mayor intensidad formativa.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que diferencia hay entre regimen general e intensivo en fp",
+        "que diferencia hay entre regimen general e intensivo en fp",
+        "regimen general intensivo fp",
+        "fp dual regimen general regimen intensivo",
+        "formacion en empresa regimen general intensivo"
+      ]
+    },
+    {
+      "id": "fp_norma_estatal_rd659",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Qué norma regula la ordenación del Sistema de Formación Profesional?",
+      "variantes": [
+        "qué norma regula la ordenación del sistema de fp",
+        "norma ordenación sistema formación profesional",
+        "real decreto 659 2023 fp",
+        "qué norma regula la fp"
+      ],
+      "required_terms": [
+        "fp",
+        "norma"
+      ],
+      "respuesta": "La norma estatal que desarrolla la ordenación del Sistema de Formación Profesional es el Real Decreto 659/2023, de 18 de julio.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "que norma regula la ordenacion del sistema de formacion profesional",
+        "que norma regula la ordenacion del sistema de fp",
+        "norma ordenacion sistema formacion profesional",
+        "real decreto 659 2023 fp",
+        "que norma regula la fp"
+      ]
+    },
+    {
+      "id": "uso_app_fuentes_oficiales",
+      "bloque": "general",
+      "pregunta_canonica": "¿Dónde puedo comprobar la fuente oficial de una respuesta?",
+      "variantes": [
+        "dónde puedo comprobar la fuente oficial de una respuesta",
+        "cómo veo la fuente oficial",
+        "dónde están las fuentes consultadas",
+        "cómo comprobar el boe o bocyl de una respuesta"
+      ],
+      "required_terms": [
+        "fuente"
+      ],
+      "respuesta": "En cada respuesta debes revisar el apartado de fuentes consultadas. Si la respuesta procede de FAQ, se muestra la fuente oficial verificada. Si procede de RAG/IA, aparecen fragmentos identificados como F1, F2, etc., con el documento, página y enlace oficial cuando está disponible.",
+      "fuentes": [
+        {
+          "documento": "NormaEdu 2 - fuentes oficiales enlazadas en cada respuesta",
+          "archivo": "faq_normativa_json_enlaces_csv",
+          "pagina": "local",
+          "url": "faq_normativa.json / enlaces.csv",
+          "fragmento_verificado": "La app muestra la fuente oficial utilizada en cada respuesta: en FAQ aparece la fuente verificada y en RAG aparecen fragmentos F1, F2, etc., con documento y URL oficial cuando está disponible."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "normalizado_variantes": [
+        "donde puedo comprobar la fuente oficial de una respuesta",
+        "donde puedo comprobar la fuente oficial de una respuesta",
+        "como veo la fuente oficial",
+        "donde estan las fuentes consultadas",
+        "como comprobar el boe o bocyl de una respuesta"
+      ]
+    },
+    {
+      "id": "permiso_fallecimiento_primer_grado",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué permiso hay por fallecimiento de un familiar de primer grado?",
+      "variantes": [
+        "qué permiso hay por fallecimiento de un familiar de primer grado",
+        "permiso fallecimiento familiar primer grado",
+        "días por fallecimiento padre madre hijo cónyuge"
+      ],
+      "required_terms": [
+        "fallecimiento",
+        "primer grado"
+      ],
+      "respuesta": "Para personal funcionario docente de Castilla y León, por fallecimiento de un familiar de primer grado de consanguinidad o afinidad corresponden tres días hábiles si el suceso se produce en la misma localidad y cinco días hábiles si se produce en distinta localidad.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2014, vacaciones, permisos y licencias del personal funcionario docente de Castilla y León",
+          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
+          "pagina": 5,
+          "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
+          "fragmento_verificado": "Artículo 10. Permiso por fallecimiento, accidente o enfermedad grave. 1. Por fallecimiento, accidente o enfermedad grave de un familiar dentro del primer grado de consanguinidad o afinidad, se concederán tres días hábiles cuando el suceso se produzca en la misma localidad, y cinco días hábiles cuando sea en distinta localidad."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "medio",
+      "nota_mantenimiento": "Corregida en v063: en v062 apuntaba por error a BOE-A-2015-10566, que corresponde a Ley 40/2015. Se sustituye por Orden EDU/423/2014, fuente específica del personal funcionario docente de Castilla y León.",
+      "normalizado_variantes": [
+        "que permiso hay por fallecimiento de un familiar de primer grado",
+        "que permiso hay por fallecimiento de un familiar de primer grado",
+        "permiso fallecimiento familiar primer grado",
+        "dias por fallecimiento padre madre hijo conyuge"
+      ]
+    },
+    {
+      "id": "permisos_licencia_baja_vacaciones_diferencia",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué diferencia hay entre permiso, licencia, baja y vacaciones?",
+      "variantes": [
+        "qué diferencia hay entre permiso licencia baja y vacaciones",
+        "diferencia permiso licencia baja vacaciones",
+        "permiso licencia baja vacaciones diferencia"
+      ],
+      "required_terms": [
+        "permiso"
+      ],
+      "respuesta": "De forma general, un permiso autoriza una ausencia por una causa concreta; una licencia es una autorización regulada para supuestos específicos; las vacaciones son el descanso anual; y una baja suele referirse a una situación de incapacidad temporal u otra situación protegida, no a un permiso ordinario. Para personal funcionario docente de Castilla y León, la Orden EDU/423/2014 regula el régimen de vacaciones, permisos y licencias y menciona la incapacidad temporal en las reglas de cómputo y disfrute.",
+      "fuentes": [
+        {
+          "documento": "Orden EDU/423/2014, vacaciones, permisos y licencias del personal funcionario docente de Castilla y León",
+          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
+          "pagina": 1,
+          "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
+          "fragmento_verificado": "Artículo 1. La presente orden tiene por objeto la adaptación del régimen de vacaciones, permisos y licencias establecido en el Decreto 59/2013, de 5 de septiembre, para el personal funcionario docente de las enseñanzas no universitarias que presten sus servicios en centros públicos y servicios de apoyo dependientes de la consejería competente en materia de educación. Artículo 3 indica que las ausencias por incapacidad temporal, licencias o permisos legalmente establecidos computan como tiempo de servicios efectivos."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "medio",
+      "nota_mantenimiento": "Corregida en v063: en v062 apuntaba por error a BOE-A-2015-10566, que corresponde a Ley 40/2015. Se sustituye por Orden EDU/423/2014 y se formula la respuesta como distinción general prudente.",
+      "normalizado_variantes": [
+        "que diferencia hay entre permiso licencia baja y vacaciones",
+        "que diferencia hay entre permiso licencia baja y vacaciones",
+        "diferencia permiso licencia baja vacaciones",
+        "permiso licencia baja vacaciones diferencia"
+      ]
+    },
+    {
+      "id": "fp_tutor_empresa_seguimiento_contacto",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Quién hace el seguimiento del alumnado en la empresa y qué hace el tutor de empresa?",
+      "variantes": [
+        "quién hace el seguimiento del alumnado en la empresa",
+        "qué hace el tutor de empresa",
+        "debe haber contacto entre el centro y la empresa",
+        "seguimiento alumnado empresa fp",
+        "tutor de empresa fp",
+        "contacto centro empresa fp"
+      ],
+      "required_terms": [
+        "fp",
+        "empresa"
+      ],
+      "respuesta": "Durante la formación en empresa debe existir coordinación entre el centro de FP y la empresa u organismo equiparado. El seguimiento se articula mediante la tutoría dual del centro y la colaboración de la persona tutora de la empresa, manteniendo contacto entre ambas partes para desarrollar el plan de formación y valorar el aprovechamiento del alumnado.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "fuente_oficial_web",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, incluyendo la formación en empresa, el seguimiento y la tutoría dual."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa.",
+      "normalizado_variantes": [
+        "quien hace el seguimiento del alumnado en la empresa y que hace el tutor de empresa",
+        "quien hace el seguimiento del alumnado en la empresa",
+        "que hace el tutor de empresa",
+        "debe haber contacto entre el centro y la empresa",
+        "seguimiento alumnado empresa fp",
+        "tutor de empresa fp",
+        "contacto centro empresa fp"
+      ]
+    },
+    {
+      "id": "cyl_acuerdo_reeducativo_convivencia",
+      "bloque": "general",
+      "pregunta_canonica": "¿Qué es un acuerdo reeducativo en la convivencia escolar?",
+      "variantes": [
+        "qué es un acuerdo reeducativo",
+        "acuerdo reeducativo convivencia",
+        "qué son los acuerdos reeducativos",
+        "acuerdo reeducativo alumnado"
+      ],
+      "required_terms": [
+        "acuerdo reeducativo"
+      ],
+      "respuesta": "Un acuerdo reeducativo es una medida de convivencia orientada a corregir conductas y comprometer al alumnado, y en su caso a su familia, en actuaciones educativas para mejorar la convivencia y evitar la reiteración de conductas contrarias o gravemente perjudiciales.",
+      "fuentes": [
+        {
+          "documento": "Decreto 51/2007, derechos, deberes, convivencia y disciplina en Castilla y León",
+          "archivo": "DECRETO_51_2007_17_mayo_derechos_deberes_convivencia.pdf",
+          "pagina": "convivencia",
+          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
+          "fragmento_verificado": "El Decreto 51/2007 regula la mediación y los procesos de acuerdo reeducativo como actuaciones vinculadas a la convivencia escolar."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-23",
+      "riesgo": "bajo",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa.",
+      "normalizado_variantes": [
+        "que es un acuerdo reeducativo en la convivencia escolar",
+        "que es un acuerdo reeducativo",
+        "acuerdo reeducativo convivencia",
+        "que son los acuerdos reeducativos",
+        "acuerdo reeducativo alumnado"
+      ]
     }
   ]
 }

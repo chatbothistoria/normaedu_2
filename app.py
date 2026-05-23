@@ -260,6 +260,11 @@ _FAQ_SINONIMOS = {
     "acceso": ["acceso", "acceder", "entrar", "requisitos"],
     "tutor": ["tutor", "tutora", "supervisa", "supervision", "seguimiento"],
     "repetir": ["repetir", "repite", "repiten", "repeticion", "permanecer", "permanencia"],
+    "empresa": ["empresa", "empresas", "organismo equiparado", "centro empresa"],
+    "regimen": ["regimen", "régimen", "general", "intensivo"],
+    "norma": ["norma", "regula", "real decreto", "decreto", "ordenacion", "ordenación"],
+    "religion": ["religion", "religión"],
+    "fuente": ["fuente", "fuentes", "boe", "bocyl", "enlace", "oficial"],
 }
 
 
@@ -448,6 +453,122 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
     """
     p = _normalizar_faq(pregunta)
 
+    # v062: FAQ básicas de cobertura general.
+    if _faq_tiene_alguno(p, ["primaria", "educacion primaria"]):
+        if _faq_tiene_alguno(p, ["asignaturas", "materias", "areas"]):
+            if _faq_tiene_alguno(p, ["6", "6o", "sexto", "valores civicos", "valores civicos y eticos"]):
+                faq = _buscar_faq_por_id("primaria_asignaturas_sexto_valores")
+            else:
+                faq = _buscar_faq_por_id("primaria_asignaturas_primero_quinto")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["religion", "religión"]):
+            if _faq_tiene_alguno(p, ["no cursa", "no recibe", "alternativa", "atencion educativa", "atención educativa"]):
+                faq = _buscar_faq_por_id("primaria_atencion_educativa_no_religion")
+            else:
+                faq = _buscar_faq_por_id("primaria_religion_oferta_voluntaria")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["in su bi nt sb", "calificaciones", "notas"]):
+            faq = _buscar_faq_por_id("primaria_calificaciones_siglas_in_su_bi_nt_sb")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["evaluacion"], ["finalidad", "continua", "global", "formativa"]]):
+            faq = _buscar_faq_por_id("primaria_evaluacion_continua_finalidad")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["dificultades", "medidas de refuerzo", "refuerzo"]):
+            faq = _buscar_faq_por_id("primaria_refuerzo_dificultades_aprendizaje")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["norma", "real decreto", "regula"], ["estatal", "ordenacion", "ordenación"]]):
+            faq = _buscar_faq_por_id("primaria_norma_estatal_rd157")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["eso", "educacion secundaria obligatoria"]):
+        if _faq_tiene_alguno(p, ["edades", "edad"]):
+            faq = _buscar_faq_por_id("eso_edades_comprende")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["materias", "asignaturas"]):
+            if _faq_tiene_alguno(p, ["4", "4o", "cuarto"]):
+                faq = _buscar_faq_por_id("eso_materias_cuarto")
+            else:
+                faq = _buscar_faq_por_id("eso_materias_primero_tercero")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["repetir", "repeticion", "cuantas veces", "promocionar", "promocion", "materias suspensas", "quien decide"]):
+            faq = _buscar_faq_por_id("eso_promocion_repeticion_basica")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["titulo", "titular", "graduado", "materias suspensas"]):
+            faq = _buscar_faq_por_id("eso_titulacion_materias_suspensas")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["documentos oficiales", "consejo orientador", "diagnostico"]):
+            faq = _buscar_faq_por_id("eso_documentos_consejo_diagnostico")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["bachillerato", "bachiller"]):
+        if _faq_tiene_alguno(p, ["modalidades", "modalidad"]):
+            faq = _buscar_faq_por_id("bachillerato_modalidades_basica")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["materias", "asignaturas"]):
+            faq = _buscar_faq_por_id("bachillerato_materias_comunes_primero_segundo")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["promociona", "promocion", "repetir", "repite", "permanecer"]):
+            faq = _buscar_faq_por_id("bachillerato_repeticion_promocion_basica")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["norma", "real decreto", "regula"], ["estatal", "bachillerato"]]):
+            faq = _buscar_faq_por_id("bachillerato_norma_estatal_rd243")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["fp", "formacion profesional"]):
+        if _faq_tiene_alguno(p, ["familia profesional", "familias profesionales", "informatica y comunicaciones"]):
+            faq = _buscar_faq_por_id("fp_familia_profesional_definicion_basica")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["ciclo formativo de grado basico", "ciclo formativo de grado medio", "ciclo formativo de grado superior"]):
+            faq = _buscar_faq_por_id("fp_ciclos_basico_medio_superior_definicion")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["titulo"], ["grado basico", "grado medio", "grado superior", "tecnico", "tecnico superior"]]):
+            faq = _buscar_faq_por_id("fp_titulos_basico_medio_superior")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["tecnico"], ["bachillerato", "bachiller"]]):
+            faq = _buscar_faq_por_id("fp_titulo_tecnico_acceso_bachillerato")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["grados a b c d e", "grados a b c d y e"]):
+            faq = _buscar_faq_por_id("fp_grados_abcde_conjunto")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["empresa", "empresas", "organismo equiparado", "centro y la empresa"], ["formacion", "seguimiento", "tutor", "contacto", "plan"]]):
+            if _faq_tiene_alguno(p, ["regimen general", "regimen intensivo", "régimen general", "régimen intensivo"]):
+                faq = _buscar_faq_por_id("fp_regimen_general_intensivo")
+            elif _faq_tiene_alguno(p, ["seguimiento", "tutor de empresa", "contacto"]):
+                faq = _buscar_faq_por_id("fp_tutor_empresa_seguimiento_contacto")
+            else:
+                faq = _buscar_faq_por_id("fp_formacion_empresa_obligatoria_plan")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_todos(p, [["norma", "real decreto", "regula"], ["fp", "formacion profesional"]]):
+            faq = _buscar_faq_por_id("fp_norma_estatal_rd659")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["fuente oficial", "fuentes consultadas", "boe", "bocyl"]):
+        faq = _buscar_faq_por_id("uso_app_fuentes_oficiales")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
 
     # 0) Reglas directas añadidas v0.5.0 para cubrir fallos reales de recuperación.
     # Convivencia, derechos/deberes y sanciones del alumnado en Castilla y León.
@@ -478,6 +599,10 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
                 return faq, 1.0
         if _faq_tiene_alguno(p, ["mediacion escolar", "mediacion", "mediador"]):
             faq = _buscar_faq_por_id("cyl_mediacion_escolar_convivencia")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+        if _faq_tiene_alguno(p, ["acuerdo reeducativo", "acuerdos reeducativos"]):
+            faq = _buscar_faq_por_id("cyl_acuerdo_reeducativo_convivencia")
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
         if _faq_tiene_todos(p, [["criterios", "proporcionalidad", "dignidad", "derecho a la educacion"], ["correcciones", "sanciones", "disciplinarias"]]):
@@ -1490,7 +1615,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v061_primaria_input_fix",
+                    "version": "v063_fuentes_permisos_auditadas",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1554,7 +1679,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v061_primaria_input_fix",
+                            "version": "v063_fuentes_permisos_auditadas",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1589,7 +1714,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v061_primaria_input_fix",
+                                "version": "v063_fuentes_permisos_auditadas",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1627,7 +1752,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v061_primaria_input_fix",
+                            "version": "v063_fuentes_permisos_auditadas",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,

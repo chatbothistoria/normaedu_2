@@ -112,3 +112,18 @@ Cambios mínimos:
 - La pregunta «¿En qué cursos de Primaria puede decidirse la repetición?» activa ahora la FAQ `primaria_repetir_cuando_condiciones_cyl`.
 - Se corrige un desfase visual del cuadro de pregunta: la app podía mostrar la pregunta anterior mientras respondía a la nueva.
 - No se modifican Qdrant, IA, prompt, admin, privacidad ni límites.
+
+
+## v062 - Primer paquete de FAQ básicas
+
+Añade un paquete de FAQ básicas tras auditar 120 preguntas frecuentes. Incluye cobertura de:
+- áreas/asignaturas de Primaria;
+- Religión, alternativa y Valores Cívicos y Éticos;
+- calificaciones y evaluación en Primaria;
+- materias y estructura básica de ESO;
+- materias, modalidades y promoción básica en Bachillerato;
+- conceptos básicos de FP;
+- formación en empresa, régimen general/intensivo y norma estatal de FP;
+- uso de fuentes oficiales.
+
+También refuerza variantes de FAQ ya existentes sobre convivencia, permisos, privacidad y evaluación objetiva.
