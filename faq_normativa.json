@@ -1,12 +1,12 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v064b_variantes_coloquiales_runtimefix",
+    "version": "v065_quirurgica_variantes",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
-    "total_faq": 162,
+    "total_faq": 163,
     "activacion_recomendada": "coincidencia conservadora previa al RAG; no usar para casos individualizados.",
-    "total_faqs": 162,
+    "total_faqs": 163,
     "ultima_actualizacion": "2026-05-19",
     "nota_auditoria": "v0.5.1 corrige el falso negativo de evaluación objetiva añadiendo variantes y regla de intención conservadora; mantiene 130 FAQ y coste 0.",
     "descripcion": "Base FAQ verificada ampliada a 130 entradas con 20 FAQ nuevas sobre convivencia/sanciones, repetición en Primaria, reclamación en Bachillerato y seguimiento en empresa en FP.",
@@ -15,7 +15,8 @@
     "nota_v062": "Se añade un primer paquete de FAQ básicas tras auditoría de cobertura de 120 preguntas: Primaria, ESO/Bachillerato, FP, uso de fuentes y permisos; además se refuerzan variantes de FAQ existentes. Se añade también la FAQ de acuerdo reeducativo para cerrar la cobertura básica de convivencia.",
     "nota_v063": "Corrige dos FAQ de permisos que en v062 tenían una URL incorrecta a BOE-A-2015-10566; se sustituyen por Orden EDU/423/2014 y se actualizan fragmentos verificados.",
     "nota_v064": "Se refuerzan variantes coloquiales reales detectadas en pruebas y se añade una FAQ defensiva para evitar confundir trabajar en un hospital con hospitalización.",
-    "nota_v064b": "Corrección preventiva de despliegue: se elimina modificación del widget pregunta_input_widget desde session_state tras la creación del widget y se unifica la versión en diagnósticos."
+    "nota_v064b": "Corrección preventiva de despliegue: se elimina modificación del widget pregunta_input_widget desde session_state tras la creación del widget y se unifica la versión en diagnósticos.",
+    "nota_v065": "Corrección quirúrgica: FAQ defensiva sobre ciclos por familia profesional y variantes prioritarias. Sin cambios en IA, Qdrant, prompt, admin, privacidad ni límites."
   },
   "faqs": [
     {
@@ -93,11 +94,14 @@
       "variantes": [
         "finalidad educación infantil",
         "para qué sirve la educación infantil",
-        "fines de infantil"
+        "fines de infantil",
+        "finalidad educacion infantil",
+        "para que sirve la educacion infantil",
+        "fines infantil",
+        "me puedes explicar fines de infantil"
       ],
       "required_terms": [
-        "infantil",
-        "finalidad"
+        "infantil"
       ],
       "respuesta": "La finalidad de la Educación Infantil es contribuir al desarrollo integral y armónico del alumnado en sus dimensiones física, emocional, sexual, afectiva, social, cognitiva y artística, así como a la educación en valores cívicos para la convivencia.",
       "fuentes": [
@@ -112,12 +116,16 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "cual es la finalidad de la educacion infantil",
         "finalidad educacion infantil",
         "para que sirve la educacion infantil",
-        "fines de infantil"
+        "fines de infantil",
+        "finalidad educacion infantil",
+        "para que sirve la educacion infantil",
+        "fines infantil",
+        "me puedes explicar fines de infantil"
       ]
     },
     {
@@ -127,11 +135,18 @@
       "variantes": [
         "áreas educación infantil",
         "materias de infantil",
-        "ámbitos de infantil"
+        "ámbitos de infantil",
+        "asignaturas educación infantil",
+        "asignaturas educacion infantil",
+        "asignaturas de infantil",
+        "materias infantil",
+        "ámbitos infantil",
+        "ambitos infantil",
+        "qué asignaturas tiene infantil",
+        "que asignaturas tiene infantil"
       ],
       "required_terms": [
-        "infantil",
-        "areas"
+        "infantil"
       ],
       "respuesta": "Las áreas de Educación Infantil son: Crecimiento en Armonía; Descubrimiento y Exploración del Entorno; y Comunicación y Representación de la Realidad.",
       "fuentes": [
@@ -146,12 +161,20 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "cuales son las areas de educacion infantil",
         "areas educacion infantil",
         "materias de infantil",
-        "ambitos de infantil"
+        "ambitos de infantil",
+        "asignaturas educacion infantil",
+        "asignaturas educacion infantil",
+        "asignaturas de infantil",
+        "materias infantil",
+        "ambitos infantil",
+        "ambitos infantil",
+        "que asignaturas tiene infantil",
+        "que asignaturas tiene infantil"
       ]
     },
     {
@@ -161,11 +184,15 @@
       "variantes": [
         "evaluación infantil",
         "cómo se evalúa en infantil",
-        "evaluación global continua formativa infantil"
+        "evaluación global continua formativa infantil",
+        "evaluación educación infantil",
+        "evaluacion educacion infantil",
+        "evaluacion infantil",
+        "como se evalua en infantil",
+        "me puedes explicar evaluación infantil"
       ],
       "required_terms": [
-        "infantil",
-        "evaluacion"
+        "infantil"
       ],
       "respuesta": "En Educación Infantil la evaluación es global, continua y formativa. La observación directa y sistemática es la técnica principal del proceso de evaluación.",
       "fuentes": [
@@ -180,12 +207,17 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "como es la evaluacion en educacion infantil",
         "evaluacion infantil",
         "como se evalua en infantil",
-        "evaluacion global continua formativa infantil"
+        "evaluacion global continua formativa infantil",
+        "evaluacion educacion infantil",
+        "evaluacion educacion infantil",
+        "evaluacion infantil",
+        "como se evalua en infantil",
+        "me puedes explicar evaluacion infantil"
       ]
     },
     {
@@ -264,11 +296,17 @@
       "variantes": [
         "organización educación primaria",
         "cuántos ciclos tiene primaria",
-        "primaria ciclos"
+        "primaria ciclos",
+        "cómo se organiza primaria",
+        "como se organiza primaria",
+        "organización primaria",
+        "organizacion primaria",
+        "ciclos primaria",
+        "cuantos ciclos tiene primaria",
+        "me puedes explicar primaria ciclos"
       ],
       "required_terms": [
-        "primaria",
-        "ciclos"
+        "primaria"
       ],
       "respuesta": "La Educación Primaria comprende tres ciclos de dos años académicos cada uno y se organiza en áreas con carácter global e integrador.",
       "fuentes": [
@@ -283,12 +321,19 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "como se organiza la educacion primaria",
         "organizacion educacion primaria",
         "cuantos ciclos tiene primaria",
-        "primaria ciclos"
+        "primaria ciclos",
+        "como se organiza primaria",
+        "como se organiza primaria",
+        "organizacion primaria",
+        "organizacion primaria",
+        "ciclos primaria",
+        "cuantos ciclos tiene primaria",
+        "me puedes explicar primaria ciclos"
       ]
     },
     {
@@ -402,7 +447,12 @@
         "pasar de curso primaria",
         "quién decide si un alumno promociona en primaria",
         "quién decide la promoción en primaria",
-        "equipo docente decide promoción primaria"
+        "equipo docente decide promoción primaria",
+        "quién decide promoción primaria",
+        "quien decide promocion primaria",
+        "quién decide si pasa de curso en primaria",
+        "quien decide si pasa de curso en primaria",
+        "promocion primaria quien decide"
       ],
       "required_terms": [
         "primaria",
@@ -421,14 +471,19 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v062 con variantes de preguntas básicas.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v062 con variantes de preguntas básicas. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "quien decide la promocion en educacion primaria",
         "promocion primaria quien decide",
         "pasar de curso primaria",
         "quien decide si un alumno promociona en primaria",
         "quien decide la promocion en primaria",
-        "equipo docente decide promocion primaria"
+        "equipo docente decide promocion primaria",
+        "quien decide promocion primaria",
+        "quien decide promocion primaria",
+        "quien decide si pasa de curso en primaria",
+        "quien decide si pasa de curso en primaria",
+        "promocion primaria quien decide"
       ]
     },
     {
@@ -2605,10 +2660,14 @@
         "decisiones promoción primaria final de ciclo",
         "primaria promoción final primero tercero quinto automática",
         "cuándo se decide si promociona un alumno en primaria",
-        "promoción primaria Castilla y León final ciclo"
+        "promoción primaria Castilla y León final ciclo",
+        "promoción final ciclo primaria",
+        "promocion final ciclo primaria",
+        "pasa de ciclo en primaria",
+        "decidir al final de ciclo primaria",
+        "final de ciclo primaria promoción"
       ],
       "required_terms": [
-        "promocion",
         "primaria"
       ],
       "respuesta": "En Castilla y León, las decisiones de promoción en Educación Primaria se toman únicamente al final de cada ciclo; por tanto, la promoción es automática al finalizar primero, tercero y quinto.",
@@ -2624,13 +2683,18 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "cuando se toman las decisiones de promocion en primaria en castilla y leon",
         "decisiones promocion primaria final de ciclo",
         "primaria promocion final primero tercero quinto automatica",
         "cuando se decide si promociona un alumno en primaria",
-        "promocion primaria castilla y leon final ciclo"
+        "promocion primaria castilla y leon final ciclo",
+        "promocion final ciclo primaria",
+        "promocion final ciclo primaria",
+        "pasa de ciclo en primaria",
+        "decidir al final de ciclo primaria",
+        "final de ciclo primaria promocion"
       ]
     },
     {
@@ -2945,11 +3009,14 @@
         "promoción 1 bachillerato 2 materias negativas",
         "cuántas suspensas para pasar a segundo bachillerato",
         "con cuántas materias se promociona de 1º a 2º de bachillerato",
-        "con cuántas materias se promociona de 1.º a 2.º de bachillerato"
+        "con cuántas materias se promociona de 1.º a 2.º de bachillerato",
+        "bachillerato dos suspensas",
+        "promociona con dos materias bachillerato",
+        "pasar con dos suspensas bachillerato",
+        "pasar a segundo con dos suspensas"
       ],
       "required_terms": [
-        "bachillerato",
-        "promocion"
+        "bachillerato"
       ],
       "respuesta": "Se promociona de primero a segundo de Bachillerato con todas las materias superadas o con evaluación negativa en dos materias como máximo, debiendo matricularse en segundo de las pendientes de primero.",
       "fuentes": [
@@ -2964,7 +3031,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v062 con variantes de preguntas básicas.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v062 con variantes de preguntas básicas. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "con cuantas materias suspensas se promociona de primero a segundo de bachillerato",
         "promocionar primero segundo bachillerato dos materias",
@@ -2972,7 +3039,11 @@
         "promocion 1 bachillerato 2 materias negativas",
         "cuantas suspensas para pasar a segundo bachillerato",
         "con cuantas materias se promociona de 1o a 2o de bachillerato",
-        "con cuantas materias se promociona de 1 o a 2 o de bachillerato"
+        "con cuantas materias se promociona de 1 o a 2 o de bachillerato",
+        "bachillerato dos suspensas",
+        "promociona con dos materias bachillerato",
+        "pasar con dos suspensas bachillerato",
+        "pasar a segundo con dos suspensas"
       ]
     },
     {
@@ -4227,7 +4298,15 @@
         "un alumno no deja dar clase qué puede hacer el profesor",
         "alumno que no deja dar clase medidas",
         "alumno interrumpe la clase continuamente",
-        "qué hacer si un alumno no deja dar clase"
+        "qué hacer si un alumno no deja dar clase",
+        "alumno no deja dar clase",
+        "alumno molesta en clase",
+        "alumno interrumpe clase",
+        "alumno impide la clase",
+        "qué hacer alumno no deja clase",
+        "que hacer alumno no deja clase",
+        "conducta perturbadora profesor qué puede hacer",
+        "conducta disruptiva clase profesor"
       ],
       "required_terms": [
         "alumno",
@@ -4246,7 +4325,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales.",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "que actuaciones inmediatas puede adoptar un profesor ante una conducta que perturba la convivencia",
         "actuaciones inmediatas convivencia profesor",
@@ -4261,7 +4340,15 @@
         "un alumno no deja dar clase que puede hacer el profesor",
         "alumno que no deja dar clase medidas",
         "alumno interrumpe la clase continuamente",
-        "que hacer si un alumno no deja dar clase"
+        "que hacer si un alumno no deja dar clase",
+        "alumno no deja dar clase",
+        "alumno molesta en clase",
+        "alumno interrumpe clase",
+        "alumno impide la clase",
+        "que hacer alumno no deja clase",
+        "que hacer alumno no deja clase",
+        "conducta perturbadora profesor que puede hacer",
+        "conducta disruptiva clase profesor"
       ]
     },
     {
@@ -5372,7 +5459,12 @@
         "puedo pasar de primero a segundo de bachillerato con una suspensa",
         "pasar a segundo de bachillerato con suspensas",
         "pasar de 1º a 2º de bachillerato con alguna suspensa",
-        "pasar de primero a segundo bachillerato con materias suspensas"
+        "pasar de primero a segundo bachillerato con materias suspensas",
+        "bachillerato pasar con suspensas",
+        "pasar a segundo bachillerato suspensas",
+        "pasar primero segundo bachillerato suspensa",
+        "promocionar bachillerato dos suspensas",
+        "bachillerato promocion suspensas"
       ],
       "required_terms": [
         "bachillerato"
@@ -5390,7 +5482,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-23",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "se puede repetir en bachillerato y con cuantas materias se promociona",
         "con cuantas materias se promociona de 1o a 2o de bachillerato",
@@ -5404,7 +5496,12 @@
         "puedo pasar de primero a segundo de bachillerato con una suspensa",
         "pasar a segundo de bachillerato con suspensas",
         "pasar de 1o a 2o de bachillerato con alguna suspensa",
-        "pasar de primero a segundo bachillerato con materias suspensas"
+        "pasar de primero a segundo bachillerato con materias suspensas",
+        "bachillerato pasar con suspensas",
+        "pasar a segundo bachillerato suspensas",
+        "pasar primero segundo bachillerato suspensa",
+        "promocionar bachillerato dos suspensas",
+        "bachillerato promocion suspensas"
       ]
     },
     {
@@ -5651,7 +5748,14 @@
         "la formación en empresa es obligatoria en fp",
         "qué es el plan de formación en empresa",
         "formación en empresa organismo equiparado fp",
-        "plan de formación en empresa fp"
+        "plan de formación en empresa fp",
+        "formación empresa fp",
+        "formacion empresa fp",
+        "empresa fp obligatoria",
+        "prácticas empresa fp obligatorias",
+        "practicas empresa fp obligatorias",
+        "plan formación empresa fp",
+        "plan formacion empresa fp"
       ],
       "required_terms": [
         "fp",
@@ -5670,14 +5774,21 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-23",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "que es la formacion en empresa en fp y es obligatoria",
         "que es la formacion en empresa en fp",
         "la formacion en empresa es obligatoria en fp",
         "que es el plan de formacion en empresa",
         "formacion en empresa organismo equiparado fp",
-        "plan de formacion en empresa fp"
+        "plan de formacion en empresa fp",
+        "formacion empresa fp",
+        "formacion empresa fp",
+        "empresa fp obligatoria",
+        "practicas empresa fp obligatorias",
+        "practicas empresa fp obligatorias",
+        "plan formacion empresa fp",
+        "plan formacion empresa fp"
       ]
     },
     {
@@ -5694,7 +5805,13 @@
         "la fp general y la intensiva son lo mismo",
         "qué es fp intensiva",
         "qué es fp general",
-        "diferencia fp general intensiva"
+        "diferencia fp general intensiva",
+        "fp general intensiva",
+        "fp general e intensiva",
+        "regimen general intensivo fp",
+        "diferencia general intensiva fp",
+        "intensiva fp qué es",
+        "general fp qué es"
       ],
       "required_terms": [
         "fp"
@@ -5712,7 +5829,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-23",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "que diferencia hay entre regimen general e intensivo en fp",
         "que diferencia hay entre regimen general e intensivo en fp",
@@ -5724,7 +5841,13 @@
         "la fp general y la intensiva son lo mismo",
         "que es fp intensiva",
         "que es fp general",
-        "diferencia fp general intensiva"
+        "diferencia fp general intensiva",
+        "fp general intensiva",
+        "fp general e intensiva",
+        "regimen general intensivo fp",
+        "diferencia general intensiva fp",
+        "intensiva fp que es",
+        "general fp que es"
       ]
     },
     {
@@ -5884,7 +6007,14 @@
         "debe haber contacto entre el centro y la empresa",
         "seguimiento alumnado empresa fp",
         "tutor de empresa fp",
-        "contacto centro empresa fp"
+        "contacto centro empresa fp",
+        "tutor empresa seguimiento fp",
+        "quién controla al alumno en la empresa en fp",
+        "quien controla al alumno en la empresa en fp",
+        "centro y empresa tienen que estar en contacto",
+        "qué hace el tutor de empresa en fp",
+        "que hace el tutor de empresa en fp",
+        "tutor empresa fp qué hace"
       ],
       "required_terms": [
         "fp",
@@ -5903,7 +6033,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-23",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
       "normalizado_variantes": [
         "quien hace el seguimiento del alumnado en la empresa y que hace el tutor de empresa",
         "quien hace el seguimiento del alumnado en la empresa",
@@ -5911,7 +6041,14 @@
         "debe haber contacto entre el centro y la empresa",
         "seguimiento alumnado empresa fp",
         "tutor de empresa fp",
-        "contacto centro empresa fp"
+        "contacto centro empresa fp",
+        "tutor empresa seguimiento fp",
+        "quien controla al alumno en la empresa en fp",
+        "quien controla al alumno en la empresa en fp",
+        "centro y empresa tienen que estar en contacto",
+        "que hace el tutor de empresa en fp",
+        "que hace el tutor de empresa en fp",
+        "tutor empresa fp que hace"
       ]
     },
     {
@@ -5987,6 +6124,50 @@
         "mi familiar trabaja en un hospital de otra localidad tengo permiso",
         "si mi padre trabaja en un hospital tengo dias de permiso",
         "trabajar en un hospital da derecho a permiso"
+      ]
+    },
+    {
+      "id": "fp_ciclos_por_familia_no_estable",
+      "bloque": "fp",
+      "pregunta_canonica": "¿Cuántos ciclos hay exactamente dentro de cada familia profesional de FP?",
+      "variantes": [
+        "cuántos ciclos hay exactamente dentro de cada familia profesional de fp",
+        "cuantos ciclos hay exactamente dentro de cada familia profesional de fp",
+        "cuántos ciclos hay dentro de cada familia profesional",
+        "cuantos ciclos hay dentro de cada familia profesional",
+        "número de ciclos por familia profesional",
+        "numero de ciclos por familia profesional",
+        "ciclos por cada familia profesional de fp",
+        "cuántos ciclos tiene cada familia profesional"
+      ],
+      "required_terms": [
+        "ciclos",
+        "familia profesional"
+      ],
+      "respuesta": "No hay una cifra única y estable de ciclos dentro de cada familia profesional que pueda responderse de forma general sin consultar el catálogo u oferta vigente. La Formación Profesional se organiza en familias profesionales, pero el número concreto de ciclos asociados a cada familia puede variar por actualización del catálogo, creación de nuevos títulos y oferta autorizada en cada momento. Para obtener el dato exacto debe consultarse la fuente oficial vigente del catálogo de títulos u oferta de FP.",
+      "fuentes": [
+        {
+          "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
+          "archivo": "Real_Decreto_659_2023_FP",
+          "pagina": "web",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El Real Decreto 659/2023 regula la ordenación del Sistema de Formación Profesional y sus ofertas, pero el número exacto de ciclos por familia debe verificarse en el catálogo u oferta vigente."
+        }
+      ],
+      "estado_verificacion": "verificado_fuente_oficial",
+      "fecha_verificacion": "2026-05-24",
+      "riesgo": "medio",
+      "nota_mantenimiento": "FAQ defensiva añadida en v065 tras auditoría de variantes coloquiales.",
+      "normalizado_variantes": [
+        "cuantos ciclos hay exactamente dentro de cada familia profesional de fp",
+        "cuantos ciclos hay exactamente dentro de cada familia profesional de fp",
+        "cuantos ciclos hay exactamente dentro de cada familia profesional de fp",
+        "cuantos ciclos hay dentro de cada familia profesional",
+        "cuantos ciclos hay dentro de cada familia profesional",
+        "numero de ciclos por familia profesional",
+        "numero de ciclos por familia profesional",
+        "ciclos por cada familia profesional de fp",
+        "cuantos ciclos tiene cada familia profesional"
       ]
     }
   ]

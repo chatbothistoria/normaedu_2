@@ -453,6 +453,44 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
     """
     p = _normalizar_faq(pregunta)
 
+    # v065: defensiva FP y refuerzos cortos prioritarios.
+    if _faq_tiene_todos(p, [["ciclo", "ciclos"], ["familia profesional", "familias profesionales"]]):
+        if _faq_tiene_alguno(p, ["exactamente", "dentro de cada", "por familia", "cada familia", "numero", "número", "cuantos", "cuántos"]):
+            faq = _buscar_faq_por_id("fp_ciclos_por_familia_no_estable")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["seguimiento alumnado empresa fp", "tutor empresa fp", "contacto centro empresa fp", "centro empresa fp"]):
+        faq = _buscar_faq_por_id("fp_tutor_empresa_seguimiento_contacto")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["alumno no deja dar clase", "alumno molesta en clase", "alumno interrumpe clase", "alumno impide la clase"]):
+        faq = _buscar_faq_por_id("cyl_actuaciones_inmediatas_convivencia")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["como se organiza primaria", "organizacion primaria", "ciclos primaria", "primaria ciclos"]):
+        faq = _buscar_faq_por_id("primaria_ciclos")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["asignaturas educacion infantil", "asignaturas de infantil", "materias infantil", "ambitos infantil"]):
+        faq = _buscar_faq_por_id("infantil_areas")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["finalidad educacion infantil", "para que sirve la educacion infantil", "fines infantil", "fines de infantil"]):
+        faq = _buscar_faq_por_id("infantil_finalidad")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["evaluacion educacion infantil", "evaluacion infantil", "como se evalua en infantil"]):
+        faq = _buscar_faq_por_id("infantil_evaluacion")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+
     # v064: variantes coloquiales detectadas en pruebas reales.
     # Regla defensiva: trabajar en un hospital no equivale a hospitalización.
     if _faq_tiene_todos(p, [["trabaja", "trabajan", "trabajar"], ["hospital", "hospitales"]]):
@@ -1670,7 +1708,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v064b_variantes_coloquiales_runtimefix",
+                    "version": "v065_quirurgica_variantes",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1734,7 +1772,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v064b_variantes_coloquiales_runtimefix",
+                            "version": "v065_quirurgica_variantes",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1769,7 +1807,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v064b_variantes_coloquiales_runtimefix",
+                                "version": "v065_quirurgica_variantes",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1807,7 +1845,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v064b_variantes_coloquiales_runtimefix",
+                            "version": "v065_quirurgica_variantes",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,

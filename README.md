@@ -145,3 +145,9 @@ Mantiene los cambios de v064 y añade:
 - eliminación de una modificación potencialmente conflictiva de `pregunta_input_widget` en `st.session_state`.
 
 No cambia FAQ, IA, Qdrant, prompt, admin, límites ni privacidad.
+
+## v065 - Corrección quirúrgica de variantes
+
+- Añade FAQ defensiva `fp_ciclos_por_familia_no_estable`.
+- Refuerza variantes cortas/coloquiales prioritarias.
+- No modifica IA, Qdrant, prompt, admin oculto, privacidad, límites ni reintentos.

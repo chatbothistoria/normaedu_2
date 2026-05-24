@@ -192,3 +192,5 @@ Versión auditada: 0.4.1. Criterio: cada FAQ incluye fuente oficial, página/loc
 | `permisos_licencia_baja_vacaciones_diferencia` | Sustituida fuente incorrecta BOE-A-2015-10566 por Orden EDU/423/2014; respuesta reformulada de forma prudente. | Orden EDU/423/2014, arts. 1 y 3 |
 
 | 162 | `permiso_no_por_trabajar_en_hospital` | general | ¿Tengo permiso si un familiar trabaja en un hospital de otra localidad? | Orden EDU/423/2014 | art. 10 | Los permisos se vinculan a hechos causantes como fallecimiento, accidente, enfermedad grave u hospitalización, no al lugar donde trabaja el familiar. | medio |
+
+| 163 | `fp_ciclos_por_familia_no_estable` | fp | ¿Cuántos ciclos hay exactamente dentro de cada familia profesional de FP? | Real Decreto 659/2023 / catálogo FP | web | El número exacto de ciclos por familia debe verificarse en catálogo/oferta vigente; no es una cifra única estable. | medio |
