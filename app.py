@@ -1108,6 +1108,120 @@ def validar_input(pregunta):
         return False, "La pregunta contiene contenido no válido."
     return True, ""
 
+
+# =============================================================================
+# FILTRO DE DOMINIO v067
+# =============================================================================
+# Objetivo: evitar que preguntas claramente ajenas al ámbito educativo/docente
+# entren en Qdrant/RAG y recuperen normativa laboral, contractual o administrativa
+# que pueda inducir una respuesta fuera de alcance.
+
+_DOMINIO_EDUCATIVO_TERMS = [
+    "educacion", "educativo", "educativa", "ensenanza", "ensenanzas",
+    "alumno", "alumna", "alumnado", "estudiante", "estudiantes", "familia", "familias",
+    "docente", "profesor", "profesora", "maestro", "maestra", "claustro", "equipo docente",
+    "centro", "colegio", "instituto", "ies", "aula", "clase", "tutoria", "tutor", "tutora",
+    "infantil", "primaria", "eso", "secundaria", "bachillerato", "fp", "formacion profesional",
+    "ciclo formativo", "grado medio", "grado superior", "grado basico", "familia profesional",
+    "curriculo", "curriculo", "evaluacion", "promocion", "titulacion", "calificacion", "reclamacion",
+    "convivencia", "conducta", "sancion alumno", "correccion", "mediacion escolar",
+    "permiso docente", "licencia docente", "vacaciones docentes", "baja docente",
+]
+
+_FUERA_DOMINIO_GRUPOS = [
+    # Derecho contractual, mercantil o consumo privado.
+    ["empresa privada", "contrato"],
+    ["contrato privado"],
+    ["incumple un contrato"],
+    ["incumplimiento de contrato"],
+    ["contrato mercantil"],
+    ["consumidor", "garantia"],
+    ["factura", "iva"],
+    # Ámbitos claramente no educativos.
+    ["divorcio"],
+    ["custodia compartida"],
+    ["alquiler", "vivienda"],
+    ["comunidad de propietarios"],
+    ["multa de trafico"],
+    ["sancion de trafico"],
+    ["delito"],
+    ["denuncia penal"],
+    ["herencia"],
+    ["testamento"],
+    ["hipoteca"],
+    ["desahucio"],
+    ["autonomo", "cuota"],
+]
+
+
+def _normalizar_dominio(texto: str) -> str:
+    texto = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode("ascii")
+    texto = texto.lower()
+    texto = re.sub(r"[^a-z0-9]+", " ", texto)
+    return re.sub(r"\s+", " ", texto).strip()
+
+
+def _contiene_frase_dominio(p: str, frase: str) -> bool:
+    frase_n = _normalizar_dominio(frase)
+    if not frase_n:
+        return False
+    if len(frase_n.split()) == 1:
+        return frase_n in set(p.split())
+    return frase_n in p
+
+
+def _pregunta_tiene_indicios_educativos(pregunta: str, bloque_elegido: str = "") -> bool:
+    p = _normalizar_dominio(pregunta)
+    if any(_contiene_frase_dominio(p, t) for t in _DOMINIO_EDUCATIVO_TERMS):
+        return True
+    # Si el usuario está en FP, protegemos términos propios de FP que pueden
+    # confundirse con empresa/contrato en lenguaje general.
+    if bloque_elegido == "fp" and any(_contiene_frase_dominio(p, t) for t in [
+        "empresa", "formacion", "practicas", "dual", "centro", "tutor", "ciclo", "grado"
+    ]):
+        return True
+    return False
+
+
+def _pregunta_fuera_de_dominio(pregunta: str, bloque_elegido: str = "") -> bool:
+    """Filtro conservador: solo bloquea preguntas claramente fuera de dominio.
+
+    No pretende resolver todos los casos. Su función es cortar antes de RAG
+    cuando la pregunta apunta a derecho privado/mercantil/general y no contiene
+    indicios educativos suficientes.
+    """
+    p = _normalizar_dominio(pregunta)
+    if not p:
+        return False
+
+    if _pregunta_tiene_indicios_educativos(pregunta, bloque_elegido):
+        return False
+
+    for grupo in _FUERA_DOMINIO_GRUPOS:
+        if all(_contiene_frase_dominio(p, termino) for termino in grupo):
+            return True
+
+    # Regla específica para el caso detectado por auditoría RAG.
+    if _contiene_frase_dominio(p, "empresa") and _contiene_frase_dominio(p, "contrato"):
+        if any(_contiene_frase_dominio(p, t) for t in ["sancion", "incumple", "incumplimiento", "privada"]):
+            return True
+
+    return False
+
+
+def construir_respuesta_fuera_dominio(pregunta: str, bloque_elegido: str = "") -> str:
+    return (
+        "## Consulta fuera del ámbito de la app\n\n"
+        "No puedo responder con seguridad a esta pregunta porque parece referirse a derecho privado, "
+        "contractual, mercantil, laboral general u otro ámbito ajeno a la normativa educativa que cubre esta app.\n\n"
+        "Esta herramienta está pensada para consultas sobre normativa educativa, centros docentes, alumnado, "
+        "convivencia escolar, evaluación, Formación Profesional y cuestiones administrativas docentes.\n\n"
+        "Si tu pregunta sí está relacionada con un centro educativo, un alumno, un docente o una enseñanza concreta, "
+        "reformúlala indicando ese contexto educativo, sin incluir datos personales.\n\n"
+        "_Filtro de dominio aplicado: no se ha consultado Qdrant ni se ha consumido IA._"
+    )
+
+
 def expandir_y_corregir(pregunta):
     """Sin LLM para ahorrar tokens de IA.
     La búsqueda semántica + reordenación local mantiene el coste en cero.
@@ -1708,7 +1822,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v066_trazabilidad_fuentes",
+                    "version": "v067_filtro_dominio",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1737,6 +1851,51 @@ if submit and pregunta_input:
                 if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
                     st.session_state.historial_completo = \
                         st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
+
+                st.session_state.feedback_pendiente = True
+                st.session_state.feedback_pregunta  = pregunta_input
+                st.session_state.feedback_respuesta = texto_final
+
+            elif _pregunta_fuera_de_dominio(pregunta_input, bloque_elegido):
+                # v067: filtro conservador de dominio antes de consultar Qdrant o IA.
+                texto_final = construir_respuesta_fuera_dominio(pregunta_input, bloque_elegido)
+                fuentes_u = ["Filtro de dominio: no se consultó Qdrant ni IA."]
+                fuentes_up = fuentes_u[:]
+
+                st.write("---")
+                st.markdown("### 📝 Respuesta:")
+                st.warning("Consulta fuera del ámbito educativo/docente de la app: no consume Qdrant ni IA.")
+                st.markdown(texto_final)
+                st.markdown("### 📚 Fuentes consultadas:")
+                for f in fuentes_u:
+                    st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+
+                diagnostico = {
+                    "version": "v067_filtro_dominio",
+                    "capa_usada": "FILTRO_DOMINIO",
+                    "consume_ia": False,
+                    "consume_qdrant": False,
+                    "bloque_seleccionado": bloque_elegido,
+                    "faq_id": None,
+                    "motivo": "pregunta_fuera_de_dominio",
+                    "limite_ia_usado": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                }
+                st.session_state.ultimo_diagnostico = diagnostico
+                if modo_diagnostico:
+                    mostrar_diagnostico(diagnostico)
+
+                st.session_state.ultima_pregunta   = pregunta_input
+                st.session_state.pregunta_actual   = pregunta_input
+                st.session_state.ultima_respuesta  = texto_final
+                st.session_state.ultimas_fuentes   = fuentes_u
+                st.session_state.historial_completo.append({
+                    "pregunta":           pregunta_input,
+                    "pregunta_corregida": pregunta_input,
+                    "respuesta":          texto_final,
+                    "fuentes":            fuentes_up,
+                })
+                if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
+                    st.session_state.historial_completo =                         st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
 
                 st.session_state.feedback_pendiente = True
                 st.session_state.feedback_pregunta  = pregunta_input
@@ -1772,7 +1931,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v066_trazabilidad_fuentes",
+                            "version": "v067_filtro_dominio",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1807,7 +1966,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v066_trazabilidad_fuentes",
+                                "version": "v067_filtro_dominio",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -1845,7 +2004,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v066_trazabilidad_fuentes",
+                            "version": "v067_filtro_dominio",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,

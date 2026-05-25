@@ -158,3 +158,12 @@ No cambia FAQ, IA, Qdrant, prompt, admin, límites ni privacidad.
 - Refuerza fuentes de FAQ prioritarias con norma exacta, artículo/apartado y fragmento oficial.
 - Mejora trazabilidad en FP, Bachillerato, permisos, convivencia, Primaria, Infantil y privacidad.
 - No modifica la lógica de matching, Qdrant, IA, admin oculto, límites, reintentos ni interfaz.
+
+
+## v067 - Filtro de dominio antes de RAG
+
+Cambios:
+- Añade un filtro conservador antes de Qdrant/RAG para preguntas claramente fuera del ámbito educativo/docente.
+- Evita que consultas de derecho privado, mercantil o contractual general recuperen normativa irrelevante.
+- No modifica FAQ, Qdrant, IA, prompt, admin oculto, privacidad, límites ni reintentos.
+- Las preguntas bloqueadas no consumen Qdrant ni IA.

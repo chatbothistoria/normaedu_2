@@ -1,7 +1,7 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v066_trazabilidad_fuentes",
+    "version": "v067_filtro_dominio",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 163,
@@ -17,7 +17,8 @@
     "nota_v064": "Se refuerzan variantes coloquiales reales detectadas en pruebas y se añade una FAQ defensiva para evitar confundir trabajar en un hospital con hospitalización.",
     "nota_v064b": "Corrección preventiva de despliegue: se elimina modificación del widget pregunta_input_widget desde session_state tras la creación del widget y se unifica la versión en diagnósticos.",
     "nota_v065": "Corrección quirúrgica: FAQ defensiva sobre ciclos por familia profesional y variantes prioritarias. Sin cambios en IA, Qdrant, prompt, admin, privacidad ni límites.",
-    "nota_v066": "Refuerzo de trazabilidad jurídica en FAQ prioritarias: norma exacta, artículo/apartado y fragmento oficial. No se modifica matching, Qdrant, IA, admin, límites, privacidad ni interfaz."
+    "nota_v066": "Refuerzo de trazabilidad jurídica en FAQ prioritarias: norma exacta, artículo/apartado y fragmento oficial. No se modifica matching, Qdrant, IA, admin, límites, privacidad ni interfaz.",
+    "nota_v067": "Filtro conservador de dominio previo a RAG para preguntas claramente ajenas al ámbito educativo/docente. No modifica FAQ, Qdrant, IA, prompt, admin ni límites."
   },
   "faqs": [
     {

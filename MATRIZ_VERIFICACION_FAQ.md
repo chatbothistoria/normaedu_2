@@ -213,3 +213,8 @@ Versión auditada: 0.4.1. Criterio: cada FAQ incluye fuente oficial, página/loc
 | `primaria_ciclos` | RD 157/2022, art. 3.2 |
 | `infantil_areas` | RD 95/2022, art. 8 |
 | `privacidad_no_datos_personales_app` | RGPD art. 5; AEPD principios del tratamiento |
+
+
+## Refuerzo v067 - filtro de dominio
+
+Se añade un filtro conservador previo a RAG para cortar consultas claramente fuera del ámbito educativo/docente, por ejemplo derecho contractual privado o mercantil general. El filtro no modifica FAQ ni recuperación normativa, solo evita consultar Qdrant/IA cuando la pregunta no pertenece al dominio de la app.
