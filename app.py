@@ -1620,6 +1620,184 @@ def respuesta_segura_por_citas_invalidas(citas_invalidas):
         "Esta protección evita mostrar una respuesta jurídica con citas no verificables."
     )
 
+# ============================================================
+# v070 - Respuestas prudentes contextuales
+# ============================================================
+# Postprocesado determinista y conservador:
+# - No cambia Qdrant.
+# - No cambia FAQ.
+# - No cambia prompt.
+# - No inventa contenido normativo.
+# - Solo añade orientación práctica cuando la propia respuesta ya reconoce
+#   que no hay información suficiente y la pregunta depende de datos actuales,
+#   locales, de centro o individualizados.
+
+def _normalizar_prudencia_contextual(texto):
+    texto = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode("ascii")
+    texto = texto.lower()
+    texto = re.sub(r"[^a-z0-9]+", " ", texto)
+    return re.sub(r"\s+", " ", texto).strip()
+
+
+def _pregunta_contextual_actual_local(pregunta):
+    p = _normalizar_prudencia_contextual(pregunta)
+
+    patrones = [
+        # Tiempo / actualidad
+        "este curso", "curso actual", "ahora", "actualmente", "este ano", "este año",
+        "2024 2025", "2025 2026", "plazo actual", "convocatoria actual",
+
+        # Territorio / oferta concreta
+        "valladolid", "burgos", "leon", "palencia", "salamanca", "segovia", "soria",
+        "zamora", "avila", "avila", "mi provincia", "provincia", "localidad",
+        "mi zona", "mi municipio",
+
+        # Centro / individualización
+        "mi centro", "mi colegio", "mi instituto", "mi ciclo", "su colegio",
+        "su instituto", "en su centro", "en mi centro", "en mi instituto",
+        "secretaria", "jefatura de estudios",
+
+        # Datos cambiantes o de gestión
+        "plazas libres", "plaza libre", "horario exacto", "horario", "libros concretos",
+        "lista de libros", "optativas oferta", "oferta mi instituto", "que optativas",
+        "profesor imparte", "que profesor", "reuniones de evaluacion", "comedor escolar",
+        "transporte escolar", "empresas concretas", "convenio este curso",
+        "catalogo", "oferta formativa", "ciclos hay", "que ciclos",
+    ]
+
+    return any(pat in p for pat in patrones)
+
+
+def _respuesta_insuficiente_sin_orientacion(respuesta):
+    r = _normalizar_prudencia_contextual(respuesta)
+
+    insuficiencia = [
+        "con los fragmentos recuperados no hay informacion suficiente",
+        "no hay informacion suficiente para responder con seguridad",
+        "no puedo responder con seguridad",
+        "no puedo determinar con seguridad",
+        "no puedo confirmar",
+        "no consta en los fragmentos",
+        "los fragmentos no contienen",
+        "no se dispone de informacion",
+    ]
+
+    orientacion = [
+        "orientacion practica",
+        "consulta",
+        "consultar",
+        "fuente oficial",
+        "consejeria",
+        "junta de castilla y leon",
+        "catalogo",
+        "oferta formativa",
+        "centro educativo",
+        "secretaria",
+        "direccion provincial",
+        "organo competente",
+        "portal de educacion",
+        "programacion didactica",
+    ]
+
+    tiene_insuficiencia = any(x in r for x in insuficiencia)
+    tiene_orientacion = any(x in r for x in orientacion)
+
+    return tiene_insuficiencia and not tiene_orientacion
+
+
+def _orientacion_practica_contextual(pregunta, bloque_elegido=None):
+    p = _normalizar_prudencia_contextual(pregunta)
+
+    base = (
+        "## Orientación práctica\n"
+        "Esta consulta depende de información actual, local, del centro o de una situación individual, "
+        "por lo que puede cambiar según el curso académico, la provincia, el centro educativo o la convocatoria vigente.\n\n"
+    )
+
+    # v070b: reglas específicas antes que reglas generales.
+    if any(x in p for x in ["transporte escolar", "transporte", "ruta escolar"]):
+        return base + (
+            "Para confirmarlo, consulta la **convocatoria anual o información vigente de transporte escolar**, "
+            "la **secretaría del centro**, la **Dirección Provincial de Educación** correspondiente "
+            "o el **portal oficial de Educación de Castilla y León**."
+        )
+
+    if any(x in p for x in ["comedor escolar", "comedor", "plazas comedor"]):
+        return base + (
+            "Para confirmarlo, consulta la **información anual del servicio de comedor escolar**, "
+            "la **secretaría del centro**, la **Dirección Provincial de Educación** correspondiente "
+            "o el **portal oficial de Educación de Castilla y León**."
+        )
+
+    if any(x in p for x in ["horario exacto", "horario", "reuniones de evaluacion", "reunion de evaluacion", "calendario del centro"]):
+        return base + (
+            "Para confirmarlo, consulta el **horario oficial del centro para el curso actual**, "
+            "la **jefatura de estudios**, la **secretaría del centro educativo** o la documentación organizativa interna del centro."
+        )
+
+    if any(x in p for x in ["optativas", "optativa", "oferta mi instituto", "que optativas", "materias optativas"]):
+        return base + (
+            "Para confirmarlo, consulta la **programación u organización del centro**, "
+            "la **oferta de materias publicada para el curso actual**, la **jefatura de estudios** "
+            "o la **secretaría del instituto**."
+        )
+
+    if any(x in p for x in ["profesor imparte", "que profesor", "profesorado", "asignacion docente", "imparte el modulo"]):
+        return base + (
+            "Para confirmarlo, consulta la **organización docente del centro**, la **jefatura de estudios**, "
+            "la **secretaría del centro educativo** o el equipo directivo."
+        )
+
+    if any(x in p for x in ["libros", "lista de libros", "releo"]):
+        return base + (
+            "Para saber los libros concretos, consulta la **lista de libros publicada por el centro**, "
+            "la **secretaría del colegio** o la información del programa **RELEO PLUS**, si el centro participa en él."
+        )
+
+    if any(x in p for x in ["plazas libres", "plaza libre", "admision", "vacantes"]):
+        return base + (
+            "Para comprobar plazas o vacantes, consulta el **proceso de admisión vigente**, "
+            "el **portal oficial de Educación de Castilla y León**, la **Dirección Provincial de Educación** "
+            "o la **secretaría del centro**."
+        )
+
+    if any(x in p for x in ["empresas concretas", "convenio este curso", "convenios", "practicas de fp", "formacion en empresa"]):
+        return base + (
+            "Para confirmarlo, consulta la **secretaría del centro**, la persona responsable de la **tutoría de FP dual o formación en empresa**, "
+            "la **Dirección Provincial de Educación** o la documentación actualizada de convenios del centro."
+        )
+
+    if any(x in p for x in ["ciclo", "ciclos", "fp", "formacion profesional", "oferta formativa", "desarrollo de aplicaciones", "catalogo"]):
+        return base + (
+            "Para comprobarlo con seguridad, consulta el **portal oficial de Formación Profesional de la Junta de Castilla y León**, "
+            "el **catálogo anual de oferta formativa**, la **Dirección Provincial de Educación** correspondiente "
+            "o la **secretaría del centro**."
+        )
+
+    return base + (
+        "Para confirmarlo, consulta la **fuente oficial actualizada**, la **secretaría del centro educativo**, "
+        "la **Dirección Provincial de Educación** o el órgano competente que gestione esa información."
+    )
+
+
+def reforzar_respuesta_prudente_contextual(respuesta, pregunta, bloque_elegido=None):
+    """Añade orientación práctica si la respuesta es insuficiente y la pregunta es contextual.
+
+    No modifica respuestas que ya contienen orientación, respuestas FAQ, respuestas fuera de dominio
+    ni respuestas con contenido suficiente.
+    """
+    if not respuesta:
+        return respuesta
+
+    if not _pregunta_contextual_actual_local(pregunta):
+        return respuesta
+
+    if not _respuesta_insuficiente_sin_orientacion(respuesta):
+        return respuesta
+
+    return respuesta.rstrip() + "\n\n" + _orientacion_practica_contextual(pregunta, bloque_elegido)
+
+
 def construir_mensajes(pregunta, contexto_xml):
     PROMPT_SISTEMA = """
 Eres NormaEdu 2, un asistente de consulta normativa educativa española.
@@ -1969,7 +2147,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v069_filtro_dominio_variantes",
+                    "version": "v070b_respuestas_prudentes_contextuales_fix",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2018,7 +2196,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v069_filtro_dominio_variantes",
+                    "version": "v070b_respuestas_prudentes_contextuales_fix",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2078,7 +2256,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v069_filtro_dominio_variantes",
+                            "version": "v070b_respuestas_prudentes_contextuales_fix",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -2113,7 +2291,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v069_filtro_dominio_variantes",
+                                "version": "v070b_respuestas_prudentes_contextuales_fix",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2136,11 +2314,15 @@ if submit and pregunta_input:
                         if not citas_ok:
                             texto_final = respuesta_segura_por_citas_invalidas(citas_invalidas)
                             st.warning("La respuesta generada citaba fragmentos inexistentes y ha sido bloqueada.")
-                        elif not citas_detectadas:
-                            st.warning(
-                                "La respuesta no contiene citas [F#]. Revísala con especial cautela; "
-                                "en la siguiente fase podremos hacer este control aún más estricto."
+                        else:
+                            texto_final = reforzar_respuesta_prudente_contextual(
+                                texto_final, pregunta_input, bloque_elegido
                             )
+                            if not citas_detectadas:
+                                st.warning(
+                                    "La respuesta no contiene citas [F#]. Revísala con especial cautela; "
+                                    "en la siguiente fase podremos hacer este control aún más estricto."
+                                )
 
                         st.markdown(texto_final)
 
@@ -2151,7 +2333,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v069_filtro_dominio_variantes",
+                            "version": "v070b_respuestas_prudentes_contextuales_fix",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,

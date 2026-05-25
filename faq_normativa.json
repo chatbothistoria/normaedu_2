@@ -1,7 +1,7 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v069_filtro_dominio_variantes",
+    "version": "v070b_respuestas_prudentes_contextuales_fix",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 163,
@@ -20,7 +20,9 @@
     "nota_v066": "Refuerzo de trazabilidad jurídica en FAQ prioritarias: norma exacta, artículo/apartado y fragmento oficial. No se modifica matching, Qdrant, IA, admin, límites, privacidad ni interfaz.",
     "nota_v067": "Filtro conservador de dominio previo a RAG para preguntas claramente ajenas al ámbito educativo/docente. No modifica FAQ, Qdrant, IA, prompt, admin ni límites.",
     "nota_v068b": "Refuerzo real de reintentos IA ante límites temporales: 2 reintentos, espera 20s y 40s con backoff. No modifica FAQ, Qdrant, prompt, filtro de dominio, admin, privacidad ni interfaz.",
-    "nota_v069": "Amplía filtro de dominio con supuestos fuera de ámbito detectados por auditoría sintética y añade variantes FAQ prioritarias sin modificar Qdrant, IA, prompt, admin, privacidad ni interfaz."
+    "nota_v069": "Amplía filtro de dominio con supuestos fuera de ámbito detectados por auditoría sintética y añade variantes FAQ prioritarias sin modificar Qdrant, IA, prompt, admin, privacidad ni interfaz.",
+    "nota_v070": "Añade postprocesado determinista de orientación práctica cuando la respuesta RAG/IA reconoce insuficiencia de fragmentos en consultas actuales, locales, de centro o individualizadas. No modifica FAQ, Qdrant, prompt, filtro de dominio, rate limit, privacidad ni interfaz general.",
+    "nota_v070b": "Corrige la prioridad de orientación práctica contextual: transporte, comedor, horarios, optativas, profesorado, libros, plazas y convenios se detectan antes que reglas generales de FP/centro."
   },
   "faqs": [
     {

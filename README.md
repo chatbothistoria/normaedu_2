@@ -187,3 +187,20 @@ Cambios:
 - Añade variantes FAQ prioritarias para reducir derivaciones innecesarias a RAG.
 - Añade reglas de intención muy acotadas para evitar falsos positivos de matching en Bachillerato y FP.
 - No modifica Qdrant, IA, prompt jurídico, admin oculto, privacidad, interfaz ni número de FAQ.
+
+
+## v070 - Respuestas prudentes contextuales
+
+Cambios:
+- Añade orientación práctica cuando la respuesta RAG/IA ya reconoce que no hay información suficiente.
+- Se aplica solo a preguntas actuales, locales, de centro o individualizadas.
+- No modifica FAQ, Qdrant, prompt, filtro de dominio, rate limit, privacidad ni interfaz general.
+- Objetivo: evitar respuestas secas y orientar a fuente oficial, centro, Dirección Provincial o catálogo actualizado.
+
+
+## v070b - Corrección de prioridad en respuestas prudentes contextuales
+
+Cambios:
+- Ajusta el orden de las reglas de orientación práctica.
+- Horario, transporte, comedor, plazas, libros, optativas, profesorado y convenios tienen prioridad sobre reglas generales de FP/centro.
+- No modifica FAQ, Qdrant, prompt, filtro de dominio, rate limit, privacidad ni interfaz general.
