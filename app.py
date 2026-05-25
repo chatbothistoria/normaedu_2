@@ -1840,6 +1840,62 @@ def _tipo_orientacion_contextual(pregunta):
     return "generica"
 
 
+def respuesta_contiene_orientacion_contextual(respuesta, pregunta=None):
+    """Detecta si la respuesta final ya contiene orientación práctica contextual.
+
+    v071b: puede haber orientación aunque no la haya añadido el postprocesado v070b,
+    porque la propia IA puede generar un bloque de orientación práctica.
+    """
+    r = _normalizar_prudencia_contextual(respuesta or "")
+    p = _normalizar_prudencia_contextual(pregunta or "")
+
+    if not r:
+        return False
+
+    marcas_orientacion = [
+        "orientacion practica",
+        "para conocer",
+        "para saber",
+        "para confirmarlo",
+        "debes consultar",
+        "debe consultar",
+        "consulta directamente",
+        "consulta la convocatoria",
+        "ponte en contacto",
+    ]
+
+    fuentes_contextuales = [
+        "centro educativo",
+        "secretaria del centro",
+        "secretaria del colegio",
+        "jefatura de estudios",
+        "jefe de estudios",
+        "direccion provincial",
+        "consejeria de educacion",
+        "junta de castilla y leon",
+        "portal oficial de educacion",
+        "catalogo anual",
+        "oferta formativa",
+        "convocatoria vigente",
+        "horario oficial",
+        "programacion didactica",
+        "tutor del ciclo",
+        "tutoria de fp",
+        "transporte escolar",
+        "comedor escolar",
+        "lista de libros",
+        "releo plus",
+    ]
+
+    tiene_marca = any(x in r for x in marcas_orientacion)
+    tiene_fuente = any(x in r for x in fuentes_contextuales)
+
+    # Evita marcar orientaciones genéricas de filtros fuera de dominio si la pregunta no es contextual.
+    pregunta_contextual = bool(p) and _pregunta_contextual_actual_local(pregunta or "")
+
+    return tiene_marca and tiene_fuente and pregunta_contextual
+
+
 def construir_trazabilidad_historial(
     ruta,
     apartado,
@@ -1858,7 +1914,7 @@ def construir_trazabilidad_historial(
     No contiene pregunta, respuesta, claves ni contenido de fragmentos.
     """
     return {
-        "version_app": "v071_trazabilidad_historial_compacta",
+        "version_app": "v071b_trazabilidad_orientacion_fix",
         "ruta": ruta,
         "apartado": apartado,
         "faq_id": faq_id or "",
@@ -2273,7 +2329,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v071_trazabilidad_historial_compacta",
+                    "version": "v071b_trazabilidad_orientacion_fix",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2336,7 +2392,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v071_trazabilidad_historial_compacta",
+                    "version": "v071b_trazabilidad_orientacion_fix",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2399,7 +2455,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v071_trazabilidad_historial_compacta",
+                            "version": "v071b_trazabilidad_orientacion_fix",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -2434,7 +2490,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v071_trazabilidad_historial_compacta",
+                                "version": "v071b_trazabilidad_orientacion_fix",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2468,9 +2524,13 @@ if submit and pregunta_input:
                                 texto_final, pregunta_input, bloque_elegido
                             )
                             orientacion_prudente_aplicada = texto_final != texto_antes_prudencia
-                            if orientacion_prudente_aplicada:
+                            orientacion_final_detectada = respuesta_contiene_orientacion_contextual(
+                                texto_final, pregunta_input
+                            )
+                            if orientacion_prudente_aplicada or orientacion_final_detectada:
                                 ruta_trazabilidad = "RAG_IA_PRUDENTE"
                                 tipo_orientacion_prudente = _tipo_orientacion_contextual(pregunta_input)
+                                orientacion_prudente_aplicada = True
                             if not citas_detectadas:
                                 st.warning(
                                     "La respuesta no contiene citas [F#]. Revísala con especial cautela; "
@@ -2500,7 +2560,7 @@ if submit and pregunta_input:
                         st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v071_trazabilidad_historial_compacta",
+                            "version": "v071b_trazabilidad_orientacion_fix",
                             "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,

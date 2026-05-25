@@ -213,3 +213,11 @@ Cambios:
 - Registra ruta usada: FAQ, FILTRO_DOMINIO, RAG_IA, RAG_IA_PRUDENTE o RAG_IA_CITAS_BLOQUEADAS.
 - Registra si se consultó Qdrant, si se consumió IA, FAQ activada y orientación prudente contextual.
 - No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.
+
+
+## v071b - Corrección de trazabilidad de orientación contextual
+
+Cambios:
+- Corrige la trazabilidad cuando la propia IA ya genera una sección de orientación práctica contextual.
+- En esos casos, la ruta pasa a reflejar `RAG_IA_PRUDENTE`.
+- No modifica la respuesta mostrada, FAQ, Qdrant, prompt, filtro de dominio, rate limit ni privacidad.
