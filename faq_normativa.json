@@ -1,7 +1,7 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v065_quirurgica_variantes",
+    "version": "v066_trazabilidad_fuentes",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 163,
@@ -16,7 +16,8 @@
     "nota_v063": "Corrige dos FAQ de permisos que en v062 tenían una URL incorrecta a BOE-A-2015-10566; se sustituyen por Orden EDU/423/2014 y se actualizan fragmentos verificados.",
     "nota_v064": "Se refuerzan variantes coloquiales reales detectadas en pruebas y se añade una FAQ defensiva para evitar confundir trabajar en un hospital con hospitalización.",
     "nota_v064b": "Corrección preventiva de despliegue: se elimina modificación del widget pregunta_input_widget desde session_state tras la creación del widget y se unifica la versión en diagnósticos.",
-    "nota_v065": "Corrección quirúrgica: FAQ defensiva sobre ciclos por familia profesional y variantes prioritarias. Sin cambios en IA, Qdrant, prompt, admin, privacidad ni límites."
+    "nota_v065": "Corrección quirúrgica: FAQ defensiva sobre ciclos por familia profesional y variantes prioritarias. Sin cambios en IA, Qdrant, prompt, admin, privacidad ni límites.",
+    "nota_v066": "Refuerzo de trazabilidad jurídica en FAQ prioritarias: norma exacta, artículo/apartado y fragmento oficial. No se modifica matching, Qdrant, IA, admin, límites, privacidad ni interfaz."
   },
   "faqs": [
     {
@@ -151,17 +152,17 @@
       "respuesta": "Las áreas de Educación Infantil son: Crecimiento en Armonía; Descubrimiento y Exploración del Entorno; y Comunicación y Representación de la Realidad.",
       "fuentes": [
         {
-          "documento": "Real Decreto 95/2022, de 1 de febrero, Educación Infantil",
-          "archivo": "Real_Decreto_95_2022_1_febrero_establece_ordenacion.pdf",
-          "pagina": 5,
-          "url": "https://www.boe.es/boe/dias/2022/02/02/pdfs/BOE-A-2022-1654.pdf",
-          "fragmento_verificado": "de aprendizaje que tengan interés y significado para los niños y las niñas. 2. Las áreas de la Educación Infantil son las siguientes: – Crecimiento en Armonía. – Descubrimiento y Exploración del Entorno. – Comunicación y Representación de la Realidad. 3. Estas áreas deben entenderse como ámbitos de experiencia intrínsecamente relacionados entre sí, por lo que se requerirá un planteamiento educativo que promueva la configuración de situaciones de aprendizaje globales, significativas y estimulant"
+          "documento": "Real Decreto 95/2022, ordenación y enseñanzas mínimas de Educación Infantil",
+          "archivo": "Real_Decreto_95_2022_Infantil",
+          "pagina": "art. 8.1 y 8.2",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-1654",
+          "fragmento_verificado": "Los contenidos educativos de Educación Infantil se organizan en áreas; las áreas son Crecimiento en Armonía, Descubrimiento y Exploración del Entorno, y Comunicación y Representación de la Realidad."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-19",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "cuales son las areas de educacion infantil",
         "areas educacion infantil",
@@ -311,17 +312,17 @@
       "respuesta": "La Educación Primaria comprende tres ciclos de dos años académicos cada uno y se organiza en áreas con carácter global e integrador.",
       "fuentes": [
         {
-          "documento": "Real Decreto 157/2022, de 1 de marzo, Educación Primaria",
-          "archivo": "Real_Decreto_157_2022_1_marzo_establecen_ordenacion.pdf",
-          "pagina": 3,
-          "url": "https://www.boe.es/boe/dias/2022/03/02/pdfs/BOE-A-2022-3296.pdf",
-          "fragmento_verificado": "ia Obligatoria y los Ciclos Formativos de Grado Básico, la Educación Básica. 2. La Educación Primaria comprende tres ciclos de dos años académicos cada uno y se organiza en áreas que tendrán un carácter global e integrador, estarán orientadas al desarrollo de las competencias del alumnado y podrán organizarse en ámbitos. Artículo 4. Fines. La finalidad de la Educación Primaria es facilitar a los alumnos y alumnas los aprendizajes de la expresión y comprensión oral, la lectura, la escritura, el c"
+          "documento": "Real Decreto 157/2022, ordenación y enseñanzas mínimas de Educación Primaria",
+          "archivo": "Real_Decreto_157_2022_Primaria",
+          "pagina": "art. 3.2",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-3296",
+          "fragmento_verificado": "La Educación Primaria comprende tres ciclos de dos años académicos cada uno y se organiza en áreas con carácter global e integrador, orientadas al desarrollo de las competencias del alumnado."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-19",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "como se organiza la educacion primaria",
         "organizacion educacion primaria",
@@ -1241,17 +1242,24 @@
       "respuesta": "En Bachillerato, los documentos oficiales de evaluación son las actas de evaluación, el expediente académico, el historial académico y, en su caso, el informe personal por traslado.",
       "fuentes": [
         {
-          "documento": "Real Decreto 243/2022, de 5 de abril, Bachillerato",
-          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
-          "pagina": 15,
-          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
-          "fragmento_verificado": "legítimo. Artículo 29. Documentos e informes de evaluación. 1. En Bachillerato, los documentos oficiales de evaluación son las actas de evaluación, el expediente académico, el historial académico y, en su caso, el informe personal por traslado. 2. El historial académico y, en su caso, el informe personal por traslado se consideran documentos básicos para garantizar la movilidad del alumnado por todo el territorio nacional. 3. Los documentos oficiales de evaluación deberán recoger siempre la norm"
+          "documento": "Real Decreto 243/2022, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_Bachillerato",
+          "pagina": "art. 29.1 y 29.2",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521",
+          "fragmento_verificado": "En Bachillerato, los documentos oficiales de evaluación son las actas de evaluación, el expediente académico, el historial académico y, en su caso, el informe personal por traslado. El historial académico y el informe personal por traslado se consideran documentos básicos para garantizar la movilidad del alumnado."
+        },
+        {
+          "documento": "Real Decreto 243/2022, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_Bachillerato",
+          "pagina": "arts. 30, 31, 32, 33 y 34",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521",
+          "fragmento_verificado": "Los artículos 30 a 34 desarrollan actas de evaluación, expediente académico, historial académico, informe personal por traslado y autenticidad, seguridad y confidencialidad de los documentos oficiales de evaluación."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-19",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "cuales son los documentos oficiales de evaluacion en bachillerato",
         "documentos oficiales evaluacion bachillerato",
@@ -2261,18 +2269,24 @@
       "respuesta": "No introduzcas nombres, apellidos, DNI, expedientes, datos médicos, diagnósticos, sanciones ni información que permita identificar a alumnado, familias, docentes u otras personas. Para consultar un caso, anonímalo antes y formula la pregunta de forma general.",
       "fuentes": [
         {
-          "documento": "AEPD - Guía para centros educativos / criterios de tratamiento de datos personales en centros educativos",
-          "archivo": "fuente_web_aepd_educacion_menores",
-          "pagina": null,
-          "url": "https://www.aepd.es/guias/guia-centros-educativos.pdf",
-          "fragmento_verificado": "Los datos personales en centros educativos deben tratarse con la debida diligencia, no usarse para fines diferentes al educativo y el personal que accede a datos del alumnado o familias está sometido al deber de secreto.",
-          "ubicacion": "Guía PDF oficial AEPD para centros educativos, tratamiento de datos personales"
+          "documento": "RGPD y AEPD: principios del tratamiento de datos personales",
+          "archivo": "AEPD_principios_tratamiento",
+          "pagina": "RGPD art. 5; AEPD, principios de minimización y confidencialidad",
+          "url": "https://www.aepd.es/preguntas-frecuentes/2-tus-obligaciones-como-responsable-del-tratamiento/4-los-principios-del-tratamiento/FAQ-0207-que-principios-debo-cumplir",
+          "fragmento_verificado": "El tratamiento de datos debe cumplir los principios de licitud, transparencia, limitación de la finalidad, minimización de datos, exactitud, limitación del plazo de conservación, integridad y confidencialidad."
+        },
+        {
+          "documento": "Guía AEPD de Protección de Datos por Defecto",
+          "archivo": "AEPD_guia_proteccion_datos_por_defecto.pdf",
+          "pagina": "RGPD art. 5.1.c",
+          "url": "https://www.aepd.es/guias/guia-proteccion-datos-por-defecto.pdf",
+          "fragmento_verificado": "El principio de minimización exige que los datos personales sean adecuados, pertinentes y limitados a lo necesario para el propósito específico del tratamiento."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial_web_aepd",
-      "fecha_verificacion": "2026-05-19",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si la AEPD actualiza sus guías o criterios para centros educativos. Reforzada en v062 con variantes de preguntas básicas.",
+      "nota_mantenimiento": "Revisar si la AEPD actualiza sus guías o criterios para centros educativos. Reforzada en v062 con variantes de preguntas básicas. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "puedo introducir nombres o datos personales de alumnos en la app",
         "puedo meter nombres de alumnos en la app",
@@ -3021,17 +3035,17 @@
       "respuesta": "Se promociona de primero a segundo de Bachillerato con todas las materias superadas o con evaluación negativa en dos materias como máximo, debiendo matricularse en segundo de las pendientes de primero.",
       "fuentes": [
         {
-          "documento": "Real Decreto 243/2022, de 5 de abril, ordenación y enseñanzas mínimas de Bachillerato",
-          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
-          "pagina": 12,
-          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
-          "fragmento_verificado": "mismo, que las condiciones de realizacion de los procesos asociados a la evaluacion se adaptan a las necesidades del alumnado con necesidad especifica de apoyo educativo. Articulo 21. Promocion. 1. Los alumnos y alumnas promocionaran de primero a segundo de Bachillerato cuando hayan superado las materias cursadas o tengan evaluacion negativa en dos materias como maximo. En todo caso, deberan matricularse en segundo curso de las materias no superadas de primero, que tendran la consideracion de materias pendientes. Los centros educativos deberan organizar las consiguientes actividades de recuperacion y la evaluacion de las materias pendientes en el marco organizativo que establezcan las administraciones educativas. 2. La superacion de las materias de segundo curso que figuran en el anexo V estara condicionada a la superacion de las corre..."
+          "documento": "Real Decreto 243/2022, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_Bachillerato",
+          "pagina": "art. 21.1",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521",
+          "fragmento_verificado": "El alumnado promocionará de primero a segundo cuando haya superado las materias cursadas o tenga evaluación negativa en dos materias como máximo."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-19",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v062 con variantes de preguntas básicas. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v062 con variantes de preguntas básicas. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "con cuantas materias suspensas se promociona de primero a segundo de bachillerato",
         "promocionar primero segundo bachillerato dos materias",
@@ -4315,17 +4329,17 @@
       "respuesta": "El Decreto 51/2007 permite actuaciones inmediatas para el cese de la conducta perturbadora, como amonestación pública o privada, petición de disculpas, suspensión del derecho a permanecer en el lugar de la actividad con control del alumno, o trabajos específicos en recreo u horario no lectivo.",
       "fuentes": [
         {
-          "documento": "Decreto 51/2007, artículo 35",
-          "archivo": "DECRETO_51_2007_17_mayo_regulan_derechos_deberes.pdf",
-          "pagina": 6,
-          "url": "https://bocyl.jcyl.es/boletines/2007/05/23/pdf/BOCYL-D-23052007-6.pdf",
-          "fragmento_verificado": "Artículo 35.– Actuaciones inmediatas... tienen como objetivo el cese de la conducta perturbadora... el profesor llevará a cabo... a) Amonestación pública o privada. b) Exigencia de petición pública o privada de disculpas. c) Suspensión del derecho a permanecer... d) Realización de trabajos específicos..."
+          "documento": "Decreto 51/2007, derechos y deberes del alumnado y convivencia escolar en Castilla y León",
+          "archivo": "DECRETO_51_2007_actualizado_Decreto_23_2014.pdf",
+          "pagina": "art. 35",
+          "url": "https://www.educa.jcyl.es/convivenciaescolar/es/normativa/principales-normas-convivencia-cyl.ficheros/1079805-DECRETO%2051-2007_actualizaci%C3%B3n%20por%20Decreto%2023-2014_junio%202014.pdf",
+          "fragmento_verificado": "Las actuaciones inmediatas tienen como objetivo el cese de la conducta perturbadora de la convivencia, sin perjuicio de su posterior calificación como conducta contraria o gravemente perjudicial para la convivencia."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-20",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "que actuaciones inmediatas puede adoptar un profesor ante una conducta que perturba la convivencia",
         "actuaciones inmediatas convivencia profesor",
@@ -4721,17 +4735,24 @@
       "respuesta": "Según el Real Decreto 243/2022, los documentos oficiales de evaluación en Bachillerato son las actas de evaluación, el expediente académico, el historial académico y, en su caso, el informe personal por traslado. El historial académico y el informe por traslado son documentos básicos para garantizar la movilidad del alumnado.",
       "fuentes": [
         {
-          "documento": "Real Decreto 243/2022, artículo 29",
-          "archivo": "Real_Decreto_243_2022_5_abril_establecen_ordenacion.pdf",
-          "pagina": 15,
-          "url": "https://www.boe.es/buscar/pdf/2022/BOE-A-2022-5521-consolidado.pdf",
-          "fragmento_verificado": "En Bachillerato, los documentos oficiales de evaluación son las actas de evaluación, el expediente académico, el historial académico y, en su caso, el informe personal por traslado. El historial académico y, en su caso, el informe personal por traslado se consideran documentos básicos para garantizar la movilidad..."
+          "documento": "Real Decreto 243/2022, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_Bachillerato",
+          "pagina": "art. 29.1 y 29.2",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521",
+          "fragmento_verificado": "En Bachillerato, los documentos oficiales de evaluación son las actas de evaluación, el expediente académico, el historial académico y, en su caso, el informe personal por traslado. El historial académico y el informe personal por traslado se consideran documentos básicos para garantizar la movilidad del alumnado."
+        },
+        {
+          "documento": "Real Decreto 243/2022, ordenación y enseñanzas mínimas de Bachillerato",
+          "archivo": "Real_Decreto_243_2022_Bachillerato",
+          "pagina": "arts. 30, 31, 32, 33 y 34",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521",
+          "fragmento_verificado": "Los artículos 30 a 34 desarrollan actas de evaluación, expediente académico, historial académico, informe personal por traslado y autenticidad, seguridad y confidencialidad de los documentos oficiales de evaluación."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-20",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible."
     },
     {
       "id": "fp_plan_formacion_empresa_firmas",
@@ -5473,16 +5494,16 @@
       "fuentes": [
         {
           "documento": "Real Decreto 243/2022, ordenación y enseñanzas mínimas de Bachillerato",
-          "archivo": "fuente_oficial_web",
-          "pagina": "web",
+          "archivo": "Real_Decreto_243_2022_Bachillerato",
+          "pagina": "art. 21.1",
           "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521",
-          "fragmento_verificado": "El Real Decreto 243/2022 establece la ordenación y las enseñanzas mínimas del Bachillerato; la promoción de primero a segundo procede cuando se superan las materias o se tienen como máximo dos materias con evaluación negativa."
+          "fragmento_verificado": "El alumnado promocionará de primero a segundo de Bachillerato cuando haya superado las materias cursadas o tenga evaluación negativa en dos materias como máximo."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-23",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "se puede repetir en bachillerato y con cuantas materias se promociona",
         "con cuantas materias se promociona de 1o a 2o de bachillerato",
@@ -5765,16 +5786,16 @@
       "fuentes": [
         {
           "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
-          "archivo": "fuente_oficial_web",
-          "pagina": "web",
-          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
-          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+          "archivo": "Real_Decreto_659_2023_FP",
+          "pagina": "arts. 9.5, 157, 159 y 160.1",
+          "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "La formación en empresa se integra en las ofertas de FP, cuenta con plan de formación y, en ciclos formativos, debe respetar la existencia de periodos de formación en empresa en cada año de duración, con las excepciones previstas."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-23",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "que es la formacion en empresa en fp y es obligatoria",
         "que es la formacion en empresa en fp",
@@ -5820,16 +5841,16 @@
       "fuentes": [
         {
           "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
-          "archivo": "fuente_oficial_web",
-          "pagina": "web",
-          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
-          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, regula los grados del sistema, los títulos de Técnico Básico, Técnico y Técnico Superior, la formación en empresa y los regímenes general e intensivo."
+          "archivo": "Real_Decreto_659_2023_FP",
+          "pagina": "art. 159.1, 159.2 y 159.4",
+          "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "La duración del periodo de formación en empresa varía según régimen general o intensivo; en régimen general será entre el 25 % y el 35 % de la duración total, y en régimen intensivo entre el 35 % y el 50 %, con al menos el 30 % de resultados de aprendizaje vinculados a estándares de competencia."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-23",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "que diferencia hay entre regimen general e intensivo en fp",
         "que diferencia hay entre regimen general e intensivo en fp",
@@ -5942,16 +5963,16 @@
       "fuentes": [
         {
           "documento": "Orden EDU/423/2014, vacaciones, permisos y licencias del personal funcionario docente de Castilla y León",
-          "archivo": "ORDEN_EDU_423_2014_21_mayo_vacaciones_permisos_licencias_docentes.pdf",
-          "pagina": 5,
+          "archivo": "BOCYL-D-05062014-1.pdf",
+          "pagina": "art. 10.1",
           "url": "https://bocyl.jcyl.es/boletines/2014/06/05/pdf/BOCYL-D-05062014-1.pdf",
-          "fragmento_verificado": "Artículo 10. Permiso por fallecimiento, accidente o enfermedad grave. 1. Por fallecimiento, accidente o enfermedad grave de un familiar dentro del primer grado de consanguinidad o afinidad, se concederán tres días hábiles cuando el suceso se produzca en la misma localidad, y cinco días hábiles cuando sea en distinta localidad."
+          "fragmento_verificado": "Por fallecimiento, accidente o enfermedad grave de familiar dentro del primer grado de consanguinidad o afinidad se conceden tres días hábiles cuando el suceso se produce en la misma localidad y cinco días hábiles cuando sea en distinta localidad."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-23",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "medio",
-      "nota_mantenimiento": "Corregida en v063: en v062 apuntaba por error a BOE-A-2015-10566, que corresponde a Ley 40/2015. Se sustituye por Orden EDU/423/2014, fuente específica del personal funcionario docente de Castilla y León. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales.",
+      "nota_mantenimiento": "Corregida en v063: en v062 apuntaba por error a BOE-A-2015-10566, que corresponde a Ley 40/2015. Se sustituye por Orden EDU/423/2014, fuente específica del personal funcionario docente de Castilla y León. Reforzada en v064 con variantes coloquiales detectadas en pruebas reales. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "que permiso hay por fallecimiento de un familiar de primer grado",
         "que permiso hay por fallecimiento de un familiar de primer grado",
@@ -6024,16 +6045,16 @@
       "fuentes": [
         {
           "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
-          "archivo": "fuente_oficial_web",
-          "pagina": "web",
-          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
-          "fragmento_verificado": "El Real Decreto 659/2023 desarrolla la ordenación del Sistema de Formación Profesional, incluyendo la formación en empresa, el seguimiento y la tutoría dual."
+          "archivo": "Real_Decreto_659_2023_FP",
+          "pagina": "arts. 160.3, 160.4 y 162.1",
+          "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "El centro y la empresa promoverán contactos previos y se asegurará el contacto continuo antes y durante la formación en empresa; el tutor o tutora de empresa llevará a cabo, junto con el tutor o tutora dual del centro, la identificación de los resultados de aprendizaje del plan de formación."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-23",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
       "normalizado_variantes": [
         "quien hace el seguimiento del alumnado en la empresa y que hace el tutor de empresa",
         "quien hace el seguimiento del alumnado en la empresa",
@@ -6149,15 +6170,15 @@
         {
           "documento": "Real Decreto 659/2023, ordenación del Sistema de Formación Profesional",
           "archivo": "Real_Decreto_659_2023_FP",
-          "pagina": "web",
-          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-16889",
-          "fragmento_verificado": "El Real Decreto 659/2023 regula la ordenación del Sistema de Formación Profesional y sus ofertas, pero el número exacto de ciclos por familia debe verificarse en el catálogo u oferta vigente."
+          "pagina": "art. 12 y Catálogo Nacional de Ofertas de Formación Profesional",
+          "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2023-16889",
+          "fragmento_verificado": "Los módulos profesionales se vinculan al Catálogo Nacional de Estándares de Competencias Profesionales y las ofertas formativas pueden incorporarse, actualizarse o suprimirse del Catálogo Nacional de Ofertas de Formación Profesional; por ello el número exacto de ciclos por familia debe verificarse en el catálogo u oferta vigente."
         }
       ],
       "estado_verificacion": "verificado_fuente_oficial",
-      "fecha_verificacion": "2026-05-24",
+      "fecha_verificacion": "2026-05-25",
       "riesgo": "medio",
-      "nota_mantenimiento": "FAQ defensiva añadida en v065 tras auditoría de variantes coloquiales.",
+      "nota_mantenimiento": "FAQ defensiva añadida en v065 tras auditoría de variantes coloquiales. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible. Se mantiene como FAQ defensiva: no ofrece cifra cerrada porque depende de catálogo/oferta vigente.",
       "normalizado_variantes": [
         "cuantos ciclos hay exactamente dentro de cada familia profesional de fp",
         "cuantos ciclos hay exactamente dentro de cada familia profesional de fp",

@@ -194,3 +194,22 @@ Versión auditada: 0.4.1. Criterio: cada FAQ incluye fuente oficial, página/loc
 | 162 | `permiso_no_por_trabajar_en_hospital` | general | ¿Tengo permiso si un familiar trabaja en un hospital de otra localidad? | Orden EDU/423/2014 | art. 10 | Los permisos se vinculan a hechos causantes como fallecimiento, accidente, enfermedad grave u hospitalización, no al lugar donde trabaja el familiar. | medio |
 
 | 163 | `fp_ciclos_por_familia_no_estable` | fp | ¿Cuántos ciclos hay exactamente dentro de cada familia profesional de FP? | Real Decreto 659/2023 / catálogo FP | web | El número exacto de ciclos por familia debe verificarse en catálogo/oferta vigente; no es una cifra única estable. | medio |
+
+
+## Refuerzo v066 - trazabilidad jurídica
+
+| FAQ | Fuente reforzada |
+|---|---|
+| `fp_ciclos_por_familia_no_estable` | RD 659/2023; Catálogo Nacional de Ofertas de FP |
+| `fp_tutor_empresa_seguimiento_contacto` | RD 659/2023, arts. 160.3, 160.4 y 162.1 |
+| `fp_regimen_general_intensivo` | RD 659/2023, art. 159 |
+| `fp_formacion_empresa_obligatoria_plan` | RD 659/2023, arts. 9.5, 157, 159 y 160.1 |
+| `bachillerato_repeticion_promocion_basica` | RD 243/2022, art. 21.1 |
+| `bachillerato_promocion_dos_materias` | RD 243/2022, art. 21.1 |
+| `bachillerato_documentos_oficiales_rd243` | RD 243/2022, arts. 29 a 34 |
+| `bachillerato_documentos_evaluacion` | RD 243/2022, arts. 29 a 34 |
+| `permiso_fallecimiento_primer_grado` | Orden EDU/423/2014, art. 10.1 |
+| `cyl_actuaciones_inmediatas_convivencia` | Decreto 51/2007, art. 35 |
+| `primaria_ciclos` | RD 157/2022, art. 3.2 |
+| `infantil_areas` | RD 95/2022, art. 8 |
+| `privacidad_no_datos_personales_app` | RGPD art. 5; AEPD principios del tratamiento |

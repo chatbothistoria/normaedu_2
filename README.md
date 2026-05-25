@@ -151,3 +151,10 @@ No cambia FAQ, IA, Qdrant, prompt, admin, límites ni privacidad.
 - Añade FAQ defensiva `fp_ciclos_por_familia_no_estable`.
 - Refuerza variantes cortas/coloquiales prioritarias.
 - No modifica IA, Qdrant, prompt, admin oculto, privacidad, límites ni reintentos.
+
+
+## v066 - Trazabilidad jurídica de fuentes
+
+- Refuerza fuentes de FAQ prioritarias con norma exacta, artículo/apartado y fragmento oficial.
+- Mejora trazabilidad en FP, Bachillerato, permisos, convivencia, Primaria, Infantil y privacidad.
+- No modifica la lógica de matching, Qdrant, IA, admin oculto, límites, reintentos ni interfaz.
