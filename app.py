@@ -17,8 +17,9 @@ IA_API_URL = ""  # se lee más abajo desde Secrets
 # Modo coste cero: límites duros para evitar consumo excesivo de free tiers.
 MAX_TOKENS_RESPUESTA  = 900
 MAX_TOKENS_RAPIDO     = 300
-IA_REINTENTOS_TEMPORALES = 1      # reintento suave si la IA devuelve límite temporal
-IA_REINTENTO_SEGUNDOS    = 12     # espera antes del reintento automático
+IA_REINTENTOS_TEMPORALES = 2      # reintentos ante límite/servicio temporal de IA
+IA_REINTENTO_SEGUNDOS    = 20     # espera base antes del reintento automático
+IA_REINTENTO_BACKOFF     = 2      # backoff progresivo: 20s, 40s
 MAX_CHARS_PREGUNTA    = 500
 MAX_CHARS_CONTEXTO    = 18000
 MAX_PREGUNTAS_SESION  = 10
@@ -1642,9 +1643,9 @@ def _mostrar_error_ia(resp, diagnostico_base=None, modo_diagnostico=False):
 
 
 def _post_ia_con_reintento(mensajes, modo_diagnostico=False):
-    """Llama a la IA y reintenta una sola vez si aparece un límite temporal.
+    """Llama a la IA y reintenta de forma prudente ante límites temporales.
 
-    El reintento solo se hace para errores clasificados como límite/servicio temporal.
+    Reintenta solo errores clasificados como límite temporal o servicio temporal.
     No cambia el proveedor, no usa servicios adicionales y mantiene coste 0.
     Devuelve (response, intentos), donde intentos no contiene claves ni contenido de la pregunta.
     """
@@ -1678,12 +1679,13 @@ def _post_ia_con_reintento(mensajes, modo_diagnostico=False):
         else:
             tipo, resumen = _clasificar_error_ia(resp)
 
-        intentos.append({
+        registro_intento = {
             "intento": intento + 1,
             "http_status": resp.status_code,
             "tipo": tipo,
             "duracion_ms": round((time.time() - t_intento) * 1000, 2),
-        })
+        }
+        intentos.append(registro_intento)
 
         if resp.status_code == 200:
             return resp, intentos
@@ -1691,10 +1693,12 @@ def _post_ia_con_reintento(mensajes, modo_diagnostico=False):
         puede_reintentar = tipo in ("limite_temporal", "servicio_temporal")
         quedan_reintentos = intento < IA_REINTENTOS_TEMPORALES
         if puede_reintentar and quedan_reintentos:
+            espera = IA_REINTENTO_SEGUNDOS * (IA_REINTENTO_BACKOFF ** intento)
+            registro_intento["reintento_espera_segundos"] = espera
             st.info(
-                f"⏳ La IA ha devuelto un límite temporal. Reintentando una vez en {IA_REINTENTO_SEGUNDOS} segundos..."
+                f"⏳ La IA ha devuelto un límite temporal. Reintentando en {espera} segundos..."
             )
-            time.sleep(IA_REINTENTO_SEGUNDOS)
+            time.sleep(espera)
             continue
 
         return resp, intentos
@@ -1822,7 +1826,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v067_filtro_dominio",
+                    "version": "v068b_rate_limit_ia_fix",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1871,7 +1875,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v067_filtro_dominio",
+                    "version": "v068b_rate_limit_ia_fix",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1931,7 +1935,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v067_filtro_dominio",
+                            "version": "v068b_rate_limit_ia_fix",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1966,7 +1970,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v067_filtro_dominio",
+                                "version": "v068b_rate_limit_ia_fix",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2004,7 +2008,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v067_filtro_dominio",
+                            "version": "v068b_rate_limit_ia_fix",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,
