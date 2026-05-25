@@ -454,6 +454,123 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
     """
     p = _normalizar_faq(pregunta)
 
+    # v069: variantes sintéticas prioritarias, muy acotadas, antes del matcher general.
+    if _faq_tiene_alguno(p, ["que areas hay en educacion infantil", "infantil areas nombres", "nombres de las areas de infantil"]):
+        faq = _buscar_faq_por_id("infantil_areas")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["sexto", "6"], ["primaria"], ["valores"]]):
+        faq = _buscar_faq_por_id("primaria_asignaturas_sexto_valores")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["promocionar", "promocion"], ["primaria"], ["final de ciclo", "ciclo"]]):
+        faq = _buscar_faq_por_id("primaria_promocion_final_ciclo_cyl")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["repite", "repetir", "repeticion"], ["primaria"], ["final de ciclo", "ciclo"]]):
+        faq = _buscar_faq_por_id("primaria_repetir_cuando_condiciones_cyl")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["el consejo orientador que es", "que es el consejo orientador", "consejo orientador"]):
+        faq = _buscar_faq_por_id("eso_consejo_orientador")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["evaluacion"], ["objetiva"], ["eso", "secundaria"]]):
+        faq = _buscar_faq_por_id("eso_evaluacion_caracter_objetiva_rd")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["calificaciones", "notas"], ["cualitativas", "insuficiente", "suficiente", "bien", "notable", "sobresaliente"], ["eso"]]):
+        faq = _buscar_faq_por_id("eso_calificaciones_cualitativas_cyl")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["bachiller", "bachillerato"], ["fp", "formacion profesional", "tecnico"]]):
+        if _faq_tiene_alguno(p, ["desde fp", "desde formacion profesional", "titulo de bachiller", "obtener bachiller", "bachiller desde"]):
+            faq = _buscar_faq_por_id("bachillerato_titulo_desde_fp")
+            if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                return faq, 1.0
+
+    if _faq_tiene_todos(p, [["bachiller", "bachillerato"], ["promocion", "promocionar"], ["dos materias", "2 materias", "dos suspensas", "2 suspensas"]]):
+        faq = _buscar_faq_por_id("bachillerato_promocion_dos_materias")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["titulo", "titulacion"], ["bachiller", "bachillerato"], ["regla general", "todas las materias"]]):
+        faq = _buscar_faq_por_id("bachillerato_titulo_regla_general_todas_materias")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["certificado de competencia"], ["fp", "formacion profesional"]]):
+        faq = _buscar_faq_por_id("fp_grado_b_certificado_competencia")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["certificado profesional"], ["fp", "formacion profesional"]]):
+        faq = _buscar_faq_por_id("fp_grado_c_certificado_profesional")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["cursos de especializacion", "curso de especializacion"], ["fp", "formacion profesional"]]):
+        faq = _buscar_faq_por_id("fp_grado_e")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["porcentaje"], ["empresa"], ["intensivo", "intensiva"], ["fp", "formacion profesional"]]):
+        faq = _buscar_faq_por_id("fp_formacion_empresa_regimen_intensivo_porcentaje")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["ofertas modulares", "oferta modular"], ["fp", "formacion profesional"]]):
+        faq = _buscar_faq_por_id("fp_ofertas_modulares")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["ciclos"], ["basico", "medio", "superior"], ["definicion", "que son"]]):
+        faq = _buscar_faq_por_id("fp_ciclos_basico_medio_superior_definicion")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["sanciones"], ["faltas graves", "gravemente perjudiciales", "articulo 49"]]):
+        faq = _buscar_faq_por_id("cyl_sanciones_faltas_graves_art49")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["mediacion"], ["escolar", "convivencia"]]):
+        faq = _buscar_faq_por_id("cyl_mediacion_escolar_convivencia")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["permiso"], ["examen", "examenes", "oficiales"]]):
+        faq = _buscar_faq_por_id("permiso_examenes")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["mi hijo repite primaria", "hijo repite primaria", "hija repite primaria"]):
+        faq = _buscar_faq_por_id("primaria_repeticion")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["con dos suspensas paso bach", "con 2 suspensas paso bach", "dos suspensas paso bachillerato"]):
+        faq = _buscar_faq_por_id("bachillerato_repeticion_promocion_basica")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["nino pega en clase que hago", "niño pega en clase que hago", "alumno pega en clase"]):
+        faq = _buscar_faq_por_id("cyl_actuaciones_inmediatas_convivencia")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_alguno(p, ["puedo pegar informe medico alumno", "puedo pegar un informe medico de un alumno", "datos medicos concretos"]):
+        faq = _buscar_faq_por_id("privacidad_no_datos_personales_app")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
     # v065: defensiva FP y refuerzos cortos prioritarios.
     if _faq_tiene_todos(p, [["ciclo", "ciclos"], ["familia profesional", "familias profesionales"]]):
         if _faq_tiene_alguno(p, ["exactamente", "dentro de cada", "por familia", "cada familia", "numero", "número", "cuantos", "cuántos"]):
@@ -1111,11 +1228,13 @@ def validar_input(pregunta):
 
 
 # =============================================================================
-# FILTRO DE DOMINIO v067
+# FILTRO DE DOMINIO v067-v069
 # =============================================================================
 # Objetivo: evitar que preguntas claramente ajenas al ámbito educativo/docente
 # entren en Qdrant/RAG y recuperen normativa laboral, contractual o administrativa
 # que pueda inducir una respuesta fuera de alcance.
+# v069: amplía supuestos de derecho privado, consumo, tráfico, vivienda,
+# propiedad industrial, fiscalidad y ámbitos municipales/agrarios.
 
 _DOMINIO_EDUCATIVO_TERMS = [
     "educacion", "educativo", "educativa", "ensenanza", "ensenanzas",
@@ -1152,6 +1271,30 @@ _FUERA_DOMINIO_GRUPOS = [
     ["hipoteca"],
     ["desahucio"],
     ["autonomo", "cuota"],
+
+    # v069: casos fuera de dominio detectados por auditoría sintética.
+    ["aerolinea"],
+    ["maleta"],
+    ["impuestos"],
+    ["sociedad limitada"],
+    ["demanda civil"],
+    ["vecino"],
+    ["accidente de trafico"],
+    ["indemnizacion", "trafico"],
+    ["casero"],
+    ["caldera"],
+    ["tienda online"],
+    ["devolucion", "tienda"],
+    ["marca comercial"],
+    ["registrar marca"],
+    ["registro marca"],
+    ["conducir sin seguro"],
+    ["despedir", "trabajador"],
+    ["despido", "trabajador"],
+    ["licencia de obras"],
+    ["ayuntamiento", "obras"],
+    ["subvencion agricola"],
+    ["subvencion", "agricola"],
 ]
 
 
@@ -1826,7 +1969,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v068b_rate_limit_ia_fix",
+                    "version": "v069_filtro_dominio_variantes",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1875,7 +2018,7 @@ if submit and pregunta_input:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                 diagnostico = {
-                    "version": "v068b_rate_limit_ia_fix",
+                    "version": "v069_filtro_dominio_variantes",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -1935,7 +2078,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v068b_rate_limit_ia_fix",
+                            "version": "v069_filtro_dominio_variantes",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -1970,7 +2113,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v068b_rate_limit_ia_fix",
+                                "version": "v069_filtro_dominio_variantes",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2008,7 +2151,7 @@ if submit and pregunta_input:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
 
                         diagnostico = {
-                            "version": "v068b_rate_limit_ia_fix",
+                            "version": "v069_filtro_dominio_variantes",
                             "capa_usada": "RAG_IA",
                             "consume_qdrant": True,
                             "consume_ia": True,

@@ -167,3 +167,23 @@ Cambios:
 - Evita que consultas de derecho privado, mercantil o contractual general recuperen normativa irrelevante.
 - No modifica FAQ, Qdrant, IA, prompt, admin oculto, privacidad, límites ni reintentos.
 - Las preguntas bloqueadas no consumen Qdrant ni IA.
+
+
+## v068b - Rate limit IA corregido
+
+Corrección sobre v068:
+- Se mantiene v067 estable como base.
+- Se refuerza `_post_ia_con_reintento`.
+- Ante límite/servicio temporal IA: hasta 3 intentos totales.
+- Esperas progresivas: 20s y 40s.
+- Se registra `reintento_espera_segundos` en el diagnóstico técnico.
+- No cambia FAQ, Qdrant, prompt, filtro de dominio, admin, privacidad ni interfaz.
+
+
+## v069 - Filtro de dominio y variantes sintéticas
+
+Cambios:
+- Amplía el filtro de dominio con supuestos fuera del ámbito educativo detectados en auditoría sintética.
+- Añade variantes FAQ prioritarias para reducir derivaciones innecesarias a RAG.
+- Añade reglas de intención muy acotadas para evitar falsos positivos de matching en Bachillerato y FP.
+- No modifica Qdrant, IA, prompt jurídico, admin oculto, privacidad, interfaz ni número de FAQ.

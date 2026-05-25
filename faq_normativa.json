@@ -1,7 +1,7 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v067_filtro_dominio",
+    "version": "v069_filtro_dominio_variantes",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 163,
@@ -18,7 +18,9 @@
     "nota_v064b": "Corrección preventiva de despliegue: se elimina modificación del widget pregunta_input_widget desde session_state tras la creación del widget y se unifica la versión en diagnósticos.",
     "nota_v065": "Corrección quirúrgica: FAQ defensiva sobre ciclos por familia profesional y variantes prioritarias. Sin cambios en IA, Qdrant, prompt, admin, privacidad ni límites.",
     "nota_v066": "Refuerzo de trazabilidad jurídica en FAQ prioritarias: norma exacta, artículo/apartado y fragmento oficial. No se modifica matching, Qdrant, IA, admin, límites, privacidad ni interfaz.",
-    "nota_v067": "Filtro conservador de dominio previo a RAG para preguntas claramente ajenas al ámbito educativo/docente. No modifica FAQ, Qdrant, IA, prompt, admin ni límites."
+    "nota_v067": "Filtro conservador de dominio previo a RAG para preguntas claramente ajenas al ámbito educativo/docente. No modifica FAQ, Qdrant, IA, prompt, admin ni límites.",
+    "nota_v068b": "Refuerzo real de reintentos IA ante límites temporales: 2 reintentos, espera 20s y 40s con backoff. No modifica FAQ, Qdrant, prompt, filtro de dominio, admin, privacidad ni interfaz.",
+    "nota_v069": "Amplía filtro de dominio con supuestos fuera de ámbito detectados por auditoría sintética y añade variantes FAQ prioritarias sin modificar Qdrant, IA, prompt, admin, privacidad ni interfaz."
   },
   "faqs": [
     {
@@ -145,7 +147,10 @@
         "ámbitos infantil",
         "ambitos infantil",
         "qué asignaturas tiene infantil",
-        "que asignaturas tiene infantil"
+        "que asignaturas tiene infantil",
+        "qué áreas hay en educación infantil",
+        "infantil areas nombres",
+        "nombres de las áreas de infantil"
       ],
       "required_terms": [
         "infantil"
@@ -163,7 +168,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. Reforzada en v065 con variantes cortas/coloquiales prioritarias. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "cuales son las areas de educacion infantil",
         "areas educacion infantil",
@@ -853,7 +858,9 @@
       "variantes": [
         "consejo orientador eso",
         "cuándo se entrega consejo orientador",
-        "orientación al finalizar segundo eso"
+        "orientación al finalizar segundo eso",
+        "el consejo orientador qué es",
+        "que es el consejo orientador"
       ],
       "required_terms": [
         "eso",
@@ -872,7 +879,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "cuando se entrega el consejo orientador en la eso",
         "consejo orientador eso",
@@ -1198,7 +1205,9 @@
         "puede obtener el bachiller un titulado técnico de fp",
         "puede obtener bachillerato un técnico de formación profesional",
         "titulado técnico de FP puede obtener el bachiller",
-        "técnico de FP título de Bachiller modalidad general"
+        "técnico de FP título de Bachiller modalidad general",
+        "título de bachiller desde FP",
+        "bachiller desde FP"
       ],
       "required_terms": [
         "bachillerato",
@@ -1218,7 +1227,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "puede obtener el titulo de bachiller quien tiene un titulo de tecnico de fp",
         "titulo bachiller tecnico fp",
@@ -1530,7 +1539,9 @@
         "grado e fp",
         "curso de especialización fp",
         "qué incluye grado e",
-        "grado E formación profesional"
+        "grado E formación profesional",
+        "qué son los cursos de especialización de FP",
+        "cursos de especialización de FP"
       ],
       "required_terms": [
         "fp",
@@ -1549,7 +1560,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "que es el grado e en formacion profesional",
         "grado e fp",
@@ -1564,7 +1575,9 @@
       "variantes": [
         "ofertas fp módulos profesionales",
         "organización modular fp",
-        "módulos profesionales fp"
+        "módulos profesionales fp",
+        "qué son ofertas modulares en FP",
+        "ofertas modulares en FP"
       ],
       "required_terms": [
         "fp",
@@ -1583,7 +1596,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "como se organizan las ofertas de fp",
         "ofertas fp modulos profesionales",
@@ -2142,7 +2155,8 @@
       "variantes": [
         "permiso exámenes oficiales docente",
         "concurrir a exámenes docente",
-        "día examen funcionario docente"
+        "día examen funcionario docente",
+        "permiso por exámenes oficiales"
       ],
       "required_terms": [
         "permiso",
@@ -2161,7 +2175,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior.",
+      "nota_mantenimiento": "Revisar si cambia la normativa o se incorpora una fuente consolidada posterior. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "tiene permiso un docente para concurrir a examenes oficiales",
         "permiso examenes oficiales docente",
@@ -2262,7 +2276,10 @@
         "puedo consultar un caso real si quito nombres y apellidos",
         "qué datos personales no debo introducir en la app",
         "qué hago si mi pregunta contiene datos de salud de un alumno",
-        "puedo pegar un informe médico anonimizado"
+        "puedo pegar un informe médico anonimizado",
+        "la app puede resolver casos con datos médicos concretos",
+        "puedo pegar un informe médico de un alumno",
+        "puedo pegar informe medico alumno"
       ],
       "required_terms": [
         "datos"
@@ -2287,7 +2304,7 @@
       "estado_verificacion": "verificado_fuente_oficial_web_aepd",
       "fecha_verificacion": "2026-05-25",
       "riesgo": "bajo",
-      "nota_mantenimiento": "Revisar si la AEPD actualiza sus guías o criterios para centros educativos. Reforzada en v062 con variantes de preguntas básicas. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible.",
+      "nota_mantenimiento": "Revisar si la AEPD actualiza sus guías o criterios para centros educativos. Reforzada en v062 con variantes de preguntas básicas. Trazabilidad reforzada en v066 con norma/artículo/página exacta cuando ha sido posible. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "puedo introducir nombres o datos personales de alumnos en la app",
         "puedo meter nombres de alumnos en la app",
@@ -2680,7 +2697,9 @@
         "promocion final ciclo primaria",
         "pasa de ciclo en primaria",
         "decidir al final de ciclo primaria",
-        "final de ciclo primaria promoción"
+        "final de ciclo primaria promoción",
+        "promocionar en primaria final de ciclo",
+        "promoción en primaria al final de ciclo"
       ],
       "required_terms": [
         "primaria"
@@ -2698,7 +2717,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v065 con variantes cortas/coloquiales prioritarias.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. Reforzada en v065 con variantes cortas/coloquiales prioritarias. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "cuando se toman las decisiones de promocion en primaria en castilla y leon",
         "decisiones promocion primaria final de ciclo",
@@ -2720,7 +2739,8 @@
         "evaluación eso continua formativa integradora",
         "carácter evaluación ESO",
         "cómo debe ser la evaluación en secundaria obligatoria",
-        "evaluación objetiva ESO continua formativa"
+        "evaluación objetiva ESO continua formativa",
+        "evaluación objetiva ESO"
       ],
       "required_terms": [
         "eso",
@@ -2739,7 +2759,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "que caracter debe tener la evaluacion en la eso",
         "evaluacion eso continua formativa integradora",
@@ -2756,7 +2776,8 @@
         "IN SU BI NT SB ESO",
         "calificaciones ESO Castilla y León insuficiente suficiente bien notable sobresaliente",
         "notas ESO IN SU BI NT SB",
-        "equivalencia calificaciones ESO"
+        "equivalencia calificaciones ESO",
+        "calificaciones cualitativas ESO Castilla y León"
       ],
       "required_terms": [
         "eso",
@@ -2775,7 +2796,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "como se expresan las calificaciones finales en eso en castilla y leon",
         "in su bi nt sb eso",
@@ -3324,7 +3345,9 @@
         "grado B certificado de competencia",
         "qué título da un grado B de FP",
         "certificado de competencia FP grado B",
-        "superar grado B formación profesional"
+        "superar grado B formación profesional",
+        "qué es un certificado de competencia en FP",
+        "certificado de competencia en FP"
       ],
       "required_terms": [
         "grado b",
@@ -3343,7 +3366,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "que se obtiene al superar un grado b de formacion profesional",
         "grado b certificado de competencia",
@@ -3360,7 +3383,9 @@
         "grado C certificado profesional",
         "qué es certificado profesional grado C",
         "FP grado C para quién es",
-        "certificado profesional carácter parcial acumulable"
+        "certificado profesional carácter parcial acumulable",
+        "qué es un certificado profesional en FP",
+        "certificado profesional en FP"
       ],
       "required_terms": [
         "grado c",
@@ -3379,7 +3404,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "que es un grado c en formacion profesional",
         "grado c certificado profesional",
@@ -3847,7 +3872,8 @@
         "régimen intensivo empresa 35 50 FP",
         "duración empresa régimen intensivo formación profesional",
         "FP dual intensiva porcentaje empresa",
-        "formación en empresa intensivo 35 50"
+        "formación en empresa intensivo 35 50",
+        "porcentaje formación empresa régimen intensivo"
       ],
       "required_terms": [
         "empresa",
@@ -3866,7 +3892,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-19",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente.",
+      "nota_mantenimiento": "FAQ ampliada v0.4. Mantener solo si la fuente oficial sigue vigente. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "cuanto dura la estancia en empresa en regimen intensivo de fp",
         "regimen intensivo empresa 35 50 fp",
@@ -4275,7 +4301,8 @@
         "sanciones por conductas gravemente perjudiciales convivencia CYL",
         "qué sanciones hay por faltas graves alumnado",
         "sanciones artículo 49 decreto 51 2007",
-        "cambio de centro suspensión clases faltas graves"
+        "cambio de centro suspensión clases faltas graves",
+        "sanciones faltas graves artículo 49"
       ],
       "required_terms": [
         "sanciones",
@@ -4294,7 +4321,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa."
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios."
     },
     {
       "id": "cyl_actuaciones_inmediatas_convivencia",
@@ -4415,7 +4442,9 @@
         "mediación artículo 42 Decreto 51/2007",
         "mediador escolar conflictos alumnos",
         "qué es la mediación escolar",
-        "mediación escolar"
+        "mediación escolar",
+        "qué es mediación escolar convivencia",
+        "mediación escolar convivencia"
       ],
       "required_terms": [
         "mediacion"
@@ -4433,7 +4462,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas.",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. Reforzada en v062 con variantes de preguntas básicas. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "que es la mediacion escolar en la convivencia de castilla y leon",
         "mediacion escolar convivencia castilla y leon",
@@ -4462,7 +4491,9 @@
         "puede decidirse la repetición en segundo cuarto o sexto de primaria",
         "la repetición en primaria solo se decide al final de ciclo",
         "en segundo cuarto y sexto se decide la promoción en primaria",
-        "en qué cursos se decide la promoción en primaria"
+        "en qué cursos se decide la promoción en primaria",
+        "se repite al final de cada ciclo de primaria",
+        "repetir al final de cada ciclo de primaria"
       ],
       "required_terms": [
         "primaria",
@@ -4481,7 +4512,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-20",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa.",
+      "nota_mantenimiento": "FAQ añadida para cubrir fallos de recuperación detectados en pruebas de la app completa. Revisar si cambia la normativa. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "nota_mantenimiento_v061": "Se añaden variantes para formulaciones sobre los cursos en los que puede decidirse la repetición en Primaria, evitando que caigan en RAG/IA innecesariamente."
     },
     {
@@ -4900,7 +4931,9 @@
         "qué áreas hay en sexto de primaria",
         "en qué curso se imparte educación en valores cívicos y éticos en primaria",
         "valores cívicos y éticos en primaria en qué curso",
-        "educación en valores cívicos y éticos primaria sexto"
+        "educación en valores cívicos y éticos primaria sexto",
+        "qué cambia en sexto de primaria con valores",
+        "sexto de primaria con valores"
       ],
       "required_terms": [
         "primaria"
@@ -4918,7 +4951,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-23",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "que asignaturas o areas hay en 6 o de primaria",
         "que asignaturas hay en 6o de primaria",
@@ -5606,7 +5639,8 @@
         "qué es un ciclo formativo de grado medio",
         "qué es un ciclo formativo de grado superior",
         "ciclo formativo grado básico medio superior",
-        "qué tipos de ciclos formativos hay en fp"
+        "qué tipos de ciclos formativos hay en fp",
+        "ciclos básico medio superior definición"
       ],
       "required_terms": [
         "fp"
@@ -5624,7 +5658,7 @@
       "estado_verificacion": "verificado_fuente_oficial",
       "fecha_verificacion": "2026-05-23",
       "riesgo": "bajo",
-      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular.",
+      "nota_mantenimiento": "FAQ básica añadida en v062 tras auditoría de cobertura de 120 preguntas. Revisar si cambia la normativa o la organización curricular. v069: se añaden variantes sintéticas prioritarias detectadas en auditoría de usuarios.",
       "normalizado_variantes": [
         "que es un ciclo formativo de grado basico medio o superior",
         "que es un ciclo formativo de grado basico",
