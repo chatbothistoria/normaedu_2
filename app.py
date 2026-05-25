@@ -68,6 +68,7 @@ _DEFAULTS = {
     "feedback_respuesta": None, "pregunta_actual": "",
     "consultas_sesion": 0,
     "ultimo_diagnostico": None,
+    "ultima_trazabilidad": None,
     "admin_diagnostico_ok": False,
 }
 for _k, _v in _DEFAULTS.items():
@@ -113,6 +114,15 @@ def generar_pdf(lista_interacciones, titulo="Normativa Educativa"):
         for fuente in item.get("fuentes", []):
             for linea in textwrap.wrap(f"- {_limpiar(fuente)}", 90):
                 pdf.cell(0, 5, linea, ln=True)
+
+        traza = item.get("trazabilidad")
+        if traza:
+            pdf.ln(2)
+            pdf.set_font("Helvetica", "I", 10)
+            for linea in formatear_trazabilidad_bloque(traza).splitlines():
+                for sublinea in textwrap.wrap(_limpiar(linea), 90):
+                    pdf.cell(0, 5, sublinea, ln=True)
+
         pdf.ln(8)
     return bytes(pdf.output())
 
@@ -1798,6 +1808,111 @@ def reforzar_respuesta_prudente_contextual(respuesta, pregunta, bloque_elegido=N
     return respuesta.rstrip() + "\n\n" + _orientacion_practica_contextual(pregunta, bloque_elegido)
 
 
+# ============================================================
+# v071 - Trazabilidad compacta del historial
+# ============================================================
+# Objetivo:
+# - Mejorar la auditabilidad del historial/exportación.
+# - No cambia la lógica de respuesta.
+# - No toca FAQ, Qdrant, IA, filtro ni postprocesado prudente contextual.
+
+def _tipo_orientacion_contextual(pregunta):
+    p = _normalizar_prudencia_contextual(pregunta)
+
+    if any(x in p for x in ["transporte escolar", "transporte", "ruta escolar"]):
+        return "transporte_escolar"
+    if any(x in p for x in ["comedor escolar", "comedor", "plazas comedor"]):
+        return "comedor_escolar"
+    if any(x in p for x in ["horario exacto", "horario", "reuniones de evaluacion", "reunion de evaluacion", "calendario del centro"]):
+        return "horario_centro"
+    if any(x in p for x in ["optativas", "optativa", "oferta mi instituto", "que optativas", "materias optativas"]):
+        return "optativas_centro"
+    if any(x in p for x in ["profesor imparte", "que profesor", "profesorado", "asignacion docente", "imparte el modulo"]):
+        return "profesorado"
+    if any(x in p for x in ["libros", "lista de libros", "releo"]):
+        return "libros_centro"
+    if any(x in p for x in ["plazas libres", "plaza libre", "admision", "vacantes"]):
+        return "plazas_vacantes"
+    if any(x in p for x in ["empresas concretas", "convenio este curso", "convenios", "practicas de fp", "formacion en empresa"]):
+        return "convenios_practicas"
+    if any(x in p for x in ["ciclo", "ciclos", "fp", "formacion profesional", "oferta formativa", "desarrollo de aplicaciones", "catalogo"]):
+        return "oferta_fp"
+    return "generica"
+
+
+def construir_trazabilidad_historial(
+    ruta,
+    apartado,
+    faq_id=None,
+    faq_score=None,
+    filtro_dominio=False,
+    qdrant=False,
+    ia=False,
+    orientacion_prudente=False,
+    tipo_orientacion="",
+    num_fragmentos=None,
+    ia_reintentos=None,
+):
+    """Construye una traza compacta para historial/exportación.
+
+    No contiene pregunta, respuesta, claves ni contenido de fragmentos.
+    """
+    return {
+        "version_app": "v071_trazabilidad_historial_compacta",
+        "ruta": ruta,
+        "apartado": apartado,
+        "faq_id": faq_id or "",
+        "faq_score": "" if faq_score is None else faq_score,
+        "filtro_dominio_aplicado": bool(filtro_dominio),
+        "qdrant_consultado": bool(qdrant),
+        "ia_consumida": bool(ia),
+        "orientacion_prudente_contextual": bool(orientacion_prudente),
+        "tipo_orientacion": tipo_orientacion or "",
+        "num_fragmentos": "" if num_fragmentos is None else num_fragmentos,
+        "ia_reintentos": "" if ia_reintentos is None else ia_reintentos,
+    }
+
+
+def _si_no(valor):
+    return "sí" if bool(valor) else "no"
+
+
+def formatear_trazabilidad_compacta(traza):
+    if not traza:
+        return ""
+    partes = [
+        f"Ruta: {traza.get('ruta', '-')}",
+        f"Qdrant: {_si_no(traza.get('qdrant_consultado'))}",
+        f"IA: {_si_no(traza.get('ia_consumida'))}",
+    ]
+    if traza.get("faq_id"):
+        partes.append(f"FAQ: {traza.get('faq_id')}")
+    if traza.get("orientacion_prudente_contextual"):
+        partes.append(f"Orientación: {traza.get('tipo_orientacion') or 'sí'}")
+    return "Trazabilidad: " + " · ".join(partes)
+
+
+def formatear_trazabilidad_bloque(traza):
+    if not traza:
+        return ""
+    lineas = [
+        "TRAZABILIDAD",
+        f"- Versión: {traza.get('version_app', '-')}",
+        f"- Ruta: {traza.get('ruta', '-')}",
+        f"- Apartado: {traza.get('apartado', '-')}",
+        f"- FAQ activada: {traza.get('faq_id') or 'no'}",
+        f"- Coincidencia FAQ: {traza.get('faq_score') if traza.get('faq_score') != '' else '-'}",
+        f"- Filtro de dominio aplicado: {_si_no(traza.get('filtro_dominio_aplicado'))}",
+        f"- Qdrant consultado: {_si_no(traza.get('qdrant_consultado'))}",
+        f"- IA consumida: {_si_no(traza.get('ia_consumida'))}",
+        f"- Fragmentos recuperados/enviados: {traza.get('num_fragmentos') if traza.get('num_fragmentos') != '' else '-'}",
+        f"- Reintentos IA: {traza.get('ia_reintentos') if traza.get('ia_reintentos') != '' else '-'}",
+        f"- Orientación prudente contextual: {_si_no(traza.get('orientacion_prudente_contextual'))}",
+        f"- Tipo de orientación: {traza.get('tipo_orientacion') or '-'}",
+    ]
+    return "\n".join(lineas)
+
+
 def construir_mensajes(pregunta, contexto_xml):
     PROMPT_SISTEMA = """
 Eres NormaEdu 2, un asistente de consulta normativa educativa española.
@@ -2137,6 +2252,16 @@ if submit and pregunta_input:
             faq_match, faq_score = buscar_faq_verificada(pregunta_input, bloque_elegido)
             if faq_match:
                 texto_final, fuentes_u, fuentes_up = construir_respuesta_faq(faq_match, faq_score)
+                trazabilidad = construir_trazabilidad_historial(
+                    ruta="FAQ",
+                    apartado=bloque_elegido,
+                    faq_id=faq_match.get("id", ""),
+                    faq_score=round(float(faq_score), 4),
+                    filtro_dominio=False,
+                    qdrant=False,
+                    ia=False,
+                    orientacion_prudente=False,
+                )
 
                 st.write("---")
                 st.markdown("### 📝 Respuesta:")
@@ -2145,9 +2270,10 @@ if submit and pregunta_input:
                 st.markdown("### 📚 Fuentes consultadas:")
                 for f in fuentes_u:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+                st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v070b_respuestas_prudentes_contextuales_fix",
+                    "version": "v071_trazabilidad_historial_compacta",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2157,6 +2283,7 @@ if submit and pregunta_input:
                     "pregunta_canonica": faq_match.get("pregunta_canonica", ""),
                     "num_fuentes": len(fuentes_u),
                     "limite_ia_usado": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                    "trazabilidad": trazabilidad,
                 }
                 st.session_state.ultimo_diagnostico = diagnostico
                 if modo_diagnostico:
@@ -2167,11 +2294,13 @@ if submit and pregunta_input:
                 st.session_state.pregunta_actual   = pregunta_input
                 st.session_state.ultima_respuesta  = texto_final
                 st.session_state.ultimas_fuentes   = fuentes_u
+                st.session_state.ultima_trazabilidad = trazabilidad
                 st.session_state.historial_completo.append({
                     "pregunta":           pregunta_input,
                     "pregunta_corregida": pregunta_input,
                     "respuesta":          texto_final,
                     "fuentes":            fuentes_up,
+                    "trazabilidad":       trazabilidad,
                 })
                 if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
                     st.session_state.historial_completo = \
@@ -2186,6 +2315,16 @@ if submit and pregunta_input:
                 texto_final = construir_respuesta_fuera_dominio(pregunta_input, bloque_elegido)
                 fuentes_u = ["Filtro de dominio: no se consultó Qdrant ni IA."]
                 fuentes_up = fuentes_u[:]
+                trazabilidad = construir_trazabilidad_historial(
+                    ruta="FILTRO_DOMINIO",
+                    apartado=bloque_elegido,
+                    faq_id=None,
+                    faq_score=None,
+                    filtro_dominio=True,
+                    qdrant=False,
+                    ia=False,
+                    orientacion_prudente=False,
+                )
 
                 st.write("---")
                 st.markdown("### 📝 Respuesta:")
@@ -2194,9 +2333,10 @@ if submit and pregunta_input:
                 st.markdown("### 📚 Fuentes consultadas:")
                 for f in fuentes_u:
                     st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+                st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v070b_respuestas_prudentes_contextuales_fix",
+                    "version": "v071_trazabilidad_historial_compacta",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2204,6 +2344,7 @@ if submit and pregunta_input:
                     "faq_id": None,
                     "motivo": "pregunta_fuera_de_dominio",
                     "limite_ia_usado": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                    "trazabilidad": trazabilidad,
                 }
                 st.session_state.ultimo_diagnostico = diagnostico
                 if modo_diagnostico:
@@ -2213,11 +2354,13 @@ if submit and pregunta_input:
                 st.session_state.pregunta_actual   = pregunta_input
                 st.session_state.ultima_respuesta  = texto_final
                 st.session_state.ultimas_fuentes   = fuentes_u
+                st.session_state.ultima_trazabilidad = trazabilidad
                 st.session_state.historial_completo.append({
                     "pregunta":           pregunta_input,
                     "pregunta_corregida": pregunta_input,
                     "respuesta":          texto_final,
                     "fuentes":            fuentes_up,
+                    "trazabilidad":       trazabilidad,
                 })
                 if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
                     st.session_state.historial_completo =                         st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
@@ -2256,7 +2399,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v070b_respuestas_prudentes_contextuales_fix",
+                            "version": "v071_trazabilidad_historial_compacta",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -2291,7 +2434,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v070b_respuestas_prudentes_contextuales_fix",
+                                "version": "v071_trazabilidad_historial_compacta",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2311,13 +2454,23 @@ if submit and pregunta_input:
                         citas_ok, citas_detectadas, citas_invalidas = validar_citas_fragmentos(
                             texto_final, len(resultados)
                         )
+                        orientacion_prudente_aplicada = False
+                        tipo_orientacion_prudente = ""
+                        ruta_trazabilidad = "RAG_IA"
+
                         if not citas_ok:
                             texto_final = respuesta_segura_por_citas_invalidas(citas_invalidas)
+                            ruta_trazabilidad = "RAG_IA_CITAS_BLOQUEADAS"
                             st.warning("La respuesta generada citaba fragmentos inexistentes y ha sido bloqueada.")
                         else:
+                            texto_antes_prudencia = texto_final
                             texto_final = reforzar_respuesta_prudente_contextual(
                                 texto_final, pregunta_input, bloque_elegido
                             )
+                            orientacion_prudente_aplicada = texto_final != texto_antes_prudencia
+                            if orientacion_prudente_aplicada:
+                                ruta_trazabilidad = "RAG_IA_PRUDENTE"
+                                tipo_orientacion_prudente = _tipo_orientacion_contextual(pregunta_input)
                             if not citas_detectadas:
                                 st.warning(
                                     "La respuesta no contiene citas [F#]. Revísala con especial cautela; "
@@ -2328,13 +2481,27 @@ if submit and pregunta_input:
 
                         fuentes_u  = list(dict.fromkeys(links_screen))
                         fuentes_up = list(dict.fromkeys(fuentes_pdf))
+                        trazabilidad = construir_trazabilidad_historial(
+                            ruta=ruta_trazabilidad,
+                            apartado=bloque_elegido,
+                            faq_id=None,
+                            faq_score=None,
+                            filtro_dominio=False,
+                            qdrant=True,
+                            ia=True,
+                            orientacion_prudente=orientacion_prudente_aplicada,
+                            tipo_orientacion=tipo_orientacion_prudente,
+                            num_fragmentos=len(resultados),
+                            ia_reintentos=max(0, len(_intentos_ia) - 1),
+                        )
                         st.markdown("### 📚 Fuentes consultadas:")
                         for f in fuentes_u:
                             st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+                        st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v070b_respuestas_prudentes_contextuales_fix",
-                            "capa_usada": "RAG_IA",
+                            "version": "v071_trazabilidad_historial_compacta",
+                            "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,
                             "bloque_seleccionado": bloque_elegido,
@@ -2350,6 +2517,9 @@ if submit and pregunta_input:
                             "citas_detectadas": [f"[F{x}]" for x in citas_detectadas],
                             "citas_invalidas": [f"[F{x}]" for x in citas_invalidas],
                             "citas_validas": citas_ok,
+                            "orientacion_prudente_contextual": orientacion_prudente_aplicada,
+                            "tipo_orientacion_prudente": tipo_orientacion_prudente,
+                            "trazabilidad": trazabilidad,
                             "tiempo_ms": round((time.time()-t0)*1000, 2),
                             "limite_ia_antes_de_incrementar": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
                         }
@@ -2362,11 +2532,13 @@ if submit and pregunta_input:
                         st.session_state.pregunta_actual   = pregunta_input
                         st.session_state.ultima_respuesta  = texto_final
                         st.session_state.ultimas_fuentes   = fuentes_u
+                        st.session_state.ultima_trazabilidad = trazabilidad
                         st.session_state.historial_completo.append({
                             "pregunta":           pregunta_input,
                             "pregunta_corregida": pregunta_corregida,
                             "respuesta":          texto_final,
                             "fuentes":            fuentes_up,
+                            "trazabilidad":       trazabilidad,
                         })
                         if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
                             st.session_state.historial_completo = \
@@ -2396,6 +2568,8 @@ elif st.session_state.ultima_respuesta:
     st.markdown("### 📚 Fuentes consultadas:")
     for f in st.session_state.ultimas_fuentes:
         st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+    if st.session_state.get("ultima_trazabilidad"):
+        st.caption(formatear_trazabilidad_compacta(st.session_state.ultima_trazabilidad))
     if modo_diagnostico:
         mostrar_diagnostico(st.session_state.get("ultimo_diagnostico"))
 
@@ -2432,6 +2606,8 @@ if len(historial) > 1:
             st.markdown(f"**Pregunta:** {item['pregunta']}")
             prev = item["respuesta"]
             st.markdown(prev[:400] + "..." if len(prev) > 400 else prev)
+            if item.get("trazabilidad"):
+                st.caption(formatear_trazabilidad_compacta(item.get("trazabilidad")))
             st.divider()
 
 # =============================================================================

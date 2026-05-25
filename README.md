@@ -204,3 +204,12 @@ Cambios:
 - Ajusta el orden de las reglas de orientación práctica.
 - Horario, transporte, comedor, plazas, libros, optativas, profesorado y convenios tienen prioridad sobre reglas generales de FP/centro.
 - No modifica FAQ, Qdrant, prompt, filtro de dominio, rate limit, privacidad ni interfaz general.
+
+
+## v071 - Trazabilidad compacta del historial
+
+Cambios:
+- Añade trazabilidad compacta al historial en pantalla y a la exportación PDF.
+- Registra ruta usada: FAQ, FILTRO_DOMINIO, RAG_IA, RAG_IA_PRUDENTE o RAG_IA_CITAS_BLOQUEADAS.
+- Registra si se consultó Qdrant, si se consumió IA, FAQ activada y orientación prudente contextual.
+- No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.
