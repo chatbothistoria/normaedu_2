@@ -1835,8 +1835,20 @@ def _tipo_orientacion_contextual(pregunta):
         return "plazas_vacantes"
     if any(x in p for x in ["empresas concretas", "convenio este curso", "convenios", "practicas de fp", "formacion en empresa"]):
         return "convenios_practicas"
-    if any(x in p for x in ["ciclo", "ciclos", "fp", "formacion profesional", "oferta formativa", "desarrollo de aplicaciones", "catalogo"]):
+
+    # v071c: afinar preguntas de oferta FP por familia/provincia/curso.
+    # Ejemplo detectado en auditoría sintética:
+    # "informática y comunicaciones este curso en mi provincia"
+    if any(x in p for x in [
+        "ciclo", "ciclos", "fp", "formacion profesional", "oferta formativa",
+        "desarrollo de aplicaciones", "catalogo", "familia profesional",
+        "familia de informatica", "informatica y comunicaciones",
+        "este curso en mi provincia", "ciclos en mi provincia",
+        "ciclos de informatica", "grado medio en mi provincia",
+        "grado superior en mi provincia"
+    ]):
         return "oferta_fp"
+
     return "generica"
 
 
@@ -1914,7 +1926,7 @@ def construir_trazabilidad_historial(
     No contiene pregunta, respuesta, claves ni contenido de fragmentos.
     """
     return {
-        "version_app": "v071b_trazabilidad_orientacion_fix",
+        "version_app": "v071c_trazabilidad_orientacion_fp_fix",
         "ruta": ruta,
         "apartado": apartado,
         "faq_id": faq_id or "",
@@ -2329,7 +2341,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v071b_trazabilidad_orientacion_fix",
+                    "version": "v071c_trazabilidad_orientacion_fp_fix",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2392,7 +2404,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v071b_trazabilidad_orientacion_fix",
+                    "version": "v071c_trazabilidad_orientacion_fp_fix",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2455,7 +2467,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v071b_trazabilidad_orientacion_fix",
+                            "version": "v071c_trazabilidad_orientacion_fp_fix",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -2490,7 +2502,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v071b_trazabilidad_orientacion_fix",
+                                "version": "v071c_trazabilidad_orientacion_fp_fix",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2560,7 +2572,7 @@ if submit and pregunta_input:
                         st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v071b_trazabilidad_orientacion_fix",
+                            "version": "v071c_trazabilidad_orientacion_fp_fix",
                             "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,

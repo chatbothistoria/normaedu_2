@@ -221,3 +221,11 @@ Cambios:
 - Corrige la trazabilidad cuando la propia IA ya genera una sección de orientación práctica contextual.
 - En esos casos, la ruta pasa a reflejar `RAG_IA_PRUDENTE`.
 - No modifica la respuesta mostrada, FAQ, Qdrant, prompt, filtro de dominio, rate limit ni privacidad.
+
+
+## v071c - Afinado de orientación FP en trazabilidad
+
+Cambios:
+- Ajusta el tipo de orientación contextual para preguntas de oferta FP por familia, provincia o curso.
+- Ejemplo: `informática y comunicaciones este curso en mi provincia` pasa a `tipo_orientacion = oferta_fp`.
+- No modifica respuestas, FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni privacidad.
