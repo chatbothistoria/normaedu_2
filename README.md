@@ -229,3 +229,11 @@ Cambios:
 - Ajusta el tipo de orientación contextual para preguntas de oferta FP por familia, provincia o curso.
 - Ejemplo: `informática y comunicaciones este curso en mi provincia` pasa a `tipo_orientacion = oferta_fp`.
 - No modifica respuestas, FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni privacidad.
+
+
+## v072 - Precisión de enrutamiento FAQ/RAG
+
+Cambios:
+- Evita que la FAQ genérica `fp_norma_estatal_rd659` capture preguntas específicas sobre FCT, requisitos o formación en centros de trabajo.
+- Añade variantes y regla para que `medidas inmediatas` active `cyl_actuaciones_inmediatas_convivencia`.
+- No modifica Qdrant, IA, prompt jurídico, filtro de dominio, rate limit, trazabilidad ni privacidad.

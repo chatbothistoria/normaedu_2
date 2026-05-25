@@ -1,7 +1,7 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v071c_trazabilidad_orientacion_fp_fix",
+    "version": "v072_routing_faq_rag_precision",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 163,
@@ -25,7 +25,8 @@
     "nota_v070b": "Corrige la prioridad de orientación práctica contextual: transporte, comedor, horarios, optativas, profesorado, libros, plazas y convenios se detectan antes que reglas generales de FP/centro.",
     "nota_v071": "Añade trazabilidad compacta al historial y exportación PDF: ruta usada, FAQ activada, uso de Qdrant, uso de IA, filtro de dominio y orientación prudente contextual. No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.",
     "nota_v071b": "Corrige trazabilidad: si la respuesta final RAG/IA ya contiene orientación práctica contextual generada por la IA, la trazabilidad marca RAG_IA_PRUDENTE y orientación prudente contextual sí. No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.",
-    "nota_v071c": "Afina la trazabilidad de orientación contextual para preguntas de oferta FP por familia/provincia/curso, por ejemplo 'informática y comunicaciones este curso en mi provincia', clasificándolas como tipo_orientacion=oferta_fp. No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas."
+    "nota_v071c": "Afina la trazabilidad de orientación contextual para preguntas de oferta FP por familia/provincia/curso, por ejemplo 'informática y comunicaciones este curso en mi provincia', clasificándolas como tipo_orientacion=oferta_fp. No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.",
+    "nota_v072": "Mejora el enrutamiento FAQ/RAG: evita que la FAQ genérica fp_norma_estatal_rd659 capture preguntas específicas sobre FCT/requisitos/formación en centros de trabajo, y refuerza la FAQ de actuaciones inmediatas de convivencia para variantes con 'medidas inmediatas'. No modifica Qdrant, IA, prompt, filtro de dominio, rate limit, trazabilidad ni privacidad."
   },
   "faqs": [
     {
@@ -4353,7 +4354,11 @@
         "qué hacer alumno no deja clase",
         "que hacer alumno no deja clase",
         "conducta perturbadora profesor qué puede hacer",
-        "conducta disruptiva clase profesor"
+        "conducta disruptiva clase profesor",
+        "qué medidas inmediatas pueden adoptarse ante una conducta que perturba la convivencia",
+        "medidas inmediatas ante conducta que perturba la convivencia",
+        "medidas inmediatas convivencia conducta perturbadora",
+        "actuaciones inmediatas ante conducta que perturba la convivencia"
       ],
       "required_terms": [
         "alumno",
@@ -4395,7 +4400,11 @@
         "que hacer alumno no deja clase",
         "que hacer alumno no deja clase",
         "conducta perturbadora profesor que puede hacer",
-        "conducta disruptiva clase profesor"
+        "conducta disruptiva clase profesor",
+        "que medidas inmediatas pueden adoptarse ante una conducta que perturba la convivencia",
+        "medidas inmediatas ante conducta que perturba la convivencia",
+        "medidas inmediatas convivencia conducta perturbadora",
+        "actuaciones inmediatas ante conducta que perturba la convivencia"
       ]
     },
     {

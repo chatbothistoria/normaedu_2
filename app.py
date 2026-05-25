@@ -455,6 +455,51 @@ def _faq_bloque_intencion_ok(faq: dict, bloque_elegido: str) -> bool:
     return bool(faq) and _bloque_faq_compatible(faq.get("bloque", ""), bloque_elegido)
 
 
+def _faq_pregunta_fp_especifica_debe_ir_a_rag(pregunta_n: str) -> bool:
+    """v072: evita que una FAQ genérica sobre el RD 659/2023 capture preguntas
+    específicas sobre FCT, formación en centros de trabajo o requisitos.
+
+    La FAQ `fp_norma_estatal_rd659` debe responder a "qué norma regula la FP",
+    no a preguntas que piden requisitos o contenido concreto.
+    """
+    if not pregunta_n:
+        return False
+
+    menciona_fct_o_formacion = _faq_tiene_alguno(pregunta_n, [
+        "fct",
+        "formacion en centros de trabajo",
+        "centros de trabajo",
+        "formacion en centro de trabajo",
+        "formacion en empresa",
+        "empresa u organismo equiparado",
+        "modulo de fct",
+    ])
+
+    pide_detalle = _faq_tiene_alguno(pregunta_n, [
+        "requisito",
+        "requisitos",
+        "condiciones",
+        "que debe contener",
+        "que contiene",
+        "contenido",
+        "menciona",
+        "como se realiza",
+        "como debe realizarse",
+        "duracion",
+        "periodo",
+        "horas",
+        "evaluacion",
+    ])
+
+    # Si la pregunta pide expresamente la norma, dejamos actuar a la FAQ normativa.
+    pide_norma = _faq_tiene_todos(pregunta_n, [
+        ["norma", "real decreto", "regula"],
+        ["fp", "formacion profesional"],
+    ]) and not pide_detalle
+
+    return menciona_fct_o_formacion and pide_detalle and not pide_norma
+
+
 def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
     """Reglas conservadoras para preguntas frecuentes formuladas de forma liosa.
 
@@ -548,6 +593,16 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
 
     if _faq_tiene_todos(p, [["sanciones"], ["faltas graves", "gravemente perjudiciales", "articulo 49"]]):
         faq = _buscar_faq_por_id("cyl_sanciones_faltas_graves_art49")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    # v072: "medidas inmediatas" debe tratarse como equivalente a
+    # "actuaciones inmediatas" de convivencia.
+    if _faq_tiene_todos(p, [
+        ["medidas inmediatas", "actuaciones inmediatas"],
+        ["conducta", "convivencia", "perturba", "perturbadora"],
+    ]):
+        faq = _buscar_faq_por_id("cyl_actuaciones_inmediatas_convivencia")
         if _faq_bloque_intencion_ok(faq, bloque_elegido):
             return faq, 1.0
 
@@ -781,9 +836,10 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
             if _faq_bloque_intencion_ok(faq, bloque_elegido):
                 return faq, 1.0
         if _faq_tiene_todos(p, [["norma", "real decreto", "regula"], ["fp", "formacion profesional"]]):
-            faq = _buscar_faq_por_id("fp_norma_estatal_rd659")
-            if _faq_bloque_intencion_ok(faq, bloque_elegido):
-                return faq, 1.0
+            if not _faq_pregunta_fp_especifica_debe_ir_a_rag(p):
+                faq = _buscar_faq_por_id("fp_norma_estatal_rd659")
+                if _faq_bloque_intencion_ok(faq, bloque_elegido):
+                    return faq, 1.0
 
     if _faq_tiene_alguno(p, ["fuente oficial", "fuentes consultadas", "boe", "bocyl"]):
         faq = _buscar_faq_por_id("uso_app_fuentes_oficiales")
@@ -1128,6 +1184,13 @@ def buscar_faq_verificada(pregunta: str, bloque_elegido: str):
         required_ok = all(_term_faq_presente(req, pregunta_n) for req in required) if required else True
         if not required_ok:
             continue
+
+        # v072: protección de enrutamiento FAQ/RAG.
+        # La FAQ genérica sobre el RD 659/2023 no debe secuestrar preguntas
+        # específicas sobre FCT, requisitos o formación en centros de trabajo.
+        if faq.get("id") == "fp_norma_estatal_rd659":
+            if _faq_pregunta_fp_especifica_debe_ir_a_rag(pregunta_n):
+                continue
 
         # Protección adicional: la FAQ de número de familias profesionales no debe
         # saltar por similitud textual ante preguntas sobre familias del alumnado.
@@ -1926,7 +1989,7 @@ def construir_trazabilidad_historial(
     No contiene pregunta, respuesta, claves ni contenido de fragmentos.
     """
     return {
-        "version_app": "v071c_trazabilidad_orientacion_fp_fix",
+        "version_app": "v072_routing_faq_rag_precision",
         "ruta": ruta,
         "apartado": apartado,
         "faq_id": faq_id or "",
@@ -2341,7 +2404,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v071c_trazabilidad_orientacion_fp_fix",
+                    "version": "v072_routing_faq_rag_precision",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2404,7 +2467,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v071c_trazabilidad_orientacion_fp_fix",
+                    "version": "v072_routing_faq_rag_precision",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2467,7 +2530,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v071c_trazabilidad_orientacion_fp_fix",
+                            "version": "v072_routing_faq_rag_precision",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -2502,7 +2565,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v071c_trazabilidad_orientacion_fp_fix",
+                                "version": "v072_routing_faq_rag_precision",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2572,7 +2635,7 @@ if submit and pregunta_input:
                         st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v071c_trazabilidad_orientacion_fp_fix",
+                            "version": "v072_routing_faq_rag_precision",
                             "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,
