@@ -263,3 +263,13 @@ Cambios mínimos tras la validación sintética rigurosa post-v073b:
 - Añade una tabla explícita de prioridad para variantes exactas duplicadas entre FAQ verificadas, evitando que el resultado dependa del orden del JSON.
 - Refuerza la validación de citas IA comprobando los identificadores [F#] realmente presentes en el contexto final enviado al modelo tras el recorte de seguridad.
 - No modifica Qdrant, embeddings, colección, proveedor IA, límites de sesión, privacidad ni filtro de dominio.
+
+
+## v073b post-validación r4 - filtro defensivo mínimo
+
+Cambios mínimos tras la prueba manual en Streamlit:
+
+- Añade un filtro defensivo previo a Qdrant/IA para peticiones de claves, tokens, secretos, prompt del sistema o instrucciones internas.
+- Añade la ruta de trazabilidad `FILTRO_SEGURIDAD`.
+- Evita consumir Qdrant e IA ante intentos claros de prompt injection.
+- No modifica Qdrant, IA, prompts normativos, umbrales, FAQ ni respuestas normativas ordinarias.
