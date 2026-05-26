@@ -44,7 +44,7 @@ No subas nunca claves reales a GitHub. El archivo `.streamlit/secrets.toml.examp
 
 ## FAQ normativa verificada
 
-La app incluye `faq_normativa.json` con 130 FAQ verificadas. Esta capa se consulta antes del RAG para ahorrar tokens y reducir errores en preguntas frecuentes.
+La app incluye `faq_normativa.json` con 163 FAQ verificadas. Esta capa se consulta antes del RAG para ahorrar tokens y reducir errores en preguntas frecuentes.
 
 ## Modo diagnóstico protegido
 
@@ -254,3 +254,12 @@ Cambios:
 - Mantiene la mejora de ranking Qdrant de v073 para convivencia/procedimiento corrector.
 - Añade regla y variantes para que preguntas como `la prueba objetiva tipo test cuenta como evaluación objetiva` activen `alumnado_derecho_evaluacion_objetiva`.
 - No modifica colección Qdrant, embeddings, IA, prompt jurídico, filtro de dominio, rate limit ni trazabilidad.
+
+
+## v073b post-validación - FAQ/citas/docfix
+
+Cambios mínimos tras la validación sintética rigurosa post-v073b:
+- Corrige la documentación para reflejar las 163 FAQ verificadas reales.
+- Añade una tabla explícita de prioridad para variantes exactas duplicadas entre FAQ verificadas, evitando que el resultado dependa del orden del JSON.
+- Refuerza la validación de citas IA comprobando los identificadores [F#] realmente presentes en el contexto final enviado al modelo tras el recorte de seguridad.
+- No modifica Qdrant, embeddings, colección, proveedor IA, límites de sesión, privacidad ni filtro de dominio.

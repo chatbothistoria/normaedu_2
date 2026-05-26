@@ -162,7 +162,22 @@ _secretos_faltantes = [
     if not valor
 ]
 
-if _secretos_faltantes:
+def _url_http_valida(valor: str) -> bool:
+    """Valida que una URL de configuración tenga esquema HTTP/HTTPS.
+
+    No comprueba credenciales ni disponibilidad del servicio; solo evita errores
+    tipo MissingSchema cuando se pega por error una clave en un campo URL.
+    """
+    valor = str(valor or "").strip()
+    return bool(re.match(r"^https?://[^\s]+$", valor))
+
+_secretos_mal_formados = []
+if IA_API_URL and not _url_http_valida(IA_API_URL):
+    _secretos_mal_formados.append("IA_API_URL debe ser un endpoint completo que empiece por https://")
+if QDRANT_URL and not _url_http_valida(QDRANT_URL):
+    _secretos_mal_formados.append("QDRANT_URL debe ser una URL completa que empiece por https://")
+
+if _secretos_faltantes or _secretos_mal_formados:
     st.title("📚 NormaEdu 2")
     st.error("Faltan claves obligatorias en los Secrets de Streamlit.")
     st.write("Añade estas claves en Streamlit Cloud: **Manage app → Settings → Secrets**.")
@@ -178,7 +193,10 @@ QDRANT_API_KEY = "pega_aqui_tu_clave_de_qdrant"''',
         "No pegues estas claves en GitHub. Deben ir solo en los Secrets de Streamlit "
         "o en variables de entorno locales."
     )
-    st.caption("Faltan: " + ", ".join(_secretos_faltantes))
+    if _secretos_faltantes:
+        st.caption("Faltan: " + ", ".join(_secretos_faltantes))
+    if _secretos_mal_formados:
+        st.caption("Configuración mal formada: " + " · ".join(_secretos_mal_formados))
     st.stop()
 
 
@@ -427,6 +445,25 @@ def _faq_contiene_patron_identificativo(pregunta: str, pregunta_n: str) -> bool:
     return False
 
 
+# ============================================================
+# v073b post-validación - prioridades FAQ para variantes duplicadas
+# ============================================================
+# La validación sintética post-v073b detectó variantes exactas presentes en dos
+# FAQ verificadas. Para no depender del orden del JSON, se fija aquí la FAQ
+# preferente solo para esas formulaciones exactas. No rebaja umbrales ni amplía
+# el matching difuso; únicamente resuelve solapamientos controlados.
+_FAQ_VARIANTES_PRIORITARIAS_POSTVALIDACION = {
+    _normalizar_faq("consejo orientador eso"): "eso_consejo_orientador",
+    _normalizar_faq("modalidades bachillerato"): "bachillerato_modalidades",
+    _normalizar_faq("con cuántas materias se promociona de 1º a 2º de bachillerato"): "bachillerato_promocion_dos_materias",
+    _normalizar_faq("con cuántas materias se promociona de 1.º a 2.º de bachillerato"): "bachillerato_promocion_dos_materias",
+    _normalizar_faq("se puede repetir 1º de bachillerato"): "bachillerato_permanencia_cuatro_anos",
+    _normalizar_faq("se puede repetir 1.º de bachillerato"): "bachillerato_permanencia_cuatro_anos",
+    _normalizar_faq("se puede repetir 2º de bachillerato"): "bachillerato_permanencia_cuatro_anos",
+    _normalizar_faq("se puede repetir 2.º de bachillerato"): "bachillerato_permanencia_cuatro_anos",
+    _normalizar_faq("seguimiento alumnado empresa fp"): "fp_tutor_dual_empresa",
+}
+
 def _faq_match_exacta(pregunta_n: str, bloque_elegido: str):
     """Coincidencia exacta contra pregunta canónica o variantes normalizadas.
 
@@ -435,6 +472,16 @@ def _faq_match_exacta(pregunta_n: str, bloque_elegido: str):
     """
     if not pregunta_n:
         return None
+
+    # v073b post-validación: si una variante exacta está duplicada en dos FAQ,
+    # se usa la prioridad explícita definida arriba. Esto evita que el resultado
+    # dependa del orden físico de las FAQ en faq_normativa.json.
+    faq_id_prioritaria = _FAQ_VARIANTES_PRIORITARIAS_POSTVALIDACION.get(pregunta_n)
+    if faq_id_prioritaria:
+        faq_prioritaria = _buscar_faq_por_id(faq_id_prioritaria)
+        if _faq_bloque_intencion_ok(faq_prioritaria, bloque_elegido):
+            return faq_prioritaria
+
     for faq in faq_normativa:
         if not _bloque_faq_compatible(faq.get("bloque", ""), bloque_elegido):
             continue
@@ -1893,15 +1940,38 @@ def construir_contexto_xml(fragmentos, enlaces_dict):
     return contexto_xml, links_screen, fuentes_pdf
 
 
-def validar_citas_fragmentos(respuesta: str, num_fragmentos: int):
+def ids_fragmentos_validos_contexto(contexto_xml: str):
+    """Extrae los identificadores F# realmente presentes en el contexto enviado al LLM.
+
+    Se usa después de recortar el contexto para que la validación de citas no
+    acepte una cita [F#] solo porque existía en la lista original de resultados,
+    sino porque el identificador seguía presente en el contexto final.
+    """
+    import re
+    ids = {int(x) for x in re.findall(r'<fragmento\s+id="F(\d+)"', contexto_xml or "")}
+    return sorted(ids)
+
+
+def validar_citas_fragmentos(respuesta: str, num_fragmentos: int = None, ids_validos=None):
     """Valida que las citas [F1], [F2]... existan en el contexto enviado.
 
     Devuelve: (es_valida, citas_detectadas, citas_invalidas).
     No comprueba si la afirmación está bien sustentada; solo evita citas inexistentes.
+
+    `ids_validos` permite validar contra los fragmentos realmente presentes tras
+    recortar el contexto. Si no se facilita, se mantiene compatibilidad con la
+    validación clásica por número de fragmentos.
     """
     import re
     citas = [int(x) for x in re.findall(r"\[F(\d+)\]", respuesta or "")]
-    invalidas = sorted({c for c in citas if c < 1 or c > num_fragmentos})
+
+    if ids_validos is not None:
+        permitidas = {int(x) for x in ids_validos}
+    else:
+        n = int(num_fragmentos or 0)
+        permitidas = set(range(1, n + 1))
+
+    invalidas = sorted({c for c in citas if c not in permitidas})
     return len(invalidas) == 0, sorted(set(citas)), invalidas
 
 
@@ -2214,7 +2284,7 @@ def construir_trazabilidad_historial(
     No contiene pregunta, respuesta, claves ni contenido de fragmentos.
     """
     return {
-        "version_app": "v073b_evaluacion_objetiva_routing_fix",
+        "version_app": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
         "ruta": ruta,
         "apartado": apartado,
         "faq_id": faq_id or "",
@@ -2457,12 +2527,34 @@ def _post_ia_con_reintento(mensajes, modo_diagnostico=False):
 
     for intento in range(IA_REINTENTOS_TEMPORALES + 1):
         t_intento = time.time()
-        resp = _requests.post(
-            IA_API_URL,
-            headers=headers,
-            json=payload,
-            timeout=60,
-        )
+        try:
+            resp = _requests.post(
+                IA_API_URL,
+                headers=headers,
+                json=payload,
+                timeout=60,
+            )
+        except _requests.exceptions.RequestException as e:
+            class _RespuestaIAConfigError:
+                status_code = 0
+                text = "Error de configuración o conexión con el proveedor de IA."
+
+                def json(self):
+                    return {
+                        "error": {
+                            "message": "No se pudo llamar al proveedor de IA. Revisa IA_API_URL, IA_API_KEY e IA_MODEL."
+                        }
+                    }
+
+            resp = _RespuestaIAConfigError()
+            intentos.append({
+                "intento": intento + 1,
+                "http_status": 0,
+                "tipo": "configuracion",
+                "duracion_ms": round((time.time() - t_intento) * 1000, 2),
+            })
+            return resp, intentos
+
         ultimo_resp = resp
 
         if resp.status_code == 200:
@@ -2629,7 +2721,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_evaluacion_objetiva_routing_fix",
+                    "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2692,7 +2784,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_evaluacion_objetiva_routing_fix",
+                    "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2755,7 +2847,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v073b_evaluacion_objetiva_routing_fix",
+                            "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -2780,6 +2872,7 @@ if submit and pregunta_input:
                             resultados, enlaces
                         )
                         contexto_xml = recortar_contexto_xml(contexto_xml)
+                        ids_contexto_validos = ids_fragmentos_validos_contexto(contexto_xml)
                         mensajes = construir_mensajes(pregunta_corregida, contexto_xml)
 
                         st.write("---")
@@ -2790,11 +2883,12 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v073b_evaluacion_objetiva_routing_fix",
+                                "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
                                 "contexto_chars": len(contexto_xml),
+                                "fragmentos_validos_contexto": [f"F{x}" for x in ids_contexto_validos],
                                 "contexto_limite_chars": MAX_CHARS_CONTEXTO,
                                 "max_tokens_respuesta": MAX_TOKENS_RESPUESTA,
                                 "limite_ia_actual": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
@@ -2808,7 +2902,7 @@ if submit and pregunta_input:
                         texto_final = _resp.json()["choices"][0]["message"]["content"]
 
                         citas_ok, citas_detectadas, citas_invalidas = validar_citas_fragmentos(
-                            texto_final, len(resultados)
+                            texto_final, len(resultados), ids_validos=ids_contexto_validos
                         )
                         orientacion_prudente_aplicada = False
                         tipo_orientacion_prudente = ""
@@ -2860,7 +2954,7 @@ if submit and pregunta_input:
                         st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v073b_evaluacion_objetiva_routing_fix",
+                            "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
                             "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,
@@ -2869,6 +2963,7 @@ if submit and pregunta_input:
                             "resultados_enviados_llm": len(resultados),
                             "fragmentos": _diagnostico_fragmentos(resultados),
                             "contexto_chars": len(contexto_xml),
+                            "fragmentos_validos_contexto": [f"F{x}" for x in ids_contexto_validos],
                             "contexto_limite_chars": MAX_CHARS_CONTEXTO,
                             "max_tokens_respuesta": MAX_TOKENS_RESPUESTA,
                             "ia_intentos": _intentos_ia,

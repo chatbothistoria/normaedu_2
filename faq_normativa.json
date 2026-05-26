@@ -5413,7 +5413,6 @@
         "qué es el consejo orientador en eso",
         "qué es la evaluación de diagnóstico en eso",
         "documentos oficiales eso",
-        "consejo orientador eso",
         "evaluación de diagnóstico eso"
       ],
       "required_terms": [
@@ -5449,7 +5448,6 @@
       "pregunta_canonica": "¿Qué modalidades de Bachillerato existen?",
       "variantes": [
         "qué modalidades de bachillerato existen",
-        "modalidades bachillerato",
         "qué modalidades hay en bachillerato",
         "artes ciencias tecnología general humanidades ciencias sociales bachillerato",
         "qué bachilleratos existen ahora en castilla y león",
@@ -5531,12 +5529,6 @@
       "bloque": "secundaria_bachillerato",
       "pregunta_canonica": "¿Se puede repetir en Bachillerato y con cuántas materias se promociona?",
       "variantes": [
-        "con cuántas materias se promociona de 1º a 2º de bachillerato",
-        "con cuántas materias se promociona de 1.º a 2.º de bachillerato",
-        "se puede repetir 1º de bachillerato",
-        "se puede repetir 1.º de bachillerato",
-        "se puede repetir 2º de bachillerato",
-        "se puede repetir 2.º de bachillerato",
         "promoción y repetición bachillerato",
         "se puede pasar de primero a segundo de bachillerato con alguna suspensa",
         "puedo pasar de primero a segundo de bachillerato con una suspensa",
@@ -6089,7 +6081,6 @@
         "quién hace el seguimiento del alumnado en la empresa",
         "qué hace el tutor de empresa",
         "debe haber contacto entre el centro y la empresa",
-        "seguimiento alumnado empresa fp",
         "tutor de empresa fp",
         "contacto centro empresa fp",
         "tutor empresa seguimiento fp",
