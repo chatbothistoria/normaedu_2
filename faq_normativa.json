@@ -1,7 +1,7 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v072_routing_faq_rag_precision",
+    "version": "v073b_evaluacion_objetiva_routing_fix",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 163,
@@ -26,7 +26,9 @@
     "nota_v071": "Añade trazabilidad compacta al historial y exportación PDF: ruta usada, FAQ activada, uso de Qdrant, uso de IA, filtro de dominio y orientación prudente contextual. No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.",
     "nota_v071b": "Corrige trazabilidad: si la respuesta final RAG/IA ya contiene orientación práctica contextual generada por la IA, la trazabilidad marca RAG_IA_PRUDENTE y orientación prudente contextual sí. No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.",
     "nota_v071c": "Afina la trazabilidad de orientación contextual para preguntas de oferta FP por familia/provincia/curso, por ejemplo 'informática y comunicaciones este curso en mi provincia', clasificándolas como tipo_orientacion=oferta_fp. No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.",
-    "nota_v072": "Mejora el enrutamiento FAQ/RAG: evita que la FAQ genérica fp_norma_estatal_rd659 capture preguntas específicas sobre FCT/requisitos/formación en centros de trabajo, y refuerza la FAQ de actuaciones inmediatas de convivencia para variantes con 'medidas inmediatas'. No modifica Qdrant, IA, prompt, filtro de dominio, rate limit, trazabilidad ni privacidad."
+    "nota_v072": "Mejora el enrutamiento FAQ/RAG: evita que la FAQ genérica fp_norma_estatal_rd659 capture preguntas específicas sobre FCT/requisitos/formación en centros de trabajo, y refuerza la FAQ de actuaciones inmediatas de convivencia para variantes con 'medidas inmediatas'. No modifica Qdrant, IA, prompt, filtro de dominio, rate limit, trazabilidad ni privacidad.",
+    "nota_v073": "Mejora la precisión/ranking de Qdrant sin reindexar: añade reformulaciones locales para evaluación objetiva y procedimiento corrector de convivencia, refuerza score léxico normalizado y añade bonus/penalizaciones acotadas antes del corte Top8. No modifica colección Qdrant, embeddings, IA, prompt, FAQ, filtro de dominio, rate limit ni trazabilidad.",
+    "nota_v073b": "Mantiene la mejora de ranking Qdrant de v073 y añade routing FAQ para preguntas sobre prueba objetiva tipo test/evaluación objetiva, activando alumnado_derecho_evaluacion_objetiva. No modifica colección Qdrant, embeddings, IA, prompt, filtro de dominio, rate limit ni trazabilidad."
   },
   "faqs": [
     {
@@ -1917,7 +1919,13 @@
         "garantías para que la evaluación sea objetiva",
         "el alumnado tiene derecho a recibir información sobre criterios de evaluación",
         "puede un alumno reclamar una calificación",
-        "derecho a criterios de evaluación y reclamaciones"
+        "derecho a criterios de evaluación y reclamaciones",
+        "la prueba objetiva tipo test cuenta como evaluación objetiva",
+        "un examen tipo test cuenta como evaluación objetiva",
+        "una prueba tipo test es evaluación objetiva",
+        "evaluación objetiva tipo test",
+        "la evaluación objetiva depende de criterios de calificación claros",
+        "el alumnado tiene derecho a una evaluación objetiva aunque el examen sea tipo test"
       ],
       "required_terms": [
         "evaluacion"
@@ -1955,7 +1963,13 @@
         "garantias para que la evaluacion sea objetiva",
         "el alumnado tiene derecho a recibir informacion sobre criterios de evaluacion",
         "puede un alumno reclamar una calificacion",
-        "derecho a criterios de evaluacion y reclamaciones"
+        "derecho a criterios de evaluacion y reclamaciones",
+        "la prueba objetiva tipo test cuenta como evaluacion objetiva",
+        "un examen tipo test cuenta como evaluacion objetiva",
+        "una prueba tipo test es evaluacion objetiva",
+        "evaluacion objetiva tipo test",
+        "la evaluacion objetiva depende de criterios de calificacion claros",
+        "el alumnado tiene derecho a una evaluacion objetiva aunque el examen sea tipo test"
       ]
     },
     {

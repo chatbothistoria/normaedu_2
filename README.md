@@ -237,3 +237,20 @@ Cambios:
 - Evita que la FAQ genérica `fp_norma_estatal_rd659` capture preguntas específicas sobre FCT, requisitos o formación en centros de trabajo.
 - Añade variantes y regla para que `medidas inmediatas` active `cyl_actuaciones_inmediatas_convivencia`.
 - No modifica Qdrant, IA, prompt jurídico, filtro de dominio, rate limit, trazabilidad ni privacidad.
+
+
+## v073 - Precisión/ranking Qdrant sin reindexar
+
+Cambios:
+- Añade reformulaciones locales sin IA para consultas de evaluación objetiva y procedimiento corrector de convivencia.
+- Refuerza el score léxico normalizado.
+- Añade bonus y penalizaciones acotadas antes del corte Top8.
+- No modifica la colección Qdrant, embeddings, IA, prompt, FAQ, filtro de dominio, rate limit ni trazabilidad.
+
+
+## v073b - Routing evaluación objetiva
+
+Cambios:
+- Mantiene la mejora de ranking Qdrant de v073 para convivencia/procedimiento corrector.
+- Añade regla y variantes para que preguntas como `la prueba objetiva tipo test cuenta como evaluación objetiva` activen `alumnado_derecho_evaluacion_objetiva`.
+- No modifica colección Qdrant, embeddings, IA, prompt jurídico, filtro de dominio, rate limit ni trazabilidad.

@@ -509,6 +509,28 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
     """
     p = _normalizar_faq(pregunta)
 
+    # v073b: las preguntas sobre "prueba objetiva tipo test" y
+    # "evaluación objetiva" deben ir a la FAQ verificada de derecho a
+    # evaluación objetiva, no depender de Qdrant.
+    if _faq_tiene_alguno(p, [
+        "evaluacion objetiva",
+        "prueba objetiva",
+        "tipo test",
+        "test cuenta como evaluacion objetiva",
+        "examen tipo test",
+    ]) and _faq_tiene_alguno(p, [
+        "cuenta como",
+        "es evaluacion objetiva",
+        "evaluacion objetiva",
+        "criterios",
+        "calificacion",
+        "reclamacion",
+        "revisar",
+    ]):
+        faq = _buscar_faq_por_id("alumnado_derecho_evaluacion_objetiva")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
     # v069: variantes sintéticas prioritarias, muy acotadas, antes del matcher general.
     if _faq_tiene_alguno(p, ["que areas hay en educacion infantil", "infantil areas nombres", "nombres de las areas de infantil"]):
         faq = _buscar_faq_por_id("infantil_areas")
@@ -1439,15 +1461,96 @@ def construir_respuesta_fuera_dominio(pregunta: str, bloque_elegido: str = "") -
     )
 
 
+# ============================================================
+# v073 - Precisión Qdrant sin reindexar
+# ============================================================
+# No modifica la colección, ni embeddings, ni Qdrant.
+# Mejora:
+# - expansión local de consulta para intenciones detectadas;
+# - bonus/penalización local de candidatos antes de cortar a Top8.
+
+def _normalizar_ranking_v073(texto):
+    import re
+    import unicodedata
+    texto = unicodedata.normalize("NFKD", str(texto or ""))
+    texto = "".join(ch for ch in texto if not unicodedata.combining(ch))
+    texto = texto.lower()
+    texto = re.sub(r"[^a-z0-9ñ]+", " ", texto)
+    return re.sub(r"\s+", " ", texto).strip()
+
+
+def _ranking_contiene_v073(texto_n, opciones):
+    return any(_normalizar_ranking_v073(op) in texto_n for op in opciones)
+
+
+def _intencion_ranking_v073(pregunta):
+    p = _normalizar_ranking_v073(pregunta)
+
+    if _ranking_contiene_v073(p, [
+        "evaluacion objetiva",
+        "prueba objetiva",
+        "tipo test",
+        "reclamar una calificacion",
+        "reclamacion calificacion",
+        "calificacion en secundaria",
+    ]):
+        return "evaluacion_objetiva"
+
+    if _ranking_contiene_v073(p, [
+        "procedimiento corrector",
+        "garantias",
+        "conducta que perturba la convivencia",
+        "conducta perturbadora",
+        "convivencia",
+    ]) and _ranking_contiene_v073(p, [
+        "procedimiento",
+        "corrector",
+        "garantias",
+        "audiencia",
+        "alegaciones",
+        "medidas",
+        "conducta",
+    ]):
+        return "convivencia_procedimiento"
+
+    return ""
+
+
+def _reformulaciones_precision_v073(pregunta):
+    """Reformulaciones locales, sin IA, para mejorar recuperación vectorial.
+
+    La app seguirá usando como máximo dos reformulaciones. Ponemos primero la
+    reformulación especializada para que entre en el promedio de embeddings.
+    """
+    p = _normalizar_ranking_v073(pregunta)
+    intent = _intencion_ranking_v073(pregunta)
+    refs = []
+
+    if intent == "evaluacion_objetiva":
+        refs.append(
+            "derecho del alumnado a una evaluación objetiva reclamación de calificaciones "
+            "criterios de evaluación secundaria bachillerato"
+        )
+
+    if intent == "convivencia_procedimiento":
+        refs.append(
+            "procedimiento corrector convivencia escolar audiencia alegaciones garantías "
+            "decreto 51 2007 derechos deberes alumnado"
+        )
+
+    base = re.sub(r"[¿?¡!]", "", pregunta or "").strip()
+    if base and base not in refs:
+        refs.append(base)
+
+    return refs
+
+
 def expandir_y_corregir(pregunta):
     """Sin LLM para ahorrar tokens de IA.
     La búsqueda semántica + reordenación local mantiene el coste en cero.
     """
-    import re
     corregida = pregunta.strip()
-    # Limpiar signos de interrogación y espacios extra
-    base = re.sub(r"[¿?¡!]", "", corregida).strip()
-    return corregida, [base]
+    return corregida, _reformulaciones_precision_v073(corregida)
 
 
 # Stopwords españolas para extracción de términos clave
@@ -1538,24 +1641,28 @@ def _normalizar_score(score):
 
 
 def _score_lexico(contenido: str, terminos: list[str]) -> float:
-    """Puntuación léxica local, sin APIs ni coste.
+    """Puntuación léxica local reforzada en v073.
 
-    Da un pequeño bonus cuando los términos de la pregunta aparecen literalmente
-    en el fragmento. Está acotada para que no eclipse la similitud vectorial.
+    Sigue siendo coste cero y acotada, pero normaliza acentos y da más peso a
+    frases exactas. Esto ayuda a que términos jurídicos fuertes compitan mejor
+    frente a similitud vectorial genérica.
     """
     if not contenido or not terminos:
         return 0.0
-    texto = contenido.lower()
+
+    texto = _normalizar_ranking_v073(contenido)
     score = 0.0
+
     for termino in terminos:
-        t = termino.lower().strip()
+        t = _normalizar_ranking_v073(termino)
         if not t:
             continue
         if " " in t and t in texto:
-            score += 0.08
+            score += 0.10
         elif t in texto:
-            score += 0.035
-    return min(score, 0.25)
+            score += 0.04
+
+    return min(score, 0.35)
 
 
 def _bonus_bloque(payload: dict, bloque: str) -> float:
@@ -1563,6 +1670,119 @@ def _bonus_bloque(payload: dict, bloque: str) -> float:
     if not bloque or bloque == "general":
         return 0.0
     return 0.06 if payload.get("bloque") == bloque else 0.0
+
+
+def _ajuste_precision_qdrant_v073(pregunta: str, payload: dict, contenido: str) -> tuple[float, list[str]]:
+    """Ajustes locales de precisión antes del corte Top8.
+
+    No filtra de forma dura: solo suma o resta puntuación acotada.
+    """
+    p = _normalizar_ranking_v073(pregunta)
+    texto = _normalizar_ranking_v073(
+        f"{payload.get('nombre_archivo', '')} {payload.get('bloque', '')} {contenido or ''}"
+    )
+    doc = _normalizar_ranking_v073(payload.get("nombre_archivo", ""))
+    intent = _intencion_ranking_v073(pregunta)
+
+    score = 0.0
+    motivos = []
+
+    if intent == "evaluacion_objetiva":
+        if _ranking_contiene_v073(texto, [
+            "evaluacion objetiva",
+            "objetividad",
+            "derecho a una evaluacion objetiva",
+            "reclamacion de calificaciones",
+            "reclamacion contra la calificacion",
+            "calificacion final",
+            "criterios de calificacion",
+            "instrumentos de evaluacion",
+        ]):
+            score += 0.30
+            motivos.append("bonus_evaluacion_objetiva")
+
+        # Evita que fragmentos de títulos FP con "criterios de evaluación"
+        # dominen consultas jurídicas sobre evaluación objetiva.
+        ruido_titulo_fp = _ranking_contiene_v073(texto, [
+            "modulo profesional",
+            "unidades de competencia",
+            "catalogo nacional de cualificaciones",
+            "titulo profesional basico",
+            "establece titulo",
+        ])
+        solo_criterios_genericos = (
+            "criterios de evaluacion" in texto
+            and not _ranking_contiene_v073(texto, [
+                "evaluacion objetiva",
+                "reclamacion",
+                "calificacion",
+                "objetividad",
+            ])
+        )
+        if ruido_titulo_fp or solo_criterios_genericos:
+            score -= 0.22
+            motivos.append("penaliza_evaluacion_generica_titulo_fp")
+
+    if intent == "convivencia_procedimiento":
+        if _ranking_contiene_v073(doc, [
+            "decreto 51 2007",
+            "decreto_51_2007",
+            "decreto 23 2014",
+            "decreto_23_2014",
+        ]):
+            score += 0.35
+            motivos.append("bonus_decreto_convivencia")
+
+        if _ranking_contiene_v073(texto, [
+            "procedimiento corrector",
+            "medidas correctoras",
+            "conductas contrarias a las normas de convivencia",
+            "conductas gravemente perjudiciales",
+            "audiencia",
+            "alegaciones",
+            "instructor",
+            "expediente",
+            "resolucion",
+            "acuerdo reeducativo",
+            "convivencia escolar",
+        ]):
+            score += 0.25
+            motivos.append("bonus_vocabulario_procedimiento_convivencia")
+
+        ruido_fp = _ranking_contiene_v073(texto, [
+            "unidades de competencia",
+            "catalogo nacional de cualificaciones",
+            "modulo profesional",
+            "establece titulo",
+            "realiza actividades de evaluacion",
+            "mediadores naturales",
+            "unidades de convivencia",
+        ]) and not _ranking_contiene_v073(doc, [
+            "decreto 51 2007",
+            "decreto_51_2007",
+            "decreto 23 2014",
+            "decreto_23_2014",
+        ])
+        if ruido_fp:
+            score -= 0.30
+            motivos.append("penaliza_ruido_fp_o_social_no_convivencia_escolar")
+
+    # Penalización suave y general: si la consulta no es FP, los documentos
+    # de títulos/cualificaciones FP no deben dominar salvo que contengan
+    # términos fuertes de la pregunta.
+    pregunta_fp = _ranking_contiene_v073(p, ["fp", "formacion profesional", "ciclo formativo", "fct"])
+    ruido_titulo = _ranking_contiene_v073(texto, [
+        "modulo profesional",
+        "unidades de competencia",
+        "catalogo nacional de cualificaciones",
+        "establece titulo",
+    ])
+    if not pregunta_fp and ruido_titulo and intent in ["evaluacion_objetiva", "convivencia_procedimiento"]:
+        score -= 0.08
+        motivos.append("penaliza_titulo_fp_fuera_fp")
+
+    score = max(-0.45, min(0.55, score))
+    return score, motivos
 
 
 def buscar_normativa_hibrida(embedding, pregunta_texto, bloque):
@@ -1605,7 +1825,10 @@ def buscar_normativa_hibrida(embedding, pregunta_texto, bloque):
         base = _normalizar_score(hit.get("score", 0.0))
         lexical = _score_lexico(contenido, terminos_clave)
         bloque_bonus = _bonus_bloque(payload, bloque)
-        score_final = base + lexical + bloque_bonus
+        precision_bonus, precision_motivos = _ajuste_precision_qdrant_v073(
+            pregunta_texto, payload, contenido
+        )
+        score_final = base + lexical + bloque_bonus + precision_bonus
 
         combinados.append({
             "id": rid,
@@ -1617,6 +1840,8 @@ def buscar_normativa_hibrida(embedding, pregunta_texto, bloque):
             "score_vectorial": base,
             "score_lexico": lexical,
             "bonus_bloque": bloque_bonus,
+            "bonus_precision_v073": precision_bonus,
+            "motivos_precision_v073": "; ".join(precision_motivos),
         })
 
     combinados = sorted(combinados, key=lambda x: x.get("similarity", 0), reverse=True)
@@ -1989,7 +2214,7 @@ def construir_trazabilidad_historial(
     No contiene pregunta, respuesta, claves ni contenido de fragmentos.
     """
     return {
-        "version_app": "v072_routing_faq_rag_precision",
+        "version_app": "v073b_evaluacion_objetiva_routing_fix",
         "ruta": ruta,
         "apartado": apartado,
         "faq_id": faq_id or "",
@@ -2404,7 +2629,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v072_routing_faq_rag_precision",
+                    "version": "v073b_evaluacion_objetiva_routing_fix",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2467,7 +2692,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v072_routing_faq_rag_precision",
+                    "version": "v073b_evaluacion_objetiva_routing_fix",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2530,7 +2755,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v072_routing_faq_rag_precision",
+                            "version": "v073b_evaluacion_objetiva_routing_fix",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -2565,7 +2790,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v072_routing_faq_rag_precision",
+                                "version": "v073b_evaluacion_objetiva_routing_fix",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2635,7 +2860,7 @@ if submit and pregunta_input:
                         st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v072_routing_faq_rag_precision",
+                            "version": "v073b_evaluacion_objetiva_routing_fix",
                             "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,
