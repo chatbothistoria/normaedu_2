@@ -1509,6 +1509,64 @@ def construir_respuesta_fuera_dominio(pregunta: str, bloque_elegido: str = "") -
 
 
 # ============================================================
+# r4 - Filtro defensivo mínimo antes de RAG/IA
+# ============================================================
+# Objetivo: cortar peticiones de prompt injection, claves, secretos o
+# instrucciones internas antes de consultar Qdrant o consumir IA.
+# Deliberadamente estrecho para no bloquear consultas normativas legítimas.
+
+_PATRONES_SEGURIDAD_R4 = [
+    ("ignora", "instrucciones"),
+    ("olvida", "instrucciones"),
+    ("desobedece", "instrucciones"),
+    ("omite", "instrucciones"),
+    ("muestra", "prompt"),
+    ("revela", "prompt"),
+    ("dime", "prompt"),
+    ("prompt", "sistema"),
+    ("system", "prompt"),
+    ("claves", "internas"),
+    ("secretos", "internos"),
+    ("dime", "claves"),
+    ("revela", "claves"),
+    ("muestra", "claves"),
+    ("dime", "secretos"),
+    ("revela", "secretos"),
+    ("muestra", "secretos"),
+    ("api", "key"),
+    ("api", "clave"),
+    ("ia_api_key",),
+    ("qdrant_api_key",),
+    ("st", "secrets"),
+    ("streamlit", "secrets"),
+    ("token", "secreto"),
+    ("variables", "entorno"),
+]
+
+def _pregunta_seguridad_defensiva(pregunta: str) -> bool:
+    p = _normalizar_dominio(pregunta)
+    if not p:
+        return False
+    tokens = set(p.split())
+    for patron in _PATRONES_SEGURIDAD_R4:
+        if all((termino in tokens) or _contiene_frase_dominio(p, termino) for termino in patron):
+            return True
+    return False
+
+def construir_respuesta_seguridad_defensiva(pregunta: str, bloque_elegido: str = "") -> str:
+    return (
+        "## Consulta bloqueada por seguridad\n\n"
+        "No puedo ayudar a revelar claves, tokens, secretos, prompts, instrucciones internas "
+        "ni configuración privada del sistema.\n\n"
+        "Esta app está pensada para responder consultas sobre normativa educativa, centros docentes, "
+        "alumnado, convivencia escolar, evaluación, Formación Profesional y cuestiones administrativas docentes.\n\n"
+        "Si necesitas una respuesta normativa, reformula la pregunta sin pedir datos internos, claves, "
+        "prompts ni instrucciones del sistema.\n\n"
+        "_Filtro de seguridad aplicado: no se ha consultado Qdrant ni se ha consumido IA._"
+    )
+
+
+# ============================================================
 # v073 - Precisión Qdrant sin reindexar
 # ============================================================
 # No modifica la colección, ni embeddings, ni Qdrant.
@@ -2284,7 +2342,7 @@ def construir_trazabilidad_historial(
     No contiene pregunta, respuesta, claves ni contenido de fragmentos.
     """
     return {
-        "version_app": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
+        "version_app": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
         "ruta": ruta,
         "apartado": apartado,
         "faq_id": faq_id or "",
@@ -2721,7 +2779,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
+                    "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2738,6 +2796,66 @@ if submit and pregunta_input:
                     mostrar_diagnostico(diagnostico)
 
                 # Las FAQ no consumen IA, por eso no incrementan consultas_sesion.
+                st.session_state.ultima_pregunta   = pregunta_input
+                st.session_state.pregunta_actual   = pregunta_input
+                st.session_state.ultima_respuesta  = texto_final
+                st.session_state.ultimas_fuentes   = fuentes_u
+                st.session_state.ultima_trazabilidad = trazabilidad
+                st.session_state.historial_completo.append({
+                    "pregunta":           pregunta_input,
+                    "pregunta_corregida": pregunta_input,
+                    "respuesta":          texto_final,
+                    "fuentes":            fuentes_up,
+                    "trazabilidad":       trazabilidad,
+                })
+                if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
+                    st.session_state.historial_completo = \
+                        st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
+
+                st.session_state.feedback_pendiente = True
+                st.session_state.feedback_pregunta  = pregunta_input
+                st.session_state.feedback_respuesta = texto_final
+
+            elif _pregunta_seguridad_defensiva(pregunta_input):
+                # r4: filtro defensivo mínimo antes de consultar Qdrant o IA.
+                texto_final = construir_respuesta_seguridad_defensiva(pregunta_input, bloque_elegido)
+                fuentes_u = ["Filtro de seguridad: no se consultó Qdrant ni IA."]
+                fuentes_up = fuentes_u[:]
+                trazabilidad = construir_trazabilidad_historial(
+                    ruta="FILTRO_SEGURIDAD",
+                    apartado=bloque_elegido,
+                    faq_id=None,
+                    faq_score=None,
+                    filtro_dominio=False,
+                    qdrant=False,
+                    ia=False,
+                    orientacion_prudente=False,
+                )
+
+                st.write("---")
+                st.markdown("### 📝 Respuesta:")
+                st.warning("Consulta bloqueada por seguridad: no consume Qdrant ni IA.")
+                st.markdown(texto_final)
+                st.markdown("### 📚 Fuentes consultadas:")
+                for f in fuentes_u:
+                    st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+                st.caption(formatear_trazabilidad_compacta(trazabilidad))
+
+                diagnostico = {
+                    "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
+                    "capa_usada": "FILTRO_SEGURIDAD",
+                    "consume_ia": False,
+                    "consume_qdrant": False,
+                    "bloque_seleccionado": bloque_elegido,
+                    "faq_id": None,
+                    "motivo": "pregunta_seguridad_defensiva",
+                    "limite_ia_usado": f"{st.session_state.consultas_sesion}/{MAX_PREGUNTAS_SESION}",
+                    "trazabilidad": trazabilidad,
+                }
+                st.session_state.ultimo_diagnostico = diagnostico
+                if modo_diagnostico:
+                    mostrar_diagnostico(diagnostico)
+
                 st.session_state.ultima_pregunta   = pregunta_input
                 st.session_state.pregunta_actual   = pregunta_input
                 st.session_state.ultima_respuesta  = texto_final
@@ -2784,7 +2902,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
+                    "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2847,7 +2965,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
+                            "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -2883,7 +3001,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
+                                "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -2954,7 +3072,7 @@ if submit and pregunta_input:
                         st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v073b_postvalidacion_r3_config_guard_faq_dedupe_citas_docfix",
+                            "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
                             "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,
