@@ -158,7 +158,12 @@
         "que asignaturas tiene infantil",
         "qué áreas hay en educación infantil",
         "infantil areas nombres",
-        "nombres de las áreas de infantil"
+        "nombres de las áreas de infantil",
+        "cuáles son las áreas de infantil",
+        "cuales son las areas de infantil",
+        "áreas de infantil",
+        "areas de infantil",
+        "cuáles son las áreas de educación infantil"
       ],
       "required_terms": [
         "infantil"
@@ -189,7 +194,9 @@
         "ambitos infantil",
         "ambitos infantil",
         "que asignaturas tiene infantil",
-        "que asignaturas tiene infantil"
+        "que asignaturas tiene infantil",
+        "cuales son las areas de infantil",
+        "areas de infantil"
       ]
     },
     {
@@ -1039,7 +1046,10 @@
       "variantes": [
         "modalidades bachillerato",
         "qué modalidades tiene bachillerato",
-        "tipos de bachillerato"
+        "tipos de bachillerato",
+        "cuáles son las modalidades de Bachillerato",
+        "que modalidades de bachillerato existen",
+        "qué modalidades hay en bachillerato"
       ],
       "required_terms": [
         "bachillerato",
@@ -1063,7 +1073,10 @@
         "cuales son las modalidades del bachillerato",
         "modalidades bachillerato",
         "que modalidades tiene bachillerato",
-        "tipos de bachillerato"
+        "tipos de bachillerato",
+        "cuales son las modalidades de bachillerato",
+        "que modalidades de bachillerato existen",
+        "que modalidades hay en bachillerato"
       ]
     },
     {
@@ -2058,7 +2071,11 @@
         "madre hospitalizada fuera de mi provincia baja o permiso",
         "mi madre está hospitalizada en otra ciudad cuántos días tengo",
         "familiar de primer grado hospitalizado distinta localidad permiso docente",
-        "padre o madre ingresado en otra provincia permiso"
+        "padre o madre ingresado en otra provincia permiso",
+        "cuántos días de permiso tiene un docente por hospitalización de su padre",
+        "cuantos dias de permiso tiene un docente por hospitalizacion de su padre",
+        "permiso docente por hospitalización de su padre",
+        "permiso por hospitalización de padre docente"
       ],
       "required_terms": [
         "padre",
@@ -2093,7 +2110,10 @@
         "madre hospitalizada fuera de mi provincia baja o permiso",
         "mi madre esta hospitalizada en otra ciudad cuantos dias tengo",
         "familiar de primer grado hospitalizado distinta localidad permiso docente",
-        "padre o madre ingresado en otra provincia permiso"
+        "padre o madre ingresado en otra provincia permiso",
+        "cuantos dias de permiso tiene un docente por hospitalizacion de su padre",
+        "permiso docente por hospitalizacion de su padre",
+        "permiso por hospitalizacion de padre docente"
       ]
     },
     {
@@ -3069,7 +3089,11 @@
         "bachillerato dos suspensas",
         "promociona con dos materias bachillerato",
         "pasar con dos suspensas bachillerato",
-        "pasar a segundo con dos suspensas"
+        "pasar a segundo con dos suspensas",
+        "con dos materias suspensas se puede pasar de 1º a 2º de Bachillerato",
+        "con dos materias suspensas se puede pasar de 1.º a 2.º de Bachillerato",
+        "se puede pasar de primero a segundo de bachillerato con dos materias suspensas",
+        "pasar de primero a segundo bachillerato con dos materias suspensas"
       ],
       "required_terms": [
         "bachillerato"
@@ -3099,7 +3123,11 @@
         "bachillerato dos suspensas",
         "promociona con dos materias bachillerato",
         "pasar con dos suspensas bachillerato",
-        "pasar a segundo con dos suspensas"
+        "pasar a segundo con dos suspensas",
+        "con dos materias suspensas se puede pasar de 1o a 2o de bachillerato",
+        "con dos materias suspensas se puede pasar de 1 o a 2 o de bachillerato",
+        "se puede pasar de primero a segundo de bachillerato con dos materias suspensas",
+        "pasar de primero a segundo bachillerato con dos materias suspensas"
       ]
     },
     {
@@ -5070,7 +5098,11 @@
         "qué significan in su bi nt y sb en primaria",
         "cómo se expresan las calificaciones en primaria",
         "calificaciones in su bi nt sb primaria",
-        "notas primaria in su bi nt sb"
+        "notas primaria in su bi nt sb",
+        "qué significan IN, SU, BI, NT y SB en las calificaciones",
+        "que significan in su bi nt y sb en las calificaciones",
+        "significado de IN SU BI NT SB",
+        "siglas IN SU BI NT SB calificaciones primaria"
       ],
       "required_terms": [
         "primaria",
@@ -5095,7 +5127,10 @@
         "que significan in su bi nt y sb en primaria",
         "como se expresan las calificaciones en primaria",
         "calificaciones in su bi nt sb primaria",
-        "notas primaria in su bi nt sb"
+        "notas primaria in su bi nt sb",
+        "que significan in su bi nt y sb en las calificaciones",
+        "significado de in su bi nt sb",
+        "siglas in su bi nt sb calificaciones primaria"
       ]
     },
     {

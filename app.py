@@ -455,13 +455,25 @@ def _faq_contiene_patron_identificativo(pregunta: str, pregunta_n: str) -> bool:
 _FAQ_VARIANTES_PRIORITARIAS_POSTVALIDACION = {
     _normalizar_faq("consejo orientador eso"): "eso_consejo_orientador",
     _normalizar_faq("modalidades bachillerato"): "bachillerato_modalidades",
+    _normalizar_faq("cuáles son las modalidades de bachillerato"): "bachillerato_modalidades",
+    _normalizar_faq("que modalidades de bachillerato existen"): "bachillerato_modalidades",
+    _normalizar_faq("qué modalidades hay en bachillerato"): "bachillerato_modalidades",
     _normalizar_faq("con cuántas materias se promociona de 1º a 2º de bachillerato"): "bachillerato_promocion_dos_materias",
     _normalizar_faq("con cuántas materias se promociona de 1.º a 2.º de bachillerato"): "bachillerato_promocion_dos_materias",
+    _normalizar_faq("con dos materias suspensas se puede pasar de 1º a 2º de bachillerato"): "bachillerato_promocion_dos_materias",
+    _normalizar_faq("con dos materias suspensas se puede pasar de 1.º a 2.º de bachillerato"): "bachillerato_promocion_dos_materias",
+    _normalizar_faq("se puede pasar de primero a segundo de bachillerato con dos materias suspensas"): "bachillerato_promocion_dos_materias",
     _normalizar_faq("se puede repetir 1º de bachillerato"): "bachillerato_permanencia_cuatro_anos",
     _normalizar_faq("se puede repetir 1.º de bachillerato"): "bachillerato_permanencia_cuatro_anos",
     _normalizar_faq("se puede repetir 2º de bachillerato"): "bachillerato_permanencia_cuatro_anos",
     _normalizar_faq("se puede repetir 2.º de bachillerato"): "bachillerato_permanencia_cuatro_anos",
-    _normalizar_faq("seguimiento alumnado empresa fp"): "fp_tutor_dual_empresa",
+    _normalizar_faq("seguimiento alumnado empresa fp"): "fp_tutor_empresa_seguimiento_contacto",
+    _normalizar_faq("cuántos días de permiso tiene un docente por hospitalización de su padre"): "permiso_hospitalizacion_padre",
+    _normalizar_faq("cuantos dias de permiso tiene un docente por hospitalizacion de su padre"): "permiso_hospitalizacion_padre",
+    _normalizar_faq("cuáles son las áreas de infantil"): "infantil_areas",
+    _normalizar_faq("cuales son las areas de infantil"): "infantil_areas",
+    _normalizar_faq("qué significan in su bi nt y sb en las calificaciones"): "primaria_calificaciones_siglas_in_su_bi_nt_sb",
+    _normalizar_faq("que significan in su bi nt y sb en las calificaciones"): "primaria_calificaciones_siglas_in_su_bi_nt_sb",
 }
 
 def _faq_match_exacta(pregunta_n: str, bloque_elegido: str):
@@ -555,6 +567,33 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
     presentes dejan clara la intención del usuario.
     """
     p = _normalizar_faq(pregunta)
+
+    # r5 mínima: refuerzos FAQ detectados en piloto de 25 preguntas reales.
+    # Son reglas cerradas para evitar consumo innecesario de RAG/IA en preguntas FAQ claras.
+    if _faq_tiene_todos(p, [["areas", "area"], ["infantil", "educacion infantil"]]):
+        faq = _buscar_faq_por_id("infantil_areas")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["in", "su", "bi", "nt", "sb"], ["calificaciones", "notas"]]) and bloque_elegido == "infantil_primaria":
+        faq = _buscar_faq_por_id("primaria_calificaciones_siglas_in_su_bi_nt_sb")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["permiso", "dias", "dia"], ["hospitalizacion", "hospitalizado", "ingresado", "hospital"], ["padre", "madre", "progenitor"]]):
+        faq = _buscar_faq_por_id("permiso_hospitalizacion_padre")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["bachillerato", "bachiller"], ["modalidades", "modalidad", "tipos"]]):
+        faq = _buscar_faq_por_id("bachillerato_modalidades")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["bachillerato", "bachiller"], ["pasar", "promocionar", "promocion"], ["dos materias", "2 materias", "dos suspensas", "2 suspensas", "materias suspensas"]]):
+        faq = _buscar_faq_por_id("bachillerato_promocion_dos_materias")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
 
     # v073b: las preguntas sobre "prueba objetiva tipo test" y
     # "evaluación objetiva" deben ir a la FAQ verificada de derecho a
@@ -2342,7 +2381,7 @@ def construir_trazabilidad_historial(
     No contiene pregunta, respuesta, claves ni contenido de fragmentos.
     """
     return {
-        "version_app": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
+        "version_app": "v073b_postvalidacion_r5_robustez_faq_429",
         "ruta": ruta,
         "apartado": apartado,
         "faq_id": faq_id or "",
@@ -2520,6 +2559,31 @@ def _clasificar_error_ia(resp):
     if status and status >= 500:
         return "servicio_temporal", resumen
     return "error_api", resumen
+
+
+def _respuesta_ia_temporal_no_disponible(tipo: str = "limite_temporal"):
+    """Respuesta segura cuando la IA no acepta la petición tras los reintentos.
+
+    r5 mínima: evita que un 429/servicio temporal aparezca como un fallo opaco.
+    No inventa contenido normativo y conserva la recomendación de usar FAQ o reintentar.
+    """
+    if tipo == "limite_temporal":
+        causa = "el proveedor de IA ha devuelto un límite temporal de uso o cola saturada"
+    elif tipo == "servicio_temporal":
+        causa = "el proveedor de IA no está disponible temporalmente"
+    else:
+        causa = "no se ha podido obtener respuesta de la IA"
+    return (
+        "## Respuesta no generada por límite temporal de IA\n\n"
+        f"No puedo responder con seguridad ahora mismo porque {causa}. "
+        "No se debe interpretar este mensaje como una respuesta normativa.\n\n"
+        "## Qué puedes hacer\n"
+        "- Reintentar la misma pregunta en unos minutos.\n"
+        "- Reformularla de forma más concreta.\n"
+        "- Consultar mientras tanto las FAQ verificadas, que no consumen IA.\n\n"
+        "## Límites de la respuesta\n"
+        "No se ha generado una respuesta sustantiva porque el proveedor de IA no aceptó la petición tras los reintentos configurados."
+    )
 
 
 def _mostrar_error_ia(resp, diagnostico_base=None, modo_diagnostico=False):
@@ -2779,7 +2843,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
+                    "version": "v073b_postvalidacion_r5_robustez_faq_429",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2842,7 +2906,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
+                    "version": "v073b_postvalidacion_r5_robustez_faq_429",
                     "capa_usada": "FILTRO_SEGURIDAD",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2902,7 +2966,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
+                    "version": "v073b_postvalidacion_r5_robustez_faq_429",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2965,7 +3029,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
+                            "version": "v073b_postvalidacion_r5_robustez_faq_429",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -3001,7 +3065,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
+                                "version": "v073b_postvalidacion_r5_robustez_faq_429",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -3014,8 +3078,68 @@ if submit and pregunta_input:
                                 "ia_reintentos_usados": max(0, len(_intentos_ia) - 1),
                                 "tiempo_ms": round((time.time()-t0)*1000, 2),
                             }
-                            _mostrar_error_ia(_resp, diagnostico_base, modo_diagnostico)
-                            st.stop()
+                            tipo_error_ia, _resumen_error_ia = _clasificar_error_ia(_resp)
+                            if tipo_error_ia in ("limite_temporal", "servicio_temporal"):
+                                st.warning(
+                                    "⏳ La IA no ha aceptado la petición tras los reintentos. "
+                                    "Se muestra una respuesta segura sin contenido normativo inventado."
+                                )
+                                texto_final = _respuesta_ia_temporal_no_disponible(tipo_error_ia)
+                                ruta_trazabilidad = "RAG_IA_NO_DISPONIBLE"
+                                tipo_orientacion_prudente = "ia_temporal_no_disponible"
+                                fuentes_u = list(dict.fromkeys(links_screen))
+                                fuentes_up = list(dict.fromkeys(fuentes_pdf))
+                                st.markdown(texto_final)
+                                trazabilidad = construir_trazabilidad_historial(
+                                    ruta=ruta_trazabilidad,
+                                    apartado=bloque_elegido,
+                                    faq_id=None,
+                                    faq_score=None,
+                                    filtro_dominio=False,
+                                    qdrant=True,
+                                    ia=False,
+                                    orientacion_prudente=False,
+                                    tipo_orientacion=tipo_orientacion_prudente,
+                                    num_fragmentos=len(resultados),
+                                    ia_reintentos=max(0, len(_intentos_ia) - 1),
+                                )
+                                st.markdown("### 📚 Fuentes consultadas:")
+                                for f in fuentes_u:
+                                    st.markdown(f"- 📄 {f}", unsafe_allow_html=False)
+                                st.caption(formatear_trazabilidad_compacta(trazabilidad))
+
+                                diagnostico = dict(diagnostico_base)
+                                diagnostico.update({
+                                    "capa_usada": ruta_trazabilidad,
+                                    "consume_qdrant": True,
+                                    "consume_ia": False,
+                                    "ia_peticion_aceptada": False,
+                                    "ia_error_tipo": tipo_error_ia,
+                                    "ia_error_resumen": _resumen_error_ia,
+                                    "trazabilidad": trazabilidad,
+                                })
+                                st.session_state.ultimo_diagnostico = diagnostico
+                                if modo_diagnostico:
+                                    mostrar_diagnostico(diagnostico)
+
+                                st.session_state.ultima_pregunta = pregunta_input
+                                st.session_state.pregunta_actual = pregunta_input
+                                st.session_state.ultima_respuesta = texto_final
+                                st.session_state.ultimas_fuentes = fuentes_u
+                                st.session_state.ultima_trazabilidad = trazabilidad
+                                st.session_state.historial_completo.append({
+                                    "pregunta": pregunta_input,
+                                    "pregunta_corregida": pregunta_corregida,
+                                    "respuesta": texto_final,
+                                    "fuentes": fuentes_up,
+                                    "trazabilidad": trazabilidad,
+                                })
+                                if len(st.session_state.historial_completo) > MAX_HISTORIAL_LOCAL:
+                                    st.session_state.historial_completo = st.session_state.historial_completo[-MAX_HISTORIAL_LOCAL:]
+                                st.stop()
+                            else:
+                                _mostrar_error_ia(_resp, diagnostico_base, modo_diagnostico)
+                                st.stop()
 
                         texto_final = _resp.json()["choices"][0]["message"]["content"]
 
@@ -3072,7 +3196,7 @@ if submit and pregunta_input:
                         st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v073b_postvalidacion_r4_filtro_seguridad_minimo",
+                            "version": "v073b_postvalidacion_r5_robustez_faq_429",
                             "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,
