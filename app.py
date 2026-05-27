@@ -474,6 +474,16 @@ _FAQ_VARIANTES_PRIORITARIAS_POSTVALIDACION = {
     _normalizar_faq("cuales son las areas de infantil"): "infantil_areas",
     _normalizar_faq("qué significan in su bi nt y sb en las calificaciones"): "primaria_calificaciones_siglas_in_su_bi_nt_sb",
     _normalizar_faq("que significan in su bi nt y sb en las calificaciones"): "primaria_calificaciones_siglas_in_su_bi_nt_sb",
+    # r6 mínima: incidencias menores detectadas en piloto interno r5.
+    _normalizar_faq("cuándo disfrutan las vacaciones los docentes"): "vacaciones_docentes_agosto",
+    _normalizar_faq("cuando disfrutan las vacaciones los docentes"): "vacaciones_docentes_agosto",
+    _normalizar_faq("qué hace el alumnado que no elige religión en primaria"): "primaria_atencion_educativa_no_religion",
+    _normalizar_faq("que hace el alumnado que no elige religion en primaria"): "primaria_atencion_educativa_no_religion",
+    _normalizar_faq("qué hace el alumnado que no cursa religión en primaria"): "primaria_atencion_educativa_no_religion",
+    _normalizar_faq("que hace el alumnado que no cursa religion en primaria"): "primaria_atencion_educativa_no_religion",
+    _normalizar_faq("la fp puede impartirse en modalidad virtual"): "fp_modalidades_presencial_semipresencial_virtual",
+    _normalizar_faq("puede impartirse la fp en modalidad virtual"): "fp_modalidades_presencial_semipresencial_virtual",
+    _normalizar_faq("se puede cursar fp virtual"): "fp_modalidades_presencial_semipresencial_virtual",
 }
 
 def _faq_match_exacta(pregunta_n: str, bloque_elegido: str):
@@ -570,6 +580,22 @@ def _faq_match_reglas_intencion(pregunta: str, bloque_elegido: str):
 
     # r5 mínima: refuerzos FAQ detectados en piloto de 25 preguntas reales.
     # Son reglas cerradas para evitar consumo innecesario de RAG/IA en preguntas FAQ claras.
+    # r6 mínima: refuerzos finos detectados en piloto interno r5.
+    if _faq_tiene_todos(p, [["vacaciones"], ["docente", "docentes", "profesor", "profesores", "profesorado"]]):
+        faq = _buscar_faq_por_id("vacaciones_docentes_agosto")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["religion"], ["no elige", "no cursa", "no da", "no recibe", "alternativa", "atencion educativa"], ["primaria", "educacion primaria", "alumnado", "alumno", "alumnos"]]):
+        faq = _buscar_faq_por_id("primaria_atencion_educativa_no_religion")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
+    if _faq_tiene_todos(p, [["fp", "formacion profesional"], ["virtual", "online", "semipresencial", "modalidad", "modalidades"]]):
+        faq = _buscar_faq_por_id("fp_modalidades_presencial_semipresencial_virtual")
+        if _faq_bloque_intencion_ok(faq, bloque_elegido):
+            return faq, 1.0
+
     if _faq_tiene_todos(p, [["areas", "area"], ["infantil", "educacion infantil"]]):
         faq = _buscar_faq_por_id("infantil_areas")
         if _faq_bloque_intencion_ok(faq, bloque_elegido):
@@ -2381,7 +2407,7 @@ def construir_trazabilidad_historial(
     No contiene pregunta, respuesta, claves ni contenido de fragmentos.
     """
     return {
-        "version_app": "v073b_postvalidacion_r5_robustez_faq_429",
+        "version_app": "v073b_postvalidacion_r6_piloto_faq_finos",
         "ruta": ruta,
         "apartado": apartado,
         "faq_id": faq_id or "",
@@ -2843,7 +2869,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_postvalidacion_r5_robustez_faq_429",
+                    "version": "v073b_postvalidacion_r6_piloto_faq_finos",
                     "capa_usada": "FAQ",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2906,7 +2932,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_postvalidacion_r5_robustez_faq_429",
+                    "version": "v073b_postvalidacion_r6_piloto_faq_finos",
                     "capa_usada": "FILTRO_SEGURIDAD",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -2966,7 +2992,7 @@ if submit and pregunta_input:
                 st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                 diagnostico = {
-                    "version": "v073b_postvalidacion_r5_robustez_faq_429",
+                    "version": "v073b_postvalidacion_r6_piloto_faq_finos",
                     "capa_usada": "FILTRO_DOMINIO",
                     "consume_ia": False,
                     "consume_qdrant": False,
@@ -3029,7 +3055,7 @@ if submit and pregunta_input:
                     if not resultados:
                         st.warning("No encontré normativa relacionada. Prueba a reformular la pregunta.")
                         diagnostico = {
-                            "version": "v073b_postvalidacion_r5_robustez_faq_429",
+                            "version": "v073b_postvalidacion_r6_piloto_faq_finos",
                             "capa_usada": "RAG",
                             "estado": "sin_resultados",
                             "consume_qdrant": True,
@@ -3065,7 +3091,7 @@ if submit and pregunta_input:
                         )
                         if _resp.status_code != 200:
                             diagnostico_base = {
-                                "version": "v073b_postvalidacion_r5_robustez_faq_429",
+                                "version": "v073b_postvalidacion_r6_piloto_faq_finos",
                                 "bloque_seleccionado": bloque_elegido,
                                 "resultados_enviados_llm": len(resultados),
                                 "fragmentos": _diagnostico_fragmentos(resultados),
@@ -3196,7 +3222,7 @@ if submit and pregunta_input:
                         st.caption(formatear_trazabilidad_compacta(trazabilidad))
 
                         diagnostico = {
-                            "version": "v073b_postvalidacion_r5_robustez_faq_429",
+                            "version": "v073b_postvalidacion_r6_piloto_faq_finos",
                             "capa_usada": ruta_trazabilidad,
                             "consume_qdrant": True,
                             "consume_ia": True,

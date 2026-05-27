@@ -1,7 +1,7 @@
 {
   "metadata": {
     "nombre": "FAQ normativa verificada NormaEdu 2",
-    "version": "v073b_evaluacion_objetiva_routing_fix",
+    "version": "v073b_postvalidacion_r6_piloto_faq_finos",
     "fecha_verificacion": "2026-05-19",
     "criterio": "Solo se incluyen FAQ con soporte en fuente oficial aportada o fuente oficial ministerial.",
     "total_faq": 163,
@@ -28,7 +28,8 @@
     "nota_v071c": "Afina la trazabilidad de orientación contextual para preguntas de oferta FP por familia/provincia/curso, por ejemplo 'informática y comunicaciones este curso en mi provincia', clasificándolas como tipo_orientacion=oferta_fp. No modifica FAQ, Qdrant, IA, prompt, filtro de dominio, rate limit ni respuestas.",
     "nota_v072": "Mejora el enrutamiento FAQ/RAG: evita que la FAQ genérica fp_norma_estatal_rd659 capture preguntas específicas sobre FCT/requisitos/formación en centros de trabajo, y refuerza la FAQ de actuaciones inmediatas de convivencia para variantes con 'medidas inmediatas'. No modifica Qdrant, IA, prompt, filtro de dominio, rate limit, trazabilidad ni privacidad.",
     "nota_v073": "Mejora la precisión/ranking de Qdrant sin reindexar: añade reformulaciones locales para evaluación objetiva y procedimiento corrector de convivencia, refuerza score léxico normalizado y añade bonus/penalizaciones acotadas antes del corte Top8. No modifica colección Qdrant, embeddings, IA, prompt, FAQ, filtro de dominio, rate limit ni trazabilidad.",
-    "nota_v073b": "Mantiene la mejora de ranking Qdrant de v073 y añade routing FAQ para preguntas sobre prueba objetiva tipo test/evaluación objetiva, activando alumnado_derecho_evaluacion_objetiva. No modifica colección Qdrant, embeddings, IA, prompt, filtro de dominio, rate limit ni trazabilidad."
+    "nota_v073b": "Mantiene la mejora de ranking Qdrant de v073 y añade routing FAQ para preguntas sobre prueba objetiva tipo test/evaluación objetiva, activando alumnado_derecho_evaluacion_objetiva. No modifica colección Qdrant, embeddings, IA, prompt, filtro de dominio, rate limit ni trazabilidad.",
+    "version_app": "v073b_postvalidacion_r6_piloto_faq_finos"
   },
   "faqs": [
     {
@@ -2486,7 +2487,11 @@
         "vacaciones docentes agosto",
         "en qué mes son las vacaciones del profesorado",
         "vacaciones anuales docentes Castilla y León",
-        "profesorado vacaciones mes de agosto"
+        "profesorado vacaciones mes de agosto",
+        "cuándo disfrutan las vacaciones los docentes",
+        "cuando disfrutan las vacaciones los docentes",
+        "vacaciones de los docentes",
+        "vacaciones del profesorado"
       ],
       "required_terms": [
         "vacaciones",
@@ -3740,7 +3745,12 @@
         "FP presencial semipresencial virtual",
         "modalidades de formación profesional",
         "se puede cursar FP virtual",
-        "FP online semipresencial normativa"
+        "FP online semipresencial normativa",
+        "¿La FP puede impartirse en modalidad virtual?",
+        "la fp puede impartirse en modalidad virtual",
+        "puede impartirse la fp en modalidad virtual",
+        "formación profesional virtual",
+        "fp en modalidad virtual"
       ],
       "required_terms": [
         "fp",
@@ -5062,7 +5072,12 @@
         "qué hace el alumnado que no cursa religión en primaria",
         "alternativa a religión primaria",
         "qué cursan los alumnos que no dan religión en primaria",
-        "atención educativa si no cursa religión primaria"
+        "atención educativa si no cursa religión primaria",
+        "qué hace el alumnado que no elige Religión en Primaria",
+        "que hace el alumnado que no elige religion en primaria",
+        "qué hace el alumnado que no cursa Religión en Primaria",
+        "alumnado que no elige religión primaria",
+        "alternativa a religión en primaria"
       ],
       "required_terms": [
         "primaria",
